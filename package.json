@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx ts-node tests/action-integration/action.test.ts"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/ridvan-byr/qa-brain#readme",
   "devDependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
     "@google/genai": "^2.10.0",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.0",

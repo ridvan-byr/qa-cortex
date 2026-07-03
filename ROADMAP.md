@@ -72,8 +72,12 @@ This roadmap details completed sprints and outlines the path toward building the
 - [x] TypeScript compilation to `dist/` and global `npm link` registration.
 - [x] Professional `README.md` with CLI usage guide, architecture diagram, and benchmark results.
 
-### ⬜ Sprint 9 — GitHub Action
-- **Objective**: Integrate with CI/CD to scan PR diffs and post structured markdown review comments directly to GitHub PRs.
+### ✅ Sprint 9 — GitHub Action Integration
+- [x] Implemented GitHub Action entry point (`src/action.ts`) utilizing dynamic imports for CommonJS compatibility.
+- [x] Created `DiffDetector` with custom glob-to-regex ignore support (`**/generated/**`) to filter changed test files.
+- [x] Designed `PRCommentFormatter` supporting PR summaries, detailed findings list, and GitHub Step Summaries.
+- [x] Packaged with branding, inputs (max-files, ignore), and outputs in `action.yml`.
+- [x] Added automated integration tests under `tests/action-integration/`.
 
 ### ⬜ Sprint 10 — MCP Server
 - **Objective**: Implement Model Context Protocol (MCP) to provide native integrations for Claude Desktop, VS Code, Cursor, and Antigravity.

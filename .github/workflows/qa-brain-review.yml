@@ -1,0 +1,30 @@
+name: QA Brain Review
+
+on:
+  pull_request:
+    paths:
+      - '**/*.spec.ts'
+      - '**/*.test.ts'
+
+jobs:
+  review:
+    name: QA Brain Test Review
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run QA Brain Review
+        uses: ridvan-byr/qa-brain@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # gemini-api-key: ${{ secrets.GEMINI_API_KEY }}  # Optional: enable LLM mode
+          fail-on-critical: 'true'
+          max-files: '30'
+          # ignore: |
+          #   **/generated/**
+          #   **/fixtures/**

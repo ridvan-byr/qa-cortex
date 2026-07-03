@@ -1,4 +1,3 @@
-import { GoogleGenAI } from '@google/genai';
 import type { LLMProvider } from './LLMProvider';
 import type { ReviewContext } from '../types/ReviewContext';
 import type { ReviewResult } from '../types/ReviewResult';
@@ -7,23 +6,22 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export class GeminiProvider implements LLMProvider {
-  private ai?: any;
+  private apiKey?: string;
 
-  constructor() {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (apiKey) {
-      // Initialize with official @google/genai SDK
-      this.ai = new GoogleGenAI({ apiKey });
-    }
+  constructor(apiKey?: string) {
+    this.apiKey = apiKey || process.env.GEMINI_API_KEY;
   }
 
   public async review(context: ReviewContext, ruleContents: string[]): Promise<Omit<ReviewResult, 'score'>> {
-    if (!this.ai) {
+    if (!this.apiKey) {
       // API Key is missing: Fallback to Mock simulation mode for local verification
       return this.generateMockReview(context);
     }
 
     try {
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ apiKey: this.apiKey });
+      
       const systemInstruction = `You are QA Brain Reviewer. Match findings and output JSON matching response-format.md schema.`;
       
       const userPrompt = `
@@ -38,7 +36,7 @@ export class GeminiProvider implements LLMProvider {
       `;
 
       // Call Gemini 2.5 Flash
-      const response = await this.ai.models.generateContent({
+      const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: userPrompt,
         config: {

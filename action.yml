@@ -1,0 +1,47 @@
+name: 'QA Brain Review'
+description: 'AI-powered Playwright test review for pull requests. Scans changed test files and posts structured review comments.'
+author: 'ridvan-byr'
+
+branding:
+  icon: 'search'
+  color: 'purple'
+
+inputs:
+  github-token:
+    description: 'GitHub token for PR comments and file access'
+    required: true
+    default: '${{ github.token }}'
+  gemini-api-key:
+    description: 'Gemini API key for LLM-powered review. If not provided, runs in Rule Engine Only mode.'
+    required: false
+    default: ''
+  review-path:
+    description: 'Path to scan. If empty, only changed files in the PR are reviewed.'
+    required: false
+    default: ''
+  fail-on-critical:
+    description: 'Set to true to fail the check when critical/high findings are detected.'
+    required: false
+    default: 'true'
+  format:
+    description: 'Output format for reports: markdown or json.'
+    required: false
+    default: 'markdown'
+  max-files:
+    description: 'Maximum number of test files to review per PR. Protects against huge PRs.'
+    required: false
+    default: '30'
+  ignore:
+    description: 'Newline-separated glob patterns to exclude from review (e.g., **/generated/**).'
+    required: false
+    default: ''
+
+outputs:
+  files-reviewed:
+    description: 'Number of test files reviewed.'
+  critical-findings:
+    description: 'Number of critical/high findings detected.'
+
+runs:
+  using: 'node20'
+  main: 'dist/src/action.js'
