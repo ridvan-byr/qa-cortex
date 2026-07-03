@@ -13,12 +13,12 @@ This roadmap details completed sprints and outlines the path toward building the
                                     │
     ┌───────────────────────────────┴───────────────────────────────┐
     ▼                                                               ▼
-[Completed Design Sprints]                               [Future Coding Sprints]
-  ✓ Sp 1-2: Knowledge Base                                  ⬜ Sp 6: Core Engine
-  ✓ Sp 3-4: Review Logic                                    ⬜ Sp 7: CLI Development
-  ✓ Sp 5A: Repository Intelligence                          ⬜ Sp 8: GitHub Action Integration
-  ✓ Sp 5B: Architecture Intelligence                        ⬜ Sp 9: MCP Server Protocol
-                                                            ⬜ v1.0: Stable Release
+[Completed Sprints]                                      [Future Coding Sprints]
+  ✓ Sp 1-2: Knowledge Base                                  ⬜ Sp 7: Calibration & Benchmarks
+  ✓ Sp 3-4: Review Logic                                    ⬜ Sp 8: CLI Development
+  ✓ Sp 5A: Repository Intelligence                          ⬜ Sp 9: GitHub Action Integration
+  ✓ Sp 5B: Architecture Intelligence                        ⬜ Sp 10: MCP Server Protocol
+  ✓ Sp 6: Core Engine                                       ⬜ v1.0: Stable Release
 ```
 
 ---
@@ -50,20 +50,25 @@ This roadmap details completed sprints and outlines the path toward building the
 - [x] Deterministic review sequence mapping (`repository-review-flow.md`).
 - [x] Integrated Mandatory Code Evidence and Architecture Confidence scores.
 
+### ✅ Sprint 6 — Core Engine
+- [x] Developed the core QA Brain engine code to dynamically read, load, and execute review rules and prompts.
+- [x] Implemented decoupled ReviewPipeline, neutral ContextBuilder, and Gemini LLM provider.
+- [x] Decoupled mathematical ScoringEngine and ReportGenerator.
+
 ---
 
 ## Future Roadmap
 
-### ⬜ Sprint 6 — Core Engine
-- **Objective**: Develop the core QA Brain engine code to dynamically read, load, and execute review rules and prompts.
+### ⬜ Sprint 7 — Calibration & Benchmark Suite
+- **Objective**: Establish evaluation/ benchmarks dataset and calculate Precision, Recall, and False Positives to calibrate AI review quality to Senior QA levels.
 
-### ⬜ Sprint 7 — CLI
+### ⬜ Sprint 8 — CLI
 - **Objective**: Develop a command-line interface supporting `qa-brain review .` for local terminal-based analysis.
 
-### ⬜ Sprint 8 — GitHub Action
+### ⬜ Sprint 9 — GitHub Action
 - **Objective**: Integrate with CI/CD to scan PR diffs and post structured markdown review comments directly to GitHub PRs.
 
-### ⬜ Sprint 9 — MCP Server
+### ⬜ Sprint 10 — MCP Server
 - **Objective**: Implement Model Context Protocol (MCP) to provide native integrations for Claude Desktop, VS Code, Cursor, and Antigravity.
 
 ### ⬜ v1.0 — Stable Release
