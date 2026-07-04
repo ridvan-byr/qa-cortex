@@ -777,6 +777,32 @@ Bir framework README'de Stable / Supported olarak isaretlenmeden once su checkli
 - False positive / false negative calibration
 - Documentation
 
+#### Sprint 13C Implementation Notes
+
+- `SeleniumAdapter` eklendi.
+- Adapter registry Selenium adapter'i Playwright adapter'dan once dener; boylece Playwright dependency bulunan repoda acik Selenium dosyalari yanlislikla Playwright olarak siniflandirilmaz.
+- `ContextBuilder` explicit Selenium file signals'i Playwright dependency fallback'inden once degerlendirir.
+- `KnowledgeProfiles` icine Selenium base knowledge ve rule mapping seed eklendi.
+- Selenium seed knowledge dosyalari eklendi:
+  - `knowledge/selenium/README.md`
+  - `knowledge/selenium/review-rules/locator-review.md`
+  - `knowledge/selenium/review-rules/waiting-review.md`
+  - `knowledge/selenium/review-rules/assertion-review.md`
+  - `knowledge/selenium/review-rules/resource-cleanup-review.md`
+- Benchmark suite Selenium seed case'leriyle 7'den 12'ye genisletildi.
+- Benchmark runner deterministic rule-only mode'a sabitlendi; env'deki LLM key benchmark sonucunu etkilememeli.
+- Selenium seed benchmarks:
+  - Selenium XPath locator usage
+  - Selenium hardcoded sleep usage
+  - Selenium missing assertion
+  - Selenium missing `driver.quit()`
+  - Selenium inline selector outside Page Object
+- Benchmark sonucu: `12/12`, regression yok.
+- Playwright benchmark sonucu: mevcut `7/7` semantic olarak korundu.
+- Sprint 11 validation smoke sonucu: 10 repository, 229 dosya, 2 finding.
+- VS Code Client compile smoke gecti.
+- Selenium WebDriver for Node.js support seviyesi: Foundation + seed benchmarks.
+
 ## Report UX Improvement Backlog
 
 Bu backlog Sprint 13A mimari isinden ayridir. Amac QA Brain raporlarini sadece finding listesi olmaktan cikarip kanita dayali, ogretici ve enterprise ekipler icin okunabilir kalite raporlarina donusturmektir.

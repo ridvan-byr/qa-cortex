@@ -1,0 +1,12 @@
+{
+  "id": "SELENIUM_ASSERTION_001",
+  "category": "Selenium Assertion",
+  "expectedFindings": ["missing_assertion"],
+  "expectedSeverity": {
+    "missing_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "missing_assertion": "Add an assertion"
+  },
+  "targetQualityScore": 80
+}

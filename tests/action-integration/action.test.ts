@@ -5,7 +5,7 @@ import { ReviewPipeline } from '../../src/core/ReviewPipeline';
 import { GeminiProvider } from '../../src/reviewer/GeminiProvider';
 import { AdapterRegistry } from '../../src/framework/AdapterRegistry';
 import { KnowledgeRouter } from '../../src/router/KnowledgeRouter';
-import { PLAYWRIGHT_ROUTING_RULES } from '../../src/router/RuleMapping';
+import { PLAYWRIGHT_ROUTING_RULES, SELENIUM_ROUTING_RULES } from '../../src/router/RuleMapping';
 
 function testDiffDetector() {
   console.log('Testing DiffDetector...');
@@ -149,6 +149,36 @@ function testFrameworkAdapterRegistry() {
   assert.ok(result.signals.some(signal => signal.type === 'assertion'));
   assert.ok(result.knowledgeProfile.ruleFiles.includes('knowledge/playwright/review-rules/locator-review.md'));
 
+  const seleniumResult = registry.resolve({
+    dependencies: {
+      playwrightVersion: undefined,
+      devDependencies: {},
+      dependencies: { 'selenium-webdriver': '^4.27.0' },
+      hasESLint: false,
+      hasPrettier: false,
+      hasHusky: false,
+      hasLintStaged: false,
+    },
+    targetFile: {
+      filePath: 'tests/login.selenium.spec.ts',
+      detectedFramework: 'Selenium',
+      detectedFeature: 'Authentication',
+      content: [
+        "import { Builder, By } from 'selenium-webdriver';",
+        "it('login', async () => {",
+        "  const driver = await new Builder().forBrowser('chrome').build();",
+        "  await driver.findElement(By.xpath('//button')).click();",
+        '});',
+      ].join('\n'),
+    },
+  });
+
+  assert.strictEqual(seleniumResult.adapterName, 'selenium');
+  assert.ok(seleniumResult.signals.some(signal => signal.type === 'locator'));
+  assert.ok(seleniumResult.signals.some(signal => signal.type === 'lifecycle'));
+  assert.ok(seleniumResult.signals.some(signal => signal.type === 'assertion'));
+  assert.ok(seleniumResult.knowledgeProfile.ruleFiles.includes('knowledge/selenium/review-rules/locator-review.md'));
+
   console.log('✓ FrameworkAdapter registry tests passed.');
 }
 
@@ -222,6 +252,7 @@ function testRuleMappingContract() {
 
   const missingAssertion = PLAYWRIGHT_ROUTING_RULES.find(mapping => mapping.rule === 'Missing Assertion');
   const brittleLocator = PLAYWRIGHT_ROUTING_RULES.find(mapping => mapping.rule === 'Brittle Locator');
+  const seleniumCleanup = SELENIUM_ROUTING_RULES.find(mapping => mapping.rule === 'Resource Cleanup');
 
   assert.ok(missingAssertion);
   assert.strictEqual(missingAssertion.generic, true);
@@ -230,6 +261,10 @@ function testRuleMappingContract() {
   assert.ok(brittleLocator);
   assert.strictEqual(brittleLocator.generic, false);
   assert.deepStrictEqual(brittleLocator.adapterEvidence, ['Playwright LocatorSignal']);
+
+  assert.ok(seleniumCleanup);
+  assert.strictEqual(seleniumCleanup.generic, true);
+  assert.deepStrictEqual(seleniumCleanup.adapterEvidence, ['LifecycleSignal']);
 
   console.log('✓ Rule mapping contract tests passed.');
 }

@@ -1,0 +1,12 @@
+{
+  "id": "SELENIUM_POM_001",
+  "category": "Selenium POM",
+  "expectedFindings": ["selector_leak"],
+  "expectedSeverity": {
+    "selector_leak": "Medium"
+  },
+  "expectedRecommendation": {
+    "selector_leak": "Move the selector into the Page Object"
+  },
+  "targetQualityScore": 80
+}

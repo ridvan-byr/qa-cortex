@@ -1,0 +1,12 @@
+{
+  "id": "SELENIUM_WAITING_001",
+  "category": "Selenium Waiting",
+  "expectedFindings": ["hardcoded_wait"],
+  "expectedSeverity": {
+    "hardcoded_wait": "High"
+  },
+  "expectedRecommendation": {
+    "hardcoded_wait": "Replace driver.sleep"
+  },
+  "targetQualityScore": 85
+}

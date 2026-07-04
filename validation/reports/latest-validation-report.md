@@ -1,6 +1,6 @@
 # QA Brain Validation Report
 
-Generated: 2026-07-04T20:33:06.456Z
+Generated: 2026-07-04T20:52:13.222Z
 
 ## Summary
 
@@ -18,8 +18,8 @@ Generated: 2026-07-04T20:33:06.456Z
 
 | Repository | Size | Files | Findings | Critical/High | Avg Time | Notes |
 | :--- | :--- | ---: | ---: | ---: | ---: | :--- |
-| microsoft/playwright-mcp | small | 3 | 0 | 0 | 3ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
-| imbhargav5/nextbase-nextjs-supabase-starter | small | 4 | 0 | 0 | 2ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
+| microsoft/playwright-mcp | small | 3 | 0 | 0 | 4ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
+| imbhargav5/nextbase-nextjs-supabase-starter | small | 4 | 0 | 0 | 1ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
 | MarcusFelling/demo.playwright | medium | 19 | 0 | 0 | 2ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
 | vitalets/playwright-bdd | medium | 16 | 0 | 0 | 1ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |
 | synpress-io/synpress | large | 50 | 1 | 0 | 1ms | Gemini comparison skipped. Set runGeminiComparison=true to enable it. |

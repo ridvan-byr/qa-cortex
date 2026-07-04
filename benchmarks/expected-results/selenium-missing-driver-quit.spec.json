@@ -1,0 +1,12 @@
+{
+  "id": "SELENIUM_CLEANUP_001",
+  "category": "Selenium Cleanup",
+  "expectedFindings": ["resource_cleanup"],
+  "expectedSeverity": {
+    "resource_cleanup": "High"
+  },
+  "expectedRecommendation": {
+    "resource_cleanup": "driver.quit"
+  },
+  "targetQualityScore": 80
+}

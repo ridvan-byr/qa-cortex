@@ -20,7 +20,7 @@ export class BenchmarkRunner {
    * Main runner that executes the full calibration suite and prints precision/recall metrics.
    */
   public static async runAll(): Promise<void> {
-    const provider = new GeminiProvider();
+    const provider = new GeminiProvider('');
     const pipeline = new ReviewPipeline('.', provider);
 
     const gtDir = path.resolve('.', 'benchmarks', 'expected-results');
@@ -233,21 +233,31 @@ ${resultsLog.join('\n')}
       return text.includes('isolation') || text.includes('shared state') || text.includes('izolasyon');
     }
     if (expectedKey === 'hardcoded_wait') {
-      return text.includes('hardcoded wait') || text.includes('waitfortimeout') || text.includes('timeout');
+      return text.includes('hardcoded wait') || text.includes('hardcoded sleep') || text.includes('waitfortimeout') || text.includes('timeout');
     }
     if (expectedKey === 'missing_assertion') {
       return text.includes('missing assertion') || text.includes('assertion');
+    }
+    if (expectedKey === 'resource_cleanup') {
+      return text.includes('resource cleanup') || text.includes('driver.quit') || text.includes('cleanup');
     }
     return false;
   }
 
   private static findSpecFile(fileName: string): string | null {
     const dirs = [
+      'benchmarks/shared/assertions',
+      'benchmarks/shared/cleanup',
       'benchmarks/playwright/assertions',
       'benchmarks/playwright/locator',
       'benchmarks/playwright/fixtures',
       'benchmarks/playwright/pom',
-      'benchmarks/playwright/waiting'
+      'benchmarks/playwright/waiting',
+      'benchmarks/selenium/assertions',
+      'benchmarks/selenium/cleanup',
+      'benchmarks/selenium/locator',
+      'benchmarks/selenium/pom',
+      'benchmarks/selenium/waiting'
     ];
     for (const d of dirs) {
       const p = path.resolve('.', d, fileName);

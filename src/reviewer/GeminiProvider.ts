@@ -68,17 +68,43 @@ export class GeminiProvider implements LLMProvider {
   private generateRuleEngineReview(context: ReviewContext): Omit<ReviewResult, 'score'> {
     const content = context.targetFile.content;
     const findings: Finding[] = [];
+    const isSelenium = context.framework?.adapterName === 'selenium' || context.targetFile.detectedFramework === 'Selenium';
 
     const absoluteXPath = this.findLine(content, /locator\(\s*['"](?:xpath=)?\/\/(?:html|body|\*)/);
     const rawXPath = this.findLine(content, /locator\(\s*['"](?:xpath=)?\/\//);
     const brittleCss = this.findLine(content, /locator\(\s*['"][^'"]*(?:>\s*[^'"]+){2,}|nth-child\(/);
     const hardcodedWait = this.findLine(content, /waitForTimeout\s*\(/);
+    const seleniumXPath = this.findLine(content, /driver\.findElement\s*\(\s*By\.xpath\s*\(/);
+    const seleniumHardcodedSleep = this.findLine(content, /driver\.sleep\s*\(/);
+    const seleniumBuildsDriver = /\bnew\s+Builder\s*\(\s*\).*\.build\s*\(/s.test(content);
+    const seleniumMissingQuit = isSelenium && seleniumBuildsDriver && !/\bdriver\.quit\s*\(/.test(content);
+    const seleniumSelectorLeak = isSelenium
+      && /\b\w+Page\b/.test(content)
+      && this.findLine(content, /driver\.findElement\s*\(\s*By\.(?:css|id|xpath|name|className)\s*\(/);
     const sharedState = this.findTopLevelMutableState(content);
     const importsPageObject = /import\s+.*\b\w+Page\b/.test(content);
     const hasAssertions = this.hasAssertionSignal(content);
     const skipMissingAssertion = this.isFrameworkBehaviorContext(context.targetFile.filePath, content);
 
-    if (absoluteXPath) {
+    if (isSelenium && seleniumSelectorLeak) {
+      findings.push({
+        title: 'Selector Leak',
+        description: 'A Page Object is referenced but a Selenium selector is still used directly in the spec.',
+        severity: 'Medium',
+        confidence: { level: 95, justification: ['Page Object signal matched', 'Inline Selenium selector matched'] },
+        evidence: seleniumSelectorLeak,
+        recommendation: 'Move the selector into the Page Object and expose a reusable action method.',
+      });
+    } else if (isSelenium && seleniumXPath) {
+      findings.push({
+        title: 'Brittle Selenium XPath Locator',
+        description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
+        severity: 'High',
+        confidence: { level: 95, justification: ['Selenium By.xpath locator matched'] },
+        evidence: seleniumXPath,
+        recommendation: 'Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors.',
+      });
+    } else if (absoluteXPath) {
       findings.push({
         title: 'Brittle XPath Locator with Selector Leak',
         description: 'The test uses an absolute XPath selector directly in the spec, which is brittle and bypasses page object encapsulation.',
@@ -126,6 +152,28 @@ export class GeminiProvider implements LLMProvider {
         confidence: { level: 95, justification: ['waitForTimeout call matched'] },
         evidence: hardcodedWait,
         recommendation: 'Remove hardcoded wait and rely on Playwright auto-waiting assertions.',
+      });
+    }
+
+    if (isSelenium && seleniumHardcodedSleep) {
+      findings.push({
+        title: 'Hardcoded Sleep',
+        description: 'The test uses a fixed Selenium sleep instead of waiting for observable browser state.',
+        severity: 'High',
+        confidence: { level: 95, justification: ['driver.sleep call matched'] },
+        evidence: seleniumHardcodedSleep,
+        recommendation: 'Replace driver.sleep with an explicit wait for the expected UI state.',
+      });
+    }
+
+    if (seleniumMissingQuit) {
+      findings.push({
+        title: 'Resource Cleanup Missing',
+        description: 'The test creates a WebDriver session but does not close it with driver.quit().',
+        severity: 'High',
+        confidence: { level: 95, justification: ['Selenium driver build matched', 'No driver.quit() matched'] },
+        evidence: this.findLine(content, /new\s+Builder\s*\(\s*\)/) || 'new Builder().build()',
+        recommendation: 'Close the Selenium driver in finally or test teardown with driver.quit().',
       });
     }
 
@@ -202,6 +250,8 @@ export class GeminiProvider implements LLMProvider {
       /\bexpect\s*\(/,
       /\bassert\w*\s*\./,
       /\bassert\w*\s*\(/,
+      /\bshould\s*\./,
+      /\bchai\.expect\s*\(/,
       /\bEnsure\.that\s*\(/,
       /\bCheck\.whether\s*\(/,
       /\bactor\.attemptsTo\s*\(/,

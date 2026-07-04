@@ -5,11 +5,12 @@ import type {
   KnowledgeProfile,
 } from './types';
 import { PlaywrightAdapter } from './adapters/PlaywrightAdapter';
+import { SeleniumAdapter } from './adapters/SeleniumAdapter';
 
 export class AdapterRegistry {
   private readonly adapters: FrameworkAdapter[];
 
-  constructor(adapters: FrameworkAdapter[] = [new PlaywrightAdapter()]) {
+  constructor(adapters: FrameworkAdapter[] = [new SeleniumAdapter(), new PlaywrightAdapter()]) {
     this.adapters = adapters;
   }
 

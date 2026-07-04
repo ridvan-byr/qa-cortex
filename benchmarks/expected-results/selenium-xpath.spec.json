@@ -1,0 +1,12 @@
+{
+  "id": "SELENIUM_LOCATOR_001",
+  "category": "Selenium Locator",
+  "expectedFindings": ["brittle_locator"],
+  "expectedSeverity": {
+    "brittle_locator": "High"
+  },
+  "expectedRecommendation": {
+    "brittle_locator": "Move locator into a Page Object method"
+  },
+  "targetQualityScore": 80
+}

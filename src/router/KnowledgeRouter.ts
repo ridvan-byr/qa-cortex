@@ -43,6 +43,9 @@ export class KnowledgeRouter {
     if (context.targetFile.detectedFramework === 'Playwright') {
       return 'playwright';
     }
+    if (context.targetFile.detectedFramework === 'Selenium') {
+      return 'selenium';
+    }
 
     return 'unknown';
   }
@@ -67,7 +70,11 @@ export class KnowledgeRouter {
         signals.add('Timeout');
       }
       if (signal.type === 'lifecycle') {
-        signals.add('Isolation');
+        if (signal.ruleHints.includes('cleanup')) {
+          signals.add('Cleanup');
+        } else {
+          signals.add('Isolation');
+        }
       }
       if (signal.type === 'assertion' && !frameworkBehaviorContext) {
         signals.add('Assertion');

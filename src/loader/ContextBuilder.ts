@@ -208,9 +208,10 @@ export class ContextBuilder {
   }
 
   private detectFramework(deps: DependencyInfo, content: string): string {
+    if (content.includes('selenium-webdriver') || /\bnew\s+Builder\s*\(\s*\)/.test(content) || /\bdriver\.findElement\s*\(/.test(content)) return 'Selenium';
     if (deps.playwrightVersion || content.includes('@playwright/test')) return 'Playwright';
+    if (deps.devDependencies['selenium-webdriver'] || deps.dependencies['selenium-webdriver']) return 'Selenium';
     if (deps.devDependencies['cypress'] || deps.dependencies['cypress'] || content.includes('cy.')) return 'Cypress';
-    if (content.includes('selenium-webdriver')) return 'Selenium';
     return 'Unknown';
   }
 
