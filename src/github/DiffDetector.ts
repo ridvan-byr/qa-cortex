@@ -72,11 +72,19 @@ export class DiffDetector {
 
   private globToRegex(glob: string): RegExp {
     let regexStr = glob
-      .replace(/\./g, '\\.')
-      .replace(/\*\*\//g, '(?:^|.*?\\/)')
-      .replace(/\/\*\*/g, '(?:\\/.*)?')
-      .replace(/\*\*/g, '.*')
-      .replace(/\*/g, '[^/]*');
+      .replace(/\*\*\//g, '{{GLOBSTAR_SLASH}}')
+      .replace(/\/\*\*/g, '{{SLASH_GLOBSTAR}}')
+      .replace(/\*\*/g, '{{GLOBSTAR}}')
+      .replace(/\*/g, '{{STAR}}');
+
+    regexStr = regexStr.replace(/\./g, '\\.');
+
+    regexStr = regexStr
+      .replace(/\{\{GLOBSTAR_SLASH\}\}/g, '(?:^|.*?\\/)')
+      .replace(/\{\{SLASH_GLOBSTAR\}\}/g, '(?:\\/.*)?')
+      .replace(/\{\{GLOBSTAR\}\}/g, '.*')
+      .replace(/\{\{STAR\}\}/g, '[^/]*');
+
     return new RegExp(`^${regexStr}$`);
   }
 }

@@ -79,8 +79,22 @@ This roadmap details completed sprints and outlines the path toward building the
 - [x] Packaged with branding, inputs (max-files, ignore), and outputs in `action.yml`.
 - [x] Added automated integration tests under `tests/action-integration/`.
 
-### ⬜ Sprint 10 — MCP Server
-- **Objective**: Implement Model Context Protocol (MCP) to provide native integrations for Claude Desktop, VS Code, Cursor, and Antigravity.
+### ✅ Sprint 10 — MCP Server Integration
+- [x] Created `Scanner.ts` shared module with deterministic sorting, glob-based ignore patterns, and repository scan aggregation.
+- [x] Implemented MCP Server (`src/mcp.ts`) with stdio transport: `review_file`, `review_repository`, `run_benchmark` tools.
+- [x] Rich tool descriptions optimized for AI agent discovery (Cursor, Claude Desktop, Antigravity).
+- [x] Dynamic version reading from `package.json`.
+- [x] Refactored `cli.ts` to use shared `Scanner` module (code deduplication).
+- [x] Fixed `globToRegex` placeholder bug across `Scanner` and `DiffDetector`.
+
+### ⬜ Sprint 11 — Real Repository Validation
+- **Objective**: Run QA Brain on 10+ open-source Playwright repos and measure real-world Precision/Recall.
+
+### ⬜ Sprint 12 — VS Code Extension
+- **Objective**: Provide native VS Code integration for inline test review feedback.
+
+### ⬜ Sprint 13 — Multi-framework Support
+- **Objective**: Expand rule sets to support Cypress, Selenium, and other test frameworks.
 
 ### ⬜ v1.0 — Stable Release
-- **Objective**: Reach production stability and expand rule sets to support multiple frameworks (Cypress, Selenium).
+- **Objective**: Reach production stability with validated accuracy metrics and full documentation.

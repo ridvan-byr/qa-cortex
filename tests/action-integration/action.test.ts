@@ -86,10 +86,32 @@ function testPRCommentFormatter() {
   console.log('✓ PRCommentFormatter tests passed.');
 }
 
+function testScanner() {
+  console.log('Testing Scanner...');
+  const { Scanner } = require('../../src/core/Scanner');
+
+  // We can scan the benchmarks folder as a test
+  const allFiles = Scanner.scanDirectory('benchmarks/playwright');
+  assert.ok(allFiles.length > 0);
+
+  // Check deterministic sorting
+  const sortedFiles = [...allFiles].sort();
+  assert.deepStrictEqual(allFiles, sortedFiles);
+
+  // Check ignore patterns
+  const filteredFiles = Scanner.scanDirectory('benchmarks/playwright', ['**/locator/**']);
+  // locator folder files should be excluded
+  const hasLocator = filteredFiles.some((f: string) => f.includes('locator'));
+  assert.strictEqual(hasLocator, false);
+
+  console.log('✓ Scanner tests passed.');
+}
+
 function runAll() {
   try {
     testDiffDetector();
     testPRCommentFormatter();
+    testScanner();
     console.log('\nAll integration tests passed successfully!');
   } catch (error) {
     console.error('Test verification failed:', error);

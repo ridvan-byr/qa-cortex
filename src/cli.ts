@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-import { ReviewPipeline } from './core/ReviewPipeline';
-import { GeminiProvider } from './reviewer/GeminiProvider';
-import { BenchmarkRunner } from './evaluation/BenchmarkRunner';
-import { RepositoryLoader } from './loader/RepositoryLoader';
-import { ContextBuilder } from './loader/ContextBuilder';
-import { KnowledgeRouter } from './router/KnowledgeRouter';
+import { ReviewPipeline } from './core/ReviewPipeline.js';
+import { GeminiProvider } from './reviewer/GeminiProvider.js';
+import { BenchmarkRunner } from './evaluation/BenchmarkRunner.js';
+import { RepositoryLoader } from './loader/RepositoryLoader.js';
+import { ContextBuilder } from './loader/ContextBuilder.js';
+import { KnowledgeRouter } from './router/KnowledgeRouter.js';
+import { Scanner } from './core/Scanner.js';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -79,6 +80,7 @@ async function run(): Promise<void> {
     }
 
     // Load configuration file if present
+    let ignorePatterns: string[] = [];
     if (configPath && fs.existsSync(configPath)) {
       try {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
@@ -86,6 +88,7 @@ async function run(): Promise<void> {
         if (config.output) outputDir = config.output;
         if (config.provider) providerName = config.provider;
         if (config.verbose) verbose = config.verbose;
+        if (config.ignore) ignorePatterns = config.ignore;
       } catch (err: any) {
         console.error(`Warning: Failed to parse config file: ${err.message}`);
       }
@@ -98,13 +101,13 @@ async function run(): Promise<void> {
     }
 
     const stats = fs.statSync(absPath);
-    const filesToScan: string[] = [];
+    let filesToScan: string[] = [];
 
     if (stats.isFile()) {
       filesToScan.push(absPath);
     } else {
-      // Recursively scan directories for spec.ts or test.ts files
-      scanDirRecursive(absPath, filesToScan);
+      // Use the newly abstracted Scanner
+      filesToScan = Scanner.scanDirectory(absPath, ignorePatterns);
     }
 
     if (filesToScan.length === 0) {
@@ -136,7 +139,6 @@ async function run(): Promise<void> {
       const durationMs = Date.now() - startTime;
 
       if (verbose) {
-        // Mock rules loaded based on signals
         const fileContent = fs.readFileSync(file, 'utf8');
         const context = new ContextBuilder(new RepositoryLoader('.')).buildContext(file, fileContent);
         const mappedRules = new KnowledgeRouter().routeKnowledge(context);
@@ -194,20 +196,6 @@ async function run(): Promise<void> {
   console.error(`Unknown command: ${command}`);
   printHelp();
   process.exit(1);
-}
-
-function scanDirRecursive(dirPath: string, files: string[]): void {
-  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dirPath, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name !== 'node_modules' && entry.name !== 'dist' && entry.name !== '.git') {
-        scanDirRecursive(fullPath, files);
-      }
-    } else if (entry.isFile() && (entry.name.endsWith('.spec.ts') || entry.name.endsWith('.test.ts'))) {
-      files.push(fullPath);
-    }
-  }
 }
 
 run().catch(err => {

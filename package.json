@@ -4,7 +4,8 @@
   "description": "AI-powered QA Knowledge Base for Playwright Test Design, Review and Test Generation.",
   "main": "index.js",
   "bin": {
-    "qa-brain": "./dist/src/cli.js"
+    "qa-brain": "./dist/src/cli.js",
+    "qa-brain-mcp": "./dist/src/mcp.js"
   },
   "directories": {
     "doc": "docs",
@@ -35,5 +36,8 @@
     "dotenv": "^17.4.2",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
   }
 }
