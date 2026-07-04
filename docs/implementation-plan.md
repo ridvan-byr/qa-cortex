@@ -645,6 +645,138 @@ Architecture Freeze sonucu:
 - Sprint 11 validation smoke sonucu: 10 repository, 229 dosya, 2 finding.
 - VS Code Client compile smoke gecti.
 
+### Sprint 13C Final Plan - Selenium WebDriver Adapter
+
+Sprint goal:
+
+```text
+Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Brain's generic rule model and Playwright output stability.
+```
+
+#### Architecture Terminology
+
+Sprint 13C asagidaki modeli izlemelidir:
+
+```text
+QA Principles
+  -> Review Rules
+  -> Framework Evidence
+  -> Recommendations
+```
+
+- QA principles framework bagimsizdir.
+- Review rules QA problemini temsil eder.
+- Framework adapter sadece evidence/signal uretir.
+- Recommendation template adapter icinde yasamamalidir.
+
+Mimari prensipler `docs/architecture-principles.md` dosyasinda kalici hale getirilmistir.
+
+#### Scope
+
+- `SeleniumAdapter` eklenecek.
+- Adapter registry'ye Selenium adapter baglanacak.
+- Selenium WebDriver for Node.js detection eklenecek.
+- Selenium icin temel signal uretimi yapilacak:
+  - `LocatorSignal`
+  - `WaitSignal`
+  - `AssertionSignal`
+  - `LifecycleSignal`
+  - `StructureSignal`
+- Selenium framework evidence mapping seed eklenecek.
+- `KnowledgeProfiles` icine Selenium base/rule mapping seed eklenecek.
+- `KnowledgeRouter` Selenium icin framework profile uzerinden knowledge route edebilecek.
+- Selenium benchmark seed case'leri eklenecek.
+- Playwright benchmark `7/7` korunacak.
+- Sprint 11 validation smoke korunacak.
+- VS Code Client compile smoke korunacak.
+
+#### Out of Scope
+
+- Selenium full support
+- Selenium Python support
+- Selenium Java/C#/Ruby support
+- Selenium real repository validation
+- Selenium Grid / remote driver full analysis
+- Cypress/WebdriverIO/Appium support
+- Report UX polish
+- Marketplace/plugin split
+
+#### Initial Selenium Signals
+
+| Signal | Selenium WebDriver for Node.js Evidence |
+| :--- | :--- |
+| LocatorSignal | `driver.findElement(By.xpath(...))`, `By.css(...)`, `By.id(...)` |
+| WaitSignal | `driver.sleep(...)`, `until.elementLocated(...)`, explicit wait usage |
+| AssertionSignal | `expect(...)`, `assert(...)`, `should(...)`, `chai.expect(...)` |
+| LifecycleSignal | `new Builder().build()`, missing `driver.quit()` |
+| StructureSignal | Page Object class, duplicated setup, inline selectors |
+
+#### Initial Selenium Rule Mapping
+
+| Rule | Generic | Adapter Evidence |
+| :--- | :---: | :--- |
+| Missing Assertion | Yes | AssertionSignal |
+| Weak Assertion | Yes | AssertionSignal |
+| Resource Cleanup | Yes | LifecycleSignal |
+| Page Object Encapsulation | Yes | LocatorSignal + StructureSignal |
+| Brittle Locator | No | Selenium LocatorSignal |
+| Hardcoded Sleep | No | Selenium WaitSignal |
+
+Resource Cleanup generic QA prensibidir. Selenium evidence `driver.quit()` eksikligi olabilir; Playwright evidence `context.close()` veya `browser.close()` eksikligi olabilir.
+
+#### Benchmark Seed Cases
+
+- Selenium XPath locator usage
+- Selenium hardcoded sleep usage
+- Selenium missing assertion
+- Selenium missing `driver.quit()`
+- Selenium inline selector outside Page Object
+
+#### Acceptance Criteria
+
+- `npm run build` gecmeli.
+- `npm test` gecmeli.
+- Playwright benchmark `7/7` kalmali.
+- Selenium benchmark seed case'leri gecmeli.
+- Sprint 11 validation smoke calismali.
+- VS Code Client compile smoke gecmeli.
+- No measurable increase in Playwright false positives.
+- Existing Playwright benchmark outputs semantic olarak degismemeli:
+  - Same finding
+  - Same severity
+  - Same score class
+  - Same recommendation intent
+- `KnowledgeRouter` Selenium knowledge path'lerini dogrudan tasimamali.
+- Selenium logic adapter/profile katmaninda kalmali.
+- Generic QA recommendations frameworkler arasinda tutarli kalmali.
+- Selenium support seviyesi "foundation + seed benchmarks" olarak dokumante edilmeli.
+
+#### Risks
+
+- Selenium API desenleri Playwright'a gore daha daginik olabilir.
+- Assertion detection Jest/Mocha/Chai farklarindan etkilenebilir.
+- Resource Cleanup rule fazla agresif olursa false positive uretebilir.
+- Knowledge divergence: ayni QA problemi Playwright ve Selenium'da farkli veya celiskili recommendation uretmeye baslayabilir.
+
+Mitigation:
+
+- Adapter recommendations uretmemeli; adapter sadece evidence/signal saglamali.
+- Recommendation intent generic rule tarafinda korunmali.
+- Selenium coverage "foundation" olarak etiketlenmeli; stable denmemeli.
+
+#### Stable Framework Checklist
+
+Bir framework README'de Stable / Supported olarak isaretlenmeden once su checklist tamamlanmalidir:
+
+- Detection
+- Adapter
+- Signals
+- Rule mapping
+- Benchmarks
+- Real repository validation
+- False positive / false negative calibration
+- Documentation
+
 ## Report UX Improvement Backlog
 
 Bu backlog Sprint 13A mimari isinden ayridir. Amac QA Brain raporlarini sadece finding listesi olmaktan cikarip kanita dayali, ogretici ve enterprise ekipler icin okunabilir kalite raporlarina donusturmektir.

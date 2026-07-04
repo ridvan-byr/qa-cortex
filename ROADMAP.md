@@ -160,16 +160,18 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Publish `docs/architecture-freeze-sprint-13.md`.
 
 ### ⬜ Sprint 13C — Selenium WebDriver Adapter
-- **Objective**: Add first-class adapter foundation for Selenium WebDriver for Node.js.
+- **Objective**: Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Brain's generic rule model and Playwright output stability.
 - **Status**: Planned.
+- [ ] Document architecture principles for framework-independent QA rules.
 - [ ] Detect Selenium WebDriver for Node.js projects.
 - [ ] Build Selenium locator, assertion, wait, lifecycle, and structure signals.
-- [ ] Add initial Selenium knowledge and rule seeds.
+- [ ] Add initial Selenium framework evidence and rule mapping seeds.
 - [ ] Add Selenium benchmark seed cases.
+- [ ] Preserve semantic equivalence for existing Playwright benchmark outputs.
 - [ ] Keep Playwright regression suite green.
 
-### ⬜ Sprint 13D — Selenium Real Repository Validation
-- **Objective**: Validate Selenium adapter and rules against real repositories.
+### ⬜ Sprint 13D — Selenium Calibration & Validation
+- **Objective**: Calibrate and validate Selenium adapter and rules against real repositories.
 - **Status**: Planned.
 - [ ] Select real Selenium WebDriver for Node.js repositories.
 - [ ] Run rule-only validation.
