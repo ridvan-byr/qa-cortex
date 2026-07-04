@@ -122,8 +122,51 @@ Follow-up after Sprint 11:
 - [x] Verified Extension Development Host smoke test on local VS Code setup.
 - [x] Completed final build/test/benchmark validation with no regression.
 
-### ⬜ Sprint 13 — Multi-framework Support
-- **Objective**: Expand rule sets to support Cypress, Selenium, and other test frameworks.
+### ✅ Sprint 13A — Core Adapter & Signal Architecture
+- **Objective**: Prepare QA Brain core for framework adapters without changing current Playwright behavior.
+- **Status**: Completed.
+- [x] Add small `FrameworkAdapter` API.
+- [x] Add `FrameworkSignal` and `FrameworkContext` types.
+- [x] Add adapter registry.
+- [x] Add initial Playwright bridge adapter without changing review behavior.
+- [x] Add automated adapter registry smoke test.
+- [x] Keep current Playwright benchmark suite green.
+- [x] Run Sprint 11 validation smoke after adapter integration.
+- [x] Run VS Code Client compile smoke after adapter integration.
+- [x] Run VS Code Extension Development Host smoke after adapter integration.
+
+Out of scope:
+- Selenium full support.
+- Package/plugin split.
+- Cypress/WebdriverIO/Appium support.
+- Test Design Engine.
+- Marketplace publish.
+
+### ⬜ Sprint 13B — Playwright Adapter Migration + Generic Rules
+- **Objective**: Move current Playwright behavior behind the adapter layer and separate generic QA rules from framework-specific rules.
+- **Status**: Planned.
+- [ ] Migrate Playwright detection and signals into `PlaywrightAdapter`.
+- [ ] Separate generic rules from Playwright-specific rules.
+- [ ] Preserve existing CLI, GitHub Action, MCP, and VS Code Client behavior.
+- [ ] Keep benchmark suite and validation smoke green.
+
+### ⬜ Sprint 13C — Selenium WebDriver Adapter
+- **Objective**: Add first-class adapter foundation for Selenium WebDriver for Node.js.
+- **Status**: Planned.
+- [ ] Detect Selenium WebDriver for Node.js projects.
+- [ ] Build Selenium locator, assertion, wait, lifecycle, and structure signals.
+- [ ] Add initial Selenium knowledge and rule seeds.
+- [ ] Add Selenium benchmark seed cases.
+- [ ] Keep Playwright regression suite green.
+
+### ⬜ Sprint 13D — Selenium Real Repository Validation
+- **Objective**: Validate Selenium adapter and rules against real repositories.
+- **Status**: Planned.
+- [ ] Select real Selenium WebDriver for Node.js repositories.
+- [ ] Run rule-only validation.
+- [ ] Triage false positives and false negatives.
+- [ ] Feed validated findings back into benchmarks.
+- [ ] Publish Selenium validation go/no-go report.
 
 ### ⬜ v1.0 — Stable Release
 - **Objective**: Reach production stability with validated accuracy metrics and full documentation.

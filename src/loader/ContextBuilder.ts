@@ -1,4 +1,5 @@
 import { RepositoryLoader } from './RepositoryLoader';
+import { AdapterRegistry } from '../framework/AdapterRegistry';
 import * as path from 'path';
 import type { 
   ReviewContext, 
@@ -11,6 +12,8 @@ import type {
 } from '../types/ReviewContext';
 
 export class ContextBuilder {
+  private readonly adapterRegistry = new AdapterRegistry();
+
   constructor(private loader: RepositoryLoader) {}
 
   /**
@@ -32,6 +35,10 @@ export class ContextBuilder {
       detectedFramework,
       detectedFeature,
     };
+    const framework = this.adapterRegistry.resolve({
+      dependencies,
+      targetFile,
+    });
 
     return {
       repositoryInfo,
@@ -40,6 +47,7 @@ export class ContextBuilder {
       pageObjects,
       fixtures,
       targetFile,
+      framework,
     };
   }
 

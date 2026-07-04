@@ -1,0 +1,144 @@
+import type {
+  FrameworkAdapter,
+  FrameworkContext,
+  FrameworkDetectionInput,
+  FrameworkSignal,
+  KnowledgeProfile,
+} from '../types';
+
+export class PlaywrightAdapter implements FrameworkAdapter {
+  public readonly name = 'playwright';
+
+  public detect(input: FrameworkDetectionInput): boolean {
+    const content = input.targetFile.content;
+    return Boolean(input.dependencies.playwrightVersion)
+      || content.includes('@playwright/test')
+      || /\bpage\./.test(content)
+      || /\btest\.step\s*\(/.test(content);
+  }
+
+  public buildContext(input: FrameworkDetectionInput): FrameworkContext {
+    return {
+      framework: 'playwright',
+      targetFile: input.targetFile,
+      metadata: {
+        detectedFeature: input.targetFile.detectedFeature,
+        playwrightVersion: input.dependencies.playwrightVersion,
+      },
+    };
+  }
+
+  public buildSignals(context: FrameworkContext): FrameworkSignal[] {
+    const content = context.targetFile.content;
+    const file = context.targetFile.filePath;
+    const signals: FrameworkSignal[] = [];
+
+    if (content.includes('xpath=') || content.includes('//') || content.includes('nth-child') || content.includes('locator(')) {
+      signals.push(this.signal('locator', file, this.findLine(content, /xpath=|\/\/|nth-child|locator\(/), ['locator', 'maintainability']));
+    }
+
+    if (content.includes('waitForTimeout') || content.includes('page.waitForTimeout') || content.includes('waitForLoadState')) {
+      signals.push(this.signal('wait', file, this.findLine(content, /waitForTimeout|waitForLoadState/), ['waiting', 'flakiness']));
+    }
+
+    if (this.hasTopLevelMutableState(content) || content.includes('browser.newContext(')) {
+      signals.push(this.signal('lifecycle', file, this.findLine(content, /^let\s+\w+\s*=|browser\.newContext\(/m), ['isolation', 'parallel']));
+    }
+
+    if (!this.hasAssertionSignal(content)) {
+      signals.push(this.signal('assertion', file, this.findLine(content, /test\s*\(/), ['assertion']));
+    }
+
+    if (/class\s+\w+Page\b/.test(content) || /\b\w+Page\b/.test(content)) {
+      signals.push(this.signal('page-object', file, this.findLine(content, /\b\w+Page\b/), ['page-object']));
+    }
+
+    return signals;
+  }
+
+  public knowledgeProfile(signals: FrameworkSignal[]): KnowledgeProfile {
+    const ruleFiles = new Set<string>();
+    const genericKnowledgeFiles = new Set<string>();
+
+    for (const signal of signals) {
+      if (signal.ruleHints.includes('locator')) {
+        ruleFiles.add('knowledge/playwright/review-rules/locator-review.md');
+        ruleFiles.add('knowledge/playwright/fundamentals/locators.md');
+        genericKnowledgeFiles.add('knowledge/google/maintainability.md');
+      }
+      if (signal.ruleHints.includes('waiting')) {
+        ruleFiles.add('knowledge/playwright/review-rules/waiting-review.md');
+        ruleFiles.add('knowledge/playwright/fundamentals/auto-waiting.md');
+        genericKnowledgeFiles.add('knowledge/google/flaky-tests.md');
+      }
+      if (signal.ruleHints.includes('isolation')) {
+        ruleFiles.add('knowledge/playwright/review-rules/isolation-review.md');
+        ruleFiles.add('knowledge/playwright/review-rules/parallel-review.md');
+        genericKnowledgeFiles.add('knowledge/google/test-isolation.md');
+      }
+      if (signal.ruleHints.includes('assertion')) {
+        ruleFiles.add('knowledge/playwright/review-rules/assertion-review.md');
+        ruleFiles.add('knowledge/playwright/fundamentals/assertions.md');
+      }
+    }
+
+    return {
+      baseKnowledgeFiles: ['knowledge/playwright/README.md'],
+      ruleFiles: Array.from(ruleFiles),
+      genericKnowledgeFiles: Array.from(genericKnowledgeFiles),
+    };
+  }
+
+  private signal(type: FrameworkSignal['type'], file: string, evidence: string, ruleHints: string[]): FrameworkSignal {
+    return {
+      type,
+      framework: 'playwright',
+      ruleHints,
+      evidence,
+      location: { file },
+    };
+  }
+
+  private findLine(content: string, pattern: RegExp): string {
+    return content
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .find(line => pattern.test(line)) || '';
+  }
+
+  private hasTopLevelMutableState(content: string): boolean {
+    let braceDepth = 0;
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (braceDepth === 0 && /^let\s+\w+\s*=/.test(trimmed)) {
+        return true;
+      }
+      braceDepth += (line.match(/\{/g) || []).length;
+      braceDepth -= (line.match(/\}/g) || []).length;
+      if (braceDepth < 0) braceDepth = 0;
+    }
+    return false;
+  }
+
+  private hasAssertionSignal(content: string): boolean {
+    return [
+      /\bexpect\s*\(/,
+      /\bassert\w*\s*\./,
+      /\bassert\w*\s*\(/,
+      /\bEnsure\.that\s*\(/,
+      /\bCheck\.whether\s*\(/,
+      /\bactor\.attemptsTo\s*\(/,
+      /\battemptsTo\s*\(/,
+      /\bseeIf\s*\(/,
+      /\bexpectationTo\w+\s*\(/,
+      /\btoEqual\s*\(/,
+      /\btoBe\s*\(/,
+      /\btoContain\s*\(/,
+      /\btoHave\w+\s*\(/,
+      /\bresponse\.(?:ok|status)\s*\(/,
+      /\brequest\.(?:get|post|put|patch|delete)\s*\(/,
+      /\bshortest\s*\(/,
+      /\btest\.(?:skip|fixme|fail)\s*\(/,
+    ].some(pattern => pattern.test(content));
+  }
+}

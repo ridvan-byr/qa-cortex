@@ -3,6 +3,7 @@ import { DiffDetector, type ChangedFile } from '../../src/github/DiffDetector';
 import { PRCommentFormatter, type PRReviewSummary } from '../../src/reporter/PRCommentFormatter';
 import { ReviewPipeline } from '../../src/core/ReviewPipeline';
 import { GeminiProvider } from '../../src/reviewer/GeminiProvider';
+import { AdapterRegistry } from '../../src/framework/AdapterRegistry';
 
 function testDiffDetector() {
   console.log('Testing DiffDetector...');
@@ -109,6 +110,46 @@ function testScanner() {
   console.log('✓ Scanner tests passed.');
 }
 
+function testFrameworkAdapterRegistry() {
+  console.log('Testing FrameworkAdapter registry...');
+
+  const registry = new AdapterRegistry();
+  const result = registry.resolve({
+    dependencies: {
+      playwrightVersion: '^1.61.1',
+      devDependencies: { '@playwright/test': '^1.61.1' },
+      dependencies: {},
+      hasESLint: false,
+      hasPrettier: false,
+      hasHusky: false,
+      hasLintStaged: false,
+    },
+    targetFile: {
+      filePath: 'tests/login.spec.ts',
+      detectedFramework: 'Playwright',
+      detectedFeature: 'Authentication',
+      content: [
+        "import { test } from '@playwright/test';",
+        'let sharedState = false;',
+        "test('login', async ({ page }) => {",
+        "  await page.locator('//button[@type=\"submit\"]').click();",
+        '  await page.waitForTimeout(1000);',
+        '});',
+      ].join('\n'),
+    },
+  });
+
+  assert.strictEqual(result.adapterName, 'playwright');
+  assert.strictEqual(result.context.framework, 'playwright');
+  assert.ok(result.signals.some(signal => signal.type === 'locator'));
+  assert.ok(result.signals.some(signal => signal.type === 'wait'));
+  assert.ok(result.signals.some(signal => signal.type === 'lifecycle'));
+  assert.ok(result.signals.some(signal => signal.type === 'assertion'));
+  assert.ok(result.knowledgeProfile.ruleFiles.includes('knowledge/playwright/review-rules/locator-review.md'));
+
+  console.log('✓ FrameworkAdapter registry tests passed.');
+}
+
 async function testDeterministicRuleFallback() {
   console.log('Testing deterministic rule fallback...');
 
@@ -126,6 +167,7 @@ async function runAll() {
     testDiffDetector();
     testPRCommentFormatter();
     testScanner();
+    testFrameworkAdapterRegistry();
     await testDeterministicRuleFallback();
     console.log('\nAll integration tests passed successfully!');
   } catch (error) {

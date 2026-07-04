@@ -1,3 +1,5 @@
+import type { FrameworkAdapterResult } from '../framework/types';
+
 export interface RepositoryInfo {
   path: string;
   structure: {
@@ -57,4 +59,5 @@ export interface ReviewContext {
   pageObjects: PageObjectInfo[];
   fixtures: FixtureInfo[];
   targetFile: TargetFileInfo;
+  framework?: FrameworkAdapterResult;
 }

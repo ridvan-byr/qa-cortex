@@ -397,33 +397,146 @@ Once Selenium WebDriver for Node.js projeleri desteklenmelidir.
 - Selenium Grid / remote driver kullanimi
 - Framework-specific benchmark setleri
 
-## Framework Abstraction Yaklasimi
+## Framework Adapter ve Signal Mimarisi
 
-Playwright ve Selenium'u ayni pipeline icinde desteklemek icin framework-aware mimari gerekir.
+Sprint 13 icin final mimari karar: QA Brain, buyuk bir `NormalizedTestModel` icine tum frameworkleri zorlamamalidir. Bunun yerine kucuk bir adapter API ve esnek `FrameworkSignal` modeli kullanilmalidir.
 
-Onerilen model:
+### Ana Prensipler
 
-- `FrameworkDetector`
-- `FrameworkProfile`
-- `KnowledgeProfile`
-- `RuleRouter`
-- `RepositoryAnalyzer`
-- `ScoringProfile`
-- `BenchmarkProfile`
+- Review Engine framework bilmemelidir.
+- Playwright, Selenium, Cypress gibi frameworkler kendi adapter'lari uzerinden sinyal uretmelidir.
+- Core engine `page.locator()`, `driver.findElement()` veya `cy.get()` gibi framework API detaylarini dogrudan bilmemelidir.
+- Generic QA kurallari framework bagimsiz kalmalidir.
+- Framework-specific kurallar adapter sinyalleri ve knowledge profile uzerinden calismalidir.
+- Package/plugin split bu sprintte yapilmayacak; mimari plugin-ready olacak ama repo yapisi simdilik basit kalacak.
 
-Her framework kendi knowledge profiline, rule setlerine, repository analiz kurallarina ve benchmark datasetlerine sahip olmalidir. Ortak rapor formati korunmalidir.
+### FrameworkSignal Modeli
 
-Onerilen akis:
+Onerilen signal tipi:
+
+```ts
+type FrameworkName =
+  | 'playwright'
+  | 'selenium'
+  | 'cypress'
+  | 'webdriverio'
+  | 'unknown';
+
+type FrameworkSignalType =
+  | 'locator'
+  | 'assertion'
+  | 'wait'
+  | 'lifecycle'
+  | 'structure'
+  | 'execution'
+  | 'fixture'
+  | 'page-object'
+  | 'keyword'
+  | 'command-chain';
+
+interface FrameworkSignal {
+  type: FrameworkSignalType;
+  framework: FrameworkName;
+  ruleHints: string[];
+  evidence: string;
+  location?: {
+    file: string;
+    line?: number;
+  };
+  metadata?: Record<string, unknown>;
+}
+```
+
+Bu model frameworkleri ayni test modeline zorlamaz. Playwright fixture sinyali uretebilir, Selenium lifecycle sinyali uretebilir, Robot Framework ileride keyword sinyali uretebilir.
+
+### Adapter API
+
+Adapter API kucuk tutulmalidir:
+
+```ts
+interface FrameworkAdapter {
+  name: FrameworkName;
+  detect(context: RepositoryContext): boolean;
+  buildContext(file: TargetFile): FrameworkContext;
+  buildSignals(context: FrameworkContext): FrameworkSignal[];
+  knowledgeProfile(signals: FrameworkSignal[]): KnowledgeProfile;
+}
+```
+
+`normalize()` ayri bir public API olarak eklenmemelidir. Normalization adapter ic detayi olarak kalmali, core engine sadece context ve signal gormelidir.
+
+### Rule Ayrimi
+
+Generic Rules:
+
+- Missing Assertion
+- Weak Assertion
+- Naming
+- AAA Pattern
+- Test Isolation
+- Duplicate Setup
+- Hardcoded Credentials
+- Negative Path Coverage
+- Maintainability
+- Readability
+
+Framework Rules:
+
+- Playwright Locator
+- Playwright Auto Waiting
+- Playwright Fixtures
+- Selenium Driver Lifecycle
+- Selenium Explicit / Implicit Waits
+- Selenium WebDriver API
+- Cypress Command Chains
+
+### Sprint 13 Bolumu
+
+Sprint 13 tek bir "multi-framework support" sprinti olarak ele alinmamalidir. Asagidaki alt sprintlere bolunmelidir:
 
 ```text
-FrameworkDetector
-  -> FrameworkProfile
-  -> KnowledgeProfile
-  -> RuleRouter
-  -> RepositoryAnalyzer
-  -> ScoringProfile
-  -> BenchmarkProfile
+Sprint 13A - Core Adapter & Signal Architecture
+Sprint 13B - Playwright Adapter Migration + Generic Rules
+Sprint 13C - Selenium WebDriver Adapter
+Sprint 13D - Selenium Real Repository Validation
 ```
+
+### Sprint 13A Scope
+
+- `FrameworkAdapter` interface eklenecek.
+- `FrameworkSignal` tipi eklenecek.
+- `FrameworkContext` tipi eklenecek.
+- Adapter registry eklenecek.
+- Playwright icin bridge/initial adapter eklenecek.
+- Mevcut Playwright davranisi bozulmayacak.
+
+### Sprint 13A Implementation Notes
+
+- `src/framework/` altinda adapter API, signal tipleri ve adapter registry olusturuldu.
+- Ilk `PlaywrightAdapter`, mevcut review davranisini degistirmeden framework sinyalleri uretmek icin bridge olarak eklendi.
+- `ReviewContext` icine adapter sonucu opsiyonel olarak baglandi.
+- Sprint 13A'nin bu asamasinda `KnowledgeRouter` davranisi bilerek degistirilmedi; Playwright routing ve rapor semantigi ayni kalmali.
+- Adapter registry icin otomatik smoke test eklendi.
+- VS Code Extension Development Host smoke test gecti: Problems, Output Channel, CodeLens ve Status Bar review sonucunu gosterdi.
+- Framework sinyalleri Sprint 13B'de generic rule ayrimi ve Playwright adapter migration icin kullanilacak.
+
+### Sprint 13A Out of Scope
+
+- Selenium full support
+- Package/plugin split
+- Cypress/WebdriverIO/Appium support
+- Test Design Engine
+- Marketplace publish
+
+### Sprint 13 Acceptance Gate
+
+Her Sprint 13 alt sprinti sonunda su kontroller gecmeden sonraki adima gecilmemelidir:
+
+- `npm run build`
+- `npm test`
+- Benchmark suite `7/7`
+- Sprint 11 validation smoke
+- VS Code Client smoke
 
 ## Sprint Sonu Checklist
 
