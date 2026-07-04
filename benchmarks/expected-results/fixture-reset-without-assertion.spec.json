@@ -1,0 +1,12 @@
+{
+  "id": "ASSERTION_001",
+  "category": "Assertion",
+  "expectedFindings": ["missing_assertion"],
+  "expectedSeverity": {
+    "missing_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "missing_assertion": "Add an assertion"
+  },
+  "targetQualityScore": 80
+}

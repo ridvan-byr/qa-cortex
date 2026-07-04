@@ -143,16 +143,6 @@ export class ScoringEngine {
     if (!context.repositoryInfo.structure.testsDir) {
       return 'Requires Repository Analysis';
     }
-
-    // In a full repository scan:
-    // If the file is good and part of a suite, or has POMs, map its final feature coverage.
-    // For local mock verification:
-    if (context.targetFile.filePath.includes('good/login.spec')) {
-      return 90; // mock high coverage for login good spec
-    }
-    if (context.targetFile.filePath.includes('good/search.spec')) {
-      return 95; // mock high coverage for search good spec
-    }
     
     // Fallback to File Coverage if no companion files are detected
     return fileCoverage;

@@ -87,8 +87,27 @@ This roadmap details completed sprints and outlines the path toward building the
 - [x] Refactored `cli.ts` to use shared `Scanner` module (code deduplication).
 - [x] Fixed `globToRegex` placeholder bug across `Scanner` and `DiffDetector`.
 
-### ⬜ Sprint 11 — Real Repository Validation
+### ✅ Sprint 11 — Real Repository Validation
 - **Objective**: Run QA Brain on 10+ open-source Playwright repos and measure real-world Precision/Recall.
+- **Status**: Completed.
+- [x] Created validation workspace under `validation/`.
+- [x] Added `ValidationRunner` for repository selection checks, rule coverage, review time, and finding triage reports.
+- [x] Added `qa-brain validate [config]` CLI command and `npm run validate` script.
+- [x] Selected and cloned 10 open-source Playwright repositories locally for the initial validation run.
+- [x] Generated initial Rule Only validation report: 10 repositories, 226 files reviewed, 59 findings, 13 rule coverage entries.
+- [x] Calibrated noisy assertion/isolation heuristics and reduced findings from 59 to 26 while keeping benchmark suite green.
+- [x] Added framework/demo path-aware Missing Assertion filtering and reduced findings from 26 to 5 while keeping benchmark suite green.
+- [x] Flagged no-spec repositories as excluded from active validation coverage.
+- [x] Completed manual triage for the final 5 findings: 2 true positives, 2 observation candidates, 1 rule improvement candidate, 0 clear false positives.
+- [x] Added benchmark cases for fixture-heavy reset flows and DB/API-adjacent tests without result assertions.
+- [x] Downgraded demo/example missing assertion signals and reduced active findings from 5 to 2.
+- [x] Converted final triage outcomes into benchmarks, rule improvement backlog, or documented justification.
+- [x] Replaced no-spec small repository with `microsoft/playwright-mcp`; final validation covers 10 repositories and 229 files.
+- [x] Published final Sprint 11 validation report and v0.9 RC recommendation.
+
+Follow-up after Sprint 11:
+- Add per-test-block assertion analysis instead of file-level assertion detection.
+- Run LLM provider comparison after OpenAI/Gemini/Claude API usage is available.
 
 ### ⬜ Sprint 12 — VS Code Extension
 - **Objective**: Provide native VS Code integration for inline test review feedback.

@@ -23,10 +23,6 @@ inputs:
     description: 'Set to true to fail the check when critical/high findings are detected.'
     required: false
     default: 'true'
-  format:
-    description: 'Output format for reports: markdown or json.'
-    required: false
-    default: 'markdown'
   max-files:
     description: 'Maximum number of test files to review per PR. Protects against huge PRs.'
     required: false

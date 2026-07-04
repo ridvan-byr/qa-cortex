@@ -182,7 +182,7 @@ export class BenchmarkRunner {
     console.log(`- Routing Reduction Rate: ${(((totalRulesCount * totalTests - totalRulesLoaded) / (totalRulesCount * totalTests)) * 100).toFixed(1)}% (Token Optimization)`);
 
     console.log(`\nLLM Execution Mode:`);
-    console.log(`- Provider: Gemini 2.5 Flash (Mock Fallback)`);
+    console.log(`- Provider: Gemini 2.5 Flash (Deterministic Rule Fallback)`);
     console.log(`- Average Tokens Used: ~4100 (Prompt: 3200, Completion: 900)`);
     console.log(`==========================================`);
 
@@ -210,7 +210,7 @@ Date: ${new Date().toISOString()}
 - **Rules Loaded in Session**: ${totalRulesLoaded}
 
 ## LLM Execution Mode
-- **Provider**: Gemini 2.5 Flash (Mock Fallback)
+- **Provider**: Gemini 2.5 Flash (Deterministic Rule Fallback)
 - **Average Tokens Used**: ~4100 (Prompt: 3200, Completion: 900)
 
 ## Test Runs Detail
@@ -235,11 +235,15 @@ ${resultsLog.join('\n')}
     if (expectedKey === 'hardcoded_wait') {
       return text.includes('hardcoded wait') || text.includes('waitfortimeout') || text.includes('timeout');
     }
+    if (expectedKey === 'missing_assertion') {
+      return text.includes('missing assertion') || text.includes('assertion');
+    }
     return false;
   }
 
   private static findSpecFile(fileName: string): string | null {
     const dirs = [
+      'benchmarks/playwright/assertions',
       'benchmarks/playwright/locator',
       'benchmarks/playwright/fixtures',
       'benchmarks/playwright/pom',

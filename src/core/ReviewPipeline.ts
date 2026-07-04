@@ -8,13 +8,15 @@ import type { ReviewResult } from '../types/ReviewResult';
 
 export class ReviewPipeline {
   private loader: RepositoryLoader;
+  private knowledgeLoader: RepositoryLoader;
   private builder: ContextBuilder;
   private router: KnowledgeRouter;
   private scorer: ScoringEngine;
   private reporter: ReportGenerator;
 
-  constructor(private rootPath: string, private llm: LLMProvider) {
+  constructor(private rootPath: string, private llm: LLMProvider, private knowledgeRootPath: string = rootPath) {
     this.loader = new RepositoryLoader(rootPath);
+    this.knowledgeLoader = new RepositoryLoader(knowledgeRootPath);
     this.builder = new ContextBuilder(this.loader);
     this.router = new KnowledgeRouter();
     this.scorer = new ScoringEngine();
@@ -40,7 +42,7 @@ export class ReviewPipeline {
     console.log('4. Loading Routed Rule Contents...');
     const ruleContents: string[] = [];
     for (const rulePath of mappedRules) {
-      const content = this.loader.readRawFile(rulePath);
+      const content = this.knowledgeLoader.readRawFile(rulePath);
       if (content) {
         ruleContents.push(`--- File: ${rulePath} ---\n${content}`);
       }

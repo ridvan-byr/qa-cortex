@@ -1,0 +1,103 @@
+{
+  "maxFilesPerRepository": 50,
+  "runGeminiComparison": false,
+  "outputDir": "validation/reports",
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.git/**"
+  ],
+  "repositories": [
+    {
+      "id": "small-01",
+      "name": "Small Playwright Repository 01",
+      "url": "https://github.com/example/small-playwright-01",
+      "localPath": "../validation-repos/small-01",
+      "size": "small",
+      "tags": ["page-object"],
+      "notes": "Replace with a real small repository."
+    },
+    {
+      "id": "small-02",
+      "name": "Small Playwright Repository 02",
+      "url": "https://github.com/example/small-playwright-02",
+      "localPath": "../validation-repos/small-02",
+      "size": "small",
+      "tags": ["fixture-heavy"],
+      "notes": "Replace with a real small repository."
+    },
+    {
+      "id": "medium-01",
+      "name": "Medium Playwright Repository 01",
+      "url": "https://github.com/example/medium-playwright-01",
+      "localPath": "../validation-repos/medium-01",
+      "size": "medium",
+      "tags": ["authentication-heavy"],
+      "notes": "Replace with a real medium repository."
+    },
+    {
+      "id": "medium-02",
+      "name": "Medium Playwright Repository 02",
+      "url": "https://github.com/example/medium-playwright-02",
+      "localPath": "../validation-repos/medium-02",
+      "size": "medium",
+      "tags": ["api-heavy"],
+      "notes": "Replace with a real medium repository."
+    },
+    {
+      "id": "large-01",
+      "name": "Large Playwright Repository 01",
+      "url": "https://github.com/example/large-playwright-01",
+      "localPath": "../validation-repos/large-01",
+      "size": "large",
+      "tags": ["parallel-execution"],
+      "notes": "Replace with a real large repository."
+    },
+    {
+      "id": "large-02",
+      "name": "Large Playwright Repository 02",
+      "url": "https://github.com/example/large-playwright-02",
+      "localPath": "../validation-repos/large-02",
+      "size": "large",
+      "tags": ["mixed-architecture"],
+      "notes": "Replace with a real large repository."
+    },
+    {
+      "id": "enterprise-01",
+      "name": "Enterprise-style Playwright Repository",
+      "url": "https://github.com/example/enterprise-playwright",
+      "localPath": "../validation-repos/enterprise-01",
+      "size": "enterprise",
+      "tags": ["enterprise-style", "multi-project"],
+      "notes": "Replace with an enterprise-style repository."
+    },
+    {
+      "id": "api-01",
+      "name": "API-heavy Playwright Repository",
+      "url": "https://github.com/example/api-heavy-playwright",
+      "localPath": "../validation-repos/api-01",
+      "size": "medium",
+      "tags": ["api-heavy"],
+      "notes": "Replace with an API-heavy repository."
+    },
+    {
+      "id": "auth-01",
+      "name": "Authentication-heavy Playwright Repository",
+      "url": "https://github.com/example/auth-heavy-playwright",
+      "localPath": "../validation-repos/auth-01",
+      "size": "medium",
+      "tags": ["authentication-heavy"],
+      "notes": "Replace with an authentication-heavy repository."
+    },
+    {
+      "id": "multi-project-01",
+      "name": "Multi-project Playwright Repository",
+      "url": "https://github.com/example/multi-project-playwright",
+      "localPath": "../validation-repos/multi-project-01",
+      "size": "large",
+      "tags": ["multi-project"],
+      "notes": "Replace with a multi-project repository."
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "name": "qa-brain",
   "version": "0.1.0",
   "description": "AI-powered QA Knowledge Base for Playwright Test Design, Review and Test Generation.",
-  "main": "index.js",
+  "main": "./dist/src/cli.js",
   "bin": {
     "qa-brain": "./dist/src/cli.js",
     "qa-brain-mcp": "./dist/src/mcp.js"
@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npx ts-node tests/action-integration/action.test.ts"
+    "test": "npx ts-node tests/action-integration/action.test.ts",
+    "validate": "npx ts-node src/evaluation/ValidationRunner.ts"
   },
   "repository": {
     "type": "git",

@@ -1,8 +1,10 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import { DiffDetector } from './github/DiffDetector.js';
 import { ReviewPipeline } from './core/ReviewPipeline.js';
 import { GeminiProvider } from './reviewer/GeminiProvider.js';
 import { PRCommentFormatter, type PRReviewSummary } from './reporter/PRCommentFormatter.js';
+import { Scanner } from './core/Scanner.js';
 
 async function run(): Promise<void> {
   // Dynamically import ES modules to run inside CJS build target
@@ -38,24 +40,43 @@ async function run(): Promise<void> {
     core.info(`Reviewing PR #${prNumber} in ${owner}/${repo}`);
 
     // ── 4. Detect Changed Files ──
-    const detector = new DiffDetector(token);
-    const changedFiles = await detector.getChangedFiles(owner, repo, prNumber);
-    let testFiles = detector.filterTestFiles(changedFiles, ignorePatterns);
+    let testFiles: string[] = [];
+    if (reviewPath) {
+      const resolvedReviewPath = path.resolve(reviewPath);
+      if (!fs.existsSync(resolvedReviewPath)) {
+        core.setFailed(`review-path does not exist: ${reviewPath}`);
+        return;
+      }
 
-    core.info(`Changed files: ${changedFiles.length}`);
-    core.info(`Test files to review: ${testFiles.length}`);
+      const stat = fs.statSync(resolvedReviewPath);
+      if (stat.isFile()) {
+        if (resolvedReviewPath.endsWith('.spec.ts') || resolvedReviewPath.endsWith('.test.ts')) {
+          testFiles = [resolvedReviewPath];
+        }
+      } else if (stat.isDirectory()) {
+        testFiles = Scanner.scanDirectory(resolvedReviewPath, ignorePatterns);
+      }
+
+      core.info(`Review path: ${reviewPath}`);
+      core.info(`Test files to review: ${testFiles.length}`);
+    } else {
+      const detector = new DiffDetector(token);
+      const changedFiles = await detector.getChangedFiles(owner, repo, prNumber);
+      testFiles = detector.filterTestFiles(changedFiles, ignorePatterns);
+
+      core.info(`Changed files: ${changedFiles.length}`);
+      core.info(`Test files to review: ${testFiles.length}`);
+    }
 
     if (testFiles.length === 0) {
-      core.info('No test files changed in this PR. Skipping review.');
+      core.info('No test files found to review. Skipping review.');
       return;
     }
 
     // ── 5. Apply max-files limit ──
-    let truncated = false;
     if (testFiles.length > maxFiles) {
       core.warning(`PR contains ${testFiles.length} test files. Reviewing first ${maxFiles} (max-files limit).`);
       testFiles = testFiles.slice(0, maxFiles);
-      truncated = true;
     }
 
     // ── 6. Run Review Pipeline ──

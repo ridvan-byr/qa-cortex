@@ -27,7 +27,10 @@ export class ReportGenerator {
 
     report += `---\n\n## Metrics\n\n`;
     report += `- **File Coverage Score**: ${result.score.fileCoverage}/100\n`;
-    report += `- **Feature Coverage Score**: ${result.score.featureCoverage}/100\n`;
+    const featureCoverage = typeof result.score.featureCoverage === 'number'
+      ? `${result.score.featureCoverage}/100`
+      : result.score.featureCoverage;
+    report += `- **Feature Coverage Score**: ${featureCoverage}\n`;
     report += `- **Quality Score**: ${result.score.qualityScore}/100\n`;
     report += `  - [${result.score.qualityChecklist.pomEncapsulation ? 'x' : ' '}] POM Encapsulation\n`;
     report += `  - [${result.score.qualityChecklist.resilientLocators ? 'x' : ' '}] Resilient Locators\n`;

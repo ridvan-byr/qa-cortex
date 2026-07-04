@@ -1,6 +1,8 @@
 import * as assert from 'assert';
 import { DiffDetector, type ChangedFile } from '../../src/github/DiffDetector';
 import { PRCommentFormatter, type PRReviewSummary } from '../../src/reporter/PRCommentFormatter';
+import { ReviewPipeline } from '../../src/core/ReviewPipeline';
+import { GeminiProvider } from '../../src/reviewer/GeminiProvider';
 
 function testDiffDetector() {
   console.log('Testing DiffDetector...');
@@ -107,11 +109,24 @@ function testScanner() {
   console.log('✓ Scanner tests passed.');
 }
 
-function runAll() {
+async function testDeterministicRuleFallback() {
+  console.log('Testing deterministic rule fallback...');
+
+  const pipeline = new ReviewPipeline('.', new GeminiProvider(''));
+  const { result } = await pipeline.runPipeline('examples/bad/missing-assertion.spec.ts');
+
+  assert.notStrictEqual(result.finalVerdict, 'Excellent');
+  assert.ok(result.findings.some(f => f.title === 'Missing Assertion'));
+
+  console.log('✓ Deterministic rule fallback tests passed.');
+}
+
+async function runAll() {
   try {
     testDiffDetector();
     testPRCommentFormatter();
     testScanner();
+    await testDeterministicRuleFallback();
     console.log('\nAll integration tests passed successfully!');
   } catch (error) {
     console.error('Test verification failed:', error);

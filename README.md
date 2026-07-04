@@ -1,39 +1,41 @@
 # QA Brain
 
-> Repository-aware, rule-driven, deterministic AI code review engine for Playwright test automation.
+> Repository-aware, rule-driven QA review engine for Playwright test automation.
 
-**Status**: v0.1.0 — CLI Ready 🚀
+**Status**: v0.1.0 - CLI, GitHub Action, and MCP prototype ready.
 
 ---
 
 ## What is QA Brain?
 
-QA Brain is an AI-powered review engine that analyzes your Playwright test suites and generates structured, evidence-based quality reports. It combines a curated knowledge base of best practices with deterministic scoring algorithms to deliver consistent, explainable code review results.
+QA Brain analyzes Playwright test suites and generates structured quality reports. It combines repository context, curated QA knowledge, deterministic local rules, and optional Gemini review output.
+
+When `GEMINI_API_KEY` is available, QA Brain asks Gemini to review the selected test against routed rule files. Without an API key, it runs a local deterministic rule review for common issues such as brittle selectors, hardcoded waits, shared state, and missing assertions.
 
 ### Key Features
 
-- **Repository-Aware Analysis**: Scans `package.json`, `playwright.config.ts`, Page Objects, and custom fixtures to build full project context before review.
-- **Signal-Based Knowledge Routing**: Only loads relevant review rules for each file, reducing token usage and improving accuracy.
-- **Deterministic Scoring**: Quality, Risk, and Maintainability scores are computed mathematically — not by LLM opinion.
-- **Evidence-Based Findings**: Every finding includes the exact code snippet and a concrete recommendation.
-- **Benchmark Suite**: Built-in calibration runner with Ground Truth JSON files to measure Precision and Recall.
+- **Repository-aware analysis**: Reads `package.json`, `playwright.config.ts`, Page Objects, and custom fixtures before review.
+- **Signal-based knowledge routing**: Loads only the rule files relevant to the target spec.
+- **Deterministic scoring**: Quality, risk, and maintainability scores are calculated from findings and context.
+- **Evidence-based findings**: Findings include code evidence and concrete recommendations.
+- **Benchmark suite**: Built-in calibration runner with ground-truth JSON files.
+- **GitHub Action support**: Reviews changed PR test files, or a configured `review-path`.
+- **MCP server support**: Exposes file, repository, and benchmark review tools over stdio.
 
 ---
 
 ## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/ridvan-byr/qa-brain.git
 cd qa-brain
-
-# Install dependencies
 npm install
-
-# Build the CLI
 npm run build
+```
 
-# Link globally (optional, enables `qa-brain` command)
+Optional global link:
+
+```bash
 npm link
 ```
 
@@ -41,127 +43,126 @@ npm link
 
 ## CLI Usage
 
-### Review a single file
+Review a single file:
 
 ```bash
 qa-brain review tests/login.spec.ts
 ```
 
-### Review an entire directory
+Review a directory:
 
 ```bash
 qa-brain review tests/
 ```
 
-### Review with verbose debug output
+Run with verbose diagnostics:
 
 ```bash
 qa-brain review tests/ --verbose
 ```
 
-### Run the benchmark calibration suite
-
-```bash
-qa-brain benchmark
-```
-
-### Save reports as JSON
+Save JSON output:
 
 ```bash
 qa-brain review tests/ --format json
 ```
 
-### Custom output folder
+Run benchmark calibration:
 
 ```bash
-qa-brain review tests/ --output reports/
+qa-brain benchmark
 ```
 
-### Select LLM provider
-
-```bash
-qa-brain review tests/ --provider gemini
-```
-
-### Show version
-
-```bash
-qa-brain --version
-```
-
-### Show help
-
-```bash
-qa-brain --help
-```
-
----
-
-## CLI Options Reference
+### CLI Options
 
 | Option | Description | Default |
 | :--- | :--- | :--- |
-| `--help`, `-h` | Show usage guide | — |
-| `--version`, `-v` | Show version number | — |
-| `--verbose` | Print detailed debug info (rules loaded, tokens, scores) | `false` |
+| `--help`, `-h` | Show usage guide | - |
+| `--version`, `-v` | Show version number | - |
+| `--verbose` | Print debug info such as routed rules and scores | `false` |
 | `--format <type>` | Output format: `markdown` or `json` | `markdown` |
 | `--output <dir>` | Directory to save reports | `reviews/` |
-| `--provider <name>` | LLM provider: `gemini`, `openai`, `anthropic` | `gemini` |
-| `--config <path>` | Path to `qa-brain.config.json` | — |
+| `--provider <name>` | LLM provider. Currently only `gemini` is supported. | `gemini` |
+| `--config <path>` | Path to `qa-brain.config.json` | - |
+
+---
+
+## GitHub Action
+
+```yaml
+name: QA Brain
+
+on:
+  pull_request:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ridvan-byr/qa-brain@v0.1.0
+        with:
+          github-token: ${{ github.token }}
+          gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
+          max-files: '30'
+```
+
+If `review-path` is provided, the action scans that file or directory. Otherwise, it reviews changed `.spec.ts` and `.test.ts` files in the pull request.
 
 ---
 
 ## Architecture
 
-```
-CLI (src/cli.ts)
-  │
-  ▼
-QABrainCore / ReviewPipeline
-  │
-  ├── RepositoryLoader → ContextBuilder
-  │
-  ├── KnowledgeRouter (Signal-based rule selection)
-  │
-  ├── LLMProvider (GeminiProvider / Mock Fallback)
-  │
-  ├── ScoringEngine (Deterministic quality/risk/maintainability)
-  │
-  └── ReportGenerator (Markdown / JSON output)
+```text
+CLI / GitHub Action / MCP
+  |
+  v
+ReviewPipeline
+  |
+  +-- RepositoryLoader -> ContextBuilder
+  +-- KnowledgeRouter
+  +-- GeminiProvider or deterministic rule fallback
+  +-- ScoringEngine
+  +-- ReportGenerator / PRCommentFormatter
 ```
 
 ---
 
-## Benchmark Results (Preliminary)
+## Benchmark
 
-> **Note:** These results are from the built-in calibration suite (5 ground-truth specs). Real-world validation across open-source repositories is planned in Sprint 11.
-
-Run `qa-brain benchmark` to execute the calibration suite:
-
+```bash
+npm run build
+qa-brain benchmark
 ```
-==========================================
-Passed: 5
-Failed: 0
-Precision: 100.0%  (5/5 ground-truth specs)
-Recall: 100.0%     (5/5 ground-truth specs)
-Average Review Time: 2.6ms
-==========================================
 
-Category Summary:
-- Locator Rules: 2/2 Passed
-- Waiting Rules: 1/1 Passed
-- POM Rules: 1/1 Passed
-- Fixture Rules: 1/1 Passed
-```
+The benchmark suite is useful for regression checks, but it is not a substitute for real repository validation. Real-world validation across open-source Playwright repositories is planned in Sprint 11.
 
 ---
 
-## Project Roadmap
+## Validation Dataset
 
-See [ROADMAP.md](ROADMAP.md) for the full sprint history and future plans.
+Sprint 11 validation was completed against 10 open-source Playwright repositories.
+
+Latest local validation run:
+
+| Metric | Value |
+| :--- | :--- |
+| Repositories configured | 10 |
+| Files reviewed | 229 |
+| Findings generated | 2 |
+| Average review time | 1ms |
+| Rule coverage entries | 13 |
+| LLM provider comparison | Deferred |
+| Final active findings | 2 true positives |
+
+Manual triage of the final 5 findings found 2 true positives, 2 observation candidates, 1 rule improvement candidate, and 0 clear false positives. Demo/example missing assertion signals were downgraded, leaving 2 active findings.
+
+The latest generated report is available at `validation/reports/latest-validation-report.md`.
+Manual triage details are available at `validation/reports/manual-triage-report.md`.
+Sprint 11 final report is available at `validation/reports/sprint-11-final-report.md`.
 
 ---
 
 ## License
 
-ISC
+MIT

@@ -7,6 +7,7 @@ export class KnowledgeRouter {
   public routeKnowledge(context: ReviewContext): string[] {
     const files: string[] = [];
     const content = context.targetFile.content;
+    const frameworkBehaviorContext = this.isFrameworkBehaviorContext(context.targetFile.filePath, content);
 
     // Framework-specific base load
     if (context.targetFile.detectedFramework === 'Playwright') {
@@ -31,12 +32,12 @@ export class KnowledgeRouter {
     }
 
     // 3. Signal: Isolation (global mutables or session shares)
-    if (content.match(/let\s+[a-zA-Z0-9_]+\s*=\s*['"]/) || content.includes('browser.newContext(')) {
+    if (this.hasTopLevelMutableState(content) || content.includes('browser.newContext(')) {
       signals.add('Isolation');
     }
 
     // 4. Signal: Assertion (Check if assertions are missing or weak)
-    if (!content.includes('expect(')) {
+    if (!this.hasAssertionSignal(content) && !frameworkBehaviorContext) {
       signals.add('Assertion');
     }
 
@@ -74,5 +75,84 @@ export class KnowledgeRouter {
     }
 
     return files;
+  }
+
+  private hasTopLevelMutableState(content: string): boolean {
+    let braceDepth = 0;
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (braceDepth === 0 && /^let\s+[a-zA-Z0-9_]+\s*=/.test(trimmed)) {
+        return true;
+      }
+      braceDepth += (line.match(/\{/g) || []).length;
+      braceDepth -= (line.match(/\}/g) || []).length;
+      if (braceDepth < 0) braceDepth = 0;
+    }
+    return false;
+  }
+
+  private hasAssertionSignal(content: string): boolean {
+    return [
+      /\bexpect\s*\(/,
+      /\bassert\w*\s*\./,
+      /\bassert\w*\s*\(/,
+      /\bEnsure\.that\s*\(/,
+      /\bCheck\.whether\s*\(/,
+      /\bactor\.attemptsTo\s*\(/,
+      /\battemptsTo\s*\(/,
+      /\bseeIf\s*\(/,
+      /\bexpectationTo\w+\s*\(/,
+      /\btoEqual\s*\(/,
+      /\btoBe\s*\(/,
+      /\btoContain\s*\(/,
+      /\btoHave\w+\s*\(/,
+      /\bresponse\.(?:ok|status)\s*\(/,
+      /\brequest\.(?:get|post|put|patch|delete)\s*\(/,
+      /\bshortest\s*\(/,
+      /\btest\.(?:skip|fixme|fail)\s*\(/,
+    ].some(pattern => pattern.test(content));
+  }
+
+  private isFrameworkBehaviorContext(filePath: string, content: string): boolean {
+    const normalizedPath = filePath.replace(/\\/g, '/').toLowerCase();
+    const pathOnlyFrameworkContexts = [
+      /\/serenity-js\/examples\//,
+      /\/serenity-js\/integration\/playwright-test\/examples\//,
+      /\/serenity-js\/integration\/playwright-electron\/spec\/electron\//,
+      /\/demo\.playwright\//,
+      /\/demo-playwright\//,
+      /\/android\/tests\/example\.spec\./,
+      /\/chrome-extension\/tests\/example\.spec\./,
+    ];
+
+    if (pathOnlyFrameworkContexts.some(pattern => pattern.test(normalizedPath))) {
+      return true;
+    }
+
+    const contextPathPatterns = [
+      /\/examples?\//,
+      /\/outcomes?\//,
+      /\/skipped?\//,
+      /\/failing\//,
+      /\/compatibility\//,
+      /\/demo[\w.-]*\//,
+      /\/example\.spec\./,
+      /\/example\.test\./,
+    ];
+
+    if (!contextPathPatterns.some(pattern => pattern.test(normalizedPath))) {
+      return false;
+    }
+
+    const frameworkBehaviorSignals = [
+      /\btest\s*\(\s*['"`][^'"`]*(?:passes|fails|skipped?|fixme|expected failure|unexpected pass|describe blocks|reporter|compatibility|configurationerror|global, worker-level error)/i,
+      /\btest\.(?:skip|fixme|fail)\s*\(/,
+      /\bdescribe\s*\(\s*['"`][^'"`]*(?:outcomes?|reporters?|compatibility|examples?)/i,
+      /Serenity\/JS/i,
+      /native reporters?/i,
+      /custom tags?/i,
+    ];
+
+    return frameworkBehaviorSignals.some(pattern => pattern.test(content));
   }
 }

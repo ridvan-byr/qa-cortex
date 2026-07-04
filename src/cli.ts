@@ -2,6 +2,7 @@
 import { ReviewPipeline } from './core/ReviewPipeline.js';
 import { GeminiProvider } from './reviewer/GeminiProvider.js';
 import { BenchmarkRunner } from './evaluation/BenchmarkRunner.js';
+import { ValidationRunner } from './evaluation/ValidationRunner.js';
 import { RepositoryLoader } from './loader/RepositoryLoader.js';
 import { ContextBuilder } from './loader/ContextBuilder.js';
 import { KnowledgeRouter } from './router/KnowledgeRouter.js';
@@ -17,6 +18,7 @@ Usage: qa-brain <command> [options]
 Commands:
   review <path>     Scan a test file or directory for Playwright rules and score it.
   benchmark         Run the calibration benchmark suite.
+  validate [config] Run real repository validation from a validation config.
 
 Options:
   -h, --help        Show this help message.
@@ -32,6 +34,7 @@ Examples:
   qa-brain review benchmarks/playwright/
   qa-brain review . --verbose
   qa-brain benchmark
+  qa-brain validate validation/repositories.json
   `);
 }
 
@@ -52,6 +55,11 @@ async function run(): Promise<void> {
 
   if (command === 'benchmark') {
     await BenchmarkRunner.runAll();
+    process.exit(0);
+  }
+
+  if (command === 'validate') {
+    await ValidationRunner.run(args[1]);
     process.exit(0);
   }
 
@@ -92,6 +100,11 @@ async function run(): Promise<void> {
       } catch (err: any) {
         console.error(`Warning: Failed to parse config file: ${err.message}`);
       }
+    }
+
+    if (providerName !== 'gemini') {
+      console.error(`Error: Unsupported provider "${providerName}". Currently supported providers: gemini.`);
+      process.exit(1);
     }
 
     const absPath = path.resolve(targetPath);
