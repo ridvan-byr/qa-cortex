@@ -132,7 +132,9 @@ QABrainCore / ReviewPipeline
 
 ---
 
-## Benchmark Results
+## Benchmark Results (Preliminary)
+
+> **Note:** These results are from the built-in calibration suite (5 ground-truth specs). Real-world validation across open-source repositories is planned in Sprint 11.
 
 Run `qa-brain benchmark` to execute the calibration suite:
 
@@ -140,8 +142,8 @@ Run `qa-brain benchmark` to execute the calibration suite:
 ==========================================
 Passed: 5
 Failed: 0
-Precision: 100.0%
-Recall: 100.0%
+Precision: 100.0%  (5/5 ground-truth specs)
+Recall: 100.0%     (5/5 ground-truth specs)
 Average Review Time: 2.6ms
 ==========================================
 

@@ -91,9 +91,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   try {
     switch (name) {
       case "review_file": {
-        const filePath = path.resolve(args?.filePath as string);
+        const rawPath = args?.filePath as string;
+        if (!rawPath) {
+          throw new Error("Missing required parameter: filePath");
+        }
+
+        const filePath = path.resolve(rawPath);
         if (!fs.existsSync(filePath)) {
           throw new Error(`File does not exist: ${filePath}`);
+        }
+
+        if (!filePath.endsWith('.spec.ts') && !filePath.endsWith('.test.ts')) {
+          throw new Error(`File must be a Playwright test file (.spec.ts or .test.ts): ${filePath}`);
         }
         
         const pipeline = new ReviewPipeline(".", provider);
@@ -104,15 +113,32 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
       
       case "review_repository": {
-        const dirPath = path.resolve(args?.dirPath as string);
+        const rawDir = args?.dirPath as string;
+        if (!rawDir) {
+          throw new Error("Missing required parameter: dirPath");
+        }
+
+        const dirPath = path.resolve(rawDir);
         if (!fs.existsSync(dirPath)) {
           throw new Error(`Directory does not exist: ${dirPath}`);
+        }
+
+        const stat = fs.statSync(dirPath);
+        if (!stat.isDirectory()) {
+          throw new Error(`Path is not a directory: ${dirPath}`);
         }
 
         const maxFiles = (args?.maxFiles as number) || 30;
         const ignorePatterns = (args?.ignorePatterns as string[]) || [];
 
         const files = Scanner.scanDirectory(dirPath, ignorePatterns);
+
+        if (files.length === 0) {
+          return {
+            content: [{ type: "text", text: JSON.stringify({ filesReviewed: 0, message: "No .spec.ts or .test.ts files found in directory." }, null, 2) }]
+          };
+        }
+
         const pipeline = new ReviewPipeline(".", provider);
         const summary = await Scanner.runScan(files, pipeline, { maxFiles, ignorePatterns });
 
