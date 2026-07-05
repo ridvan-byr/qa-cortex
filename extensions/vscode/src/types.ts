@@ -51,6 +51,7 @@ export interface ReviewRun {
   report: string;
   result: ReviewResult;
   selectionStartLine?: number;
+  framework?: string;
 }
 
 export interface LastReviewState {

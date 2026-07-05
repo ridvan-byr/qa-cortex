@@ -26,10 +26,12 @@ export class RepositoryLoader {
   /**
    * Scans a directory recursively for files matching the given extension.
    */
-  public scanDirectory(relativeDirPath: string, extension: string = '.ts'): string[] {
+  public scanDirectory(relativeDirPath: string, match: string | string[] = '.ts'): string[] {
     const files: string[] = [];
     const fullPath = path.resolve(this.rootPath, relativeDirPath);
     if (!fs.existsSync(fullPath)) return [];
+
+    const allowed = Array.isArray(match) ? match : [match];
 
     const traverse = (currentDir: string) => {
       const entries = fs.readdirSync(currentDir, { withFileTypes: true });
@@ -37,7 +39,7 @@ export class RepositoryLoader {
         const resolvedPath = path.resolve(currentDir, entry.name);
         if (entry.isDirectory()) {
           traverse(resolvedPath);
-        } else if (entry.isFile() && entry.name.endsWith(extension)) {
+        } else if (entry.isFile() && allowed.some(ext => entry.name.endsWith(ext))) {
           files.push(path.relative(this.rootPath, resolvedPath));
         }
       }

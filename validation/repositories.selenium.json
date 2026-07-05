@@ -1,0 +1,54 @@
+{
+  "framework": "selenium",
+  "reportTitle": "QA Brain Selenium Calibration & Validation Report",
+  "maxFilesPerRepository": 50,
+  "runGeminiComparison": false,
+  "outputDir": "validation/reports",
+  "markdownReportName": "selenium-calibration-report.md",
+  "jsonReportName": "selenium-calibration-report.json",
+  "metricsOutputPath": "validation/metrics/selenium-calibration-metrics.json",
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.git/**",
+    "**/src/test.ts"
+  ],
+  "repositories": [
+    {
+      "id": "selenium-01",
+      "name": "selenium-javascript-examples",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-javascript-examples/WebdriverJS-Mocha-Template",
+      "size": "small",
+      "tags": ["selenium-webdriver", "templates"]
+    },
+    {
+      "id": "selenium-02",
+      "name": "demo-js",
+      "localPath": "C:/tmp/qa-brain-validation-repos/demo-js/selenium",
+      "size": "small",
+      "tags": ["selenium-webdriver", "saucelabs"]
+    },
+    {
+      "id": "selenium-03",
+      "name": "selenium-webdriverjs-pom-example",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-webdriverjs-pom-example",
+      "size": "small",
+      "tags": ["selenium-webdriver", "pom"]
+    },
+    {
+      "id": "selenium-04",
+      "name": "example-selenium-javascript-jest",
+      "localPath": "C:/tmp/qa-brain-validation-repos/example-selenium-javascript-jest",
+      "size": "small",
+      "tags": ["selenium-webdriver", "jest"]
+    },
+    {
+      "id": "selenium-05",
+      "name": "selenium-mocha",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-mocha",
+      "size": "small",
+      "tags": ["selenium-webdriver", "mocha"]
+    }
+  ]
+}

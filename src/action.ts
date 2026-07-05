@@ -50,7 +50,7 @@ async function run(): Promise<void> {
 
       const stat = fs.statSync(resolvedReviewPath);
       if (stat.isFile()) {
-        if (resolvedReviewPath.endsWith('.spec.ts') || resolvedReviewPath.endsWith('.test.ts')) {
+        if (Scanner.isTestFile(resolvedReviewPath)) {
           testFiles = [resolvedReviewPath];
         }
       } else if (stat.isDirectory()) {

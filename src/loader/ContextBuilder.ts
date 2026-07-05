@@ -93,9 +93,11 @@ export class ContextBuilder {
       const deps = parsed.dependencies || {};
 
       const playwrightVersion = devDeps['@playwright/test'] || deps['@playwright/test'];
+      const seleniumVersion = devDeps['selenium-webdriver'] || deps['selenium-webdriver'];
 
       return {
         playwrightVersion,
+        seleniumVersion,
         devDependencies: devDeps,
         dependencies: deps,
         hasESLint: !!(devDeps['eslint'] || deps['eslint']),
@@ -154,7 +156,7 @@ export class ContextBuilder {
   private mapPageObjects(pagesDir?: string): PageObjectInfo[] {
     if (!pagesDir) return [];
     
-    const files = this.loader.scanDirectory(pagesDir, '.ts');
+    const files = this.loader.scanDirectory(pagesDir, ['.ts', '.js', '.tsx', '.jsx']);
     const poms: PageObjectInfo[] = [];
 
     for (const file of files) {
@@ -189,14 +191,18 @@ export class ContextBuilder {
 
     // Scan specific directory if exists
     if (fixturesDir) {
-      const files = this.loader.scanDirectory(fixturesDir, '.ts');
+      const files = this.loader.scanDirectory(fixturesDir, ['.ts', '.js', '.tsx', '.jsx']);
       for (const file of files) {
-        fixtures.push({ name: path.basename(file, '.ts'), filePath: file });
+        const ext = path.extname(file);
+        fixtures.push({ name: path.basename(file, ext), filePath: file });
       }
     }
 
-    // Also check for standalone fixtures.ts inside tests/ or examples/
-    const rootFixtures = ['tests/fixtures.ts', 'examples/fixtures.ts', 'fixtures.ts'];
+    // Also check for standalone fixtures inside tests/ or examples/
+    const rootFixtures = [
+      'tests/fixtures.ts', 'examples/fixtures.ts', 'fixtures.ts',
+      'tests/fixtures.js', 'examples/fixtures.js', 'fixtures.js'
+    ];
     for (const item of rootFixtures) {
       const content = this.loader.readRawFile(item);
       if (content) {
@@ -222,6 +228,11 @@ export class ContextBuilder {
     const importedPOMs: string[] = [];
     const importMatches = content.matchAll(/import\s+.*\b([a-zA-Z0-9_]+Page)\b/g);
     for (const match of importMatches) {
+      if (match[1]) importedPOMs.push(match[1].toLowerCase());
+    }
+
+    const requireMatches = content.matchAll(/(?:const|let|var)\s+.*?([a-zA-Z0-9_]+Page).*?=\s*require\s*\(/g);
+    for (const match of requireMatches) {
       if (match[1]) importedPOMs.push(match[1].toLowerCase());
     }
 

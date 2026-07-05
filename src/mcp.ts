@@ -6,6 +6,7 @@ import { ReviewPipeline } from "./core/ReviewPipeline.js";
 import { BenchmarkRunner } from "./evaluation/BenchmarkRunner.js";
 import { GeminiProvider } from "./reviewer/GeminiProvider.js";
 import { Scanner } from "./core/Scanner.js";
+import { TestDesignEngine } from "./design/TestDesignEngine.js";
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -36,13 +37,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: "review_file",
-        description: "Runs a repository-aware AI review on a single Playwright test file. Validates CSS/XPath locator resilience, Page Object Model (POM) encapsulation, wait strategy usage, and test isolation. Returns a detailed JSON report including evidence, severity, and recommendations.",
+        description: "Runs a repository-aware AI review on a single Playwright or Selenium test file. Validates locator resilience, Page Object Model (POM) encapsulation, wait strategy usage, test isolation, and driver cleanup. Returns a detailed JSON report including evidence, severity, and recommendations.",
         inputSchema: {
           type: "object",
           properties: {
             filePath: {
               type: "string",
-              description: "Absolute path to the Playwright spec/test file (e.g. C:/project/tests/login.spec.ts)"
+              description: "Absolute path to the spec/test file (e.g. C:/project/tests/login.spec.ts)"
             }
           },
           required: ["filePath"]
@@ -50,7 +51,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "review_repository",
-        description: "Scans a test directory recursively for Playwright tests, runs reviews, and outputs a Quality/Risk repository summary. Automatically ignores node_modules/dist/.git and matches optional ignore patterns.",
+        description: "Scans a test directory recursively for Playwright or Selenium tests, runs reviews, and outputs a Quality/Risk repository summary. Automatically ignores node_modules/dist/.git and matches optional ignore patterns.",
         inputSchema: {
           type: "object",
           properties: {
@@ -69,6 +70,20 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             }
           },
           required: ["dirPath"]
+        }
+      },
+      {
+        name: "generate_test_design",
+        description: "Analyzes an active test file to detect missing scenarios (applying BVA, ECP, and security rules), explains the QA rationale for each, and generates suggested code templates for Playwright and Selenium.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            filePath: {
+              type: "string",
+              description: "Absolute path to the test file to design scenarios for (e.g. C:/project/tests/login.spec.ts)"
+            }
+          },
+          required: ["filePath"]
         }
       },
       {
@@ -101,14 +116,38 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error(`File does not exist: ${filePath}`);
         }
 
-        if (!filePath.endsWith('.spec.ts') && !filePath.endsWith('.test.ts')) {
-          throw new Error(`File must be a Playwright test file (.spec.ts or .test.ts): ${filePath}`);
+        const fileName = path.basename(filePath);
+        if (!Scanner.isTestFile(fileName)) {
+          throw new Error(`File must be a valid test file name: ${filePath}`);
         }
         
         const pipeline = new ReviewPipeline(".", provider);
         const { result } = await pipeline.runPipeline(filePath);
         return {
           content: [{ type: "text", text: JSON.stringify(result, null, 2) }]
+        };
+      }
+
+      case "generate_test_design": {
+        const rawPath = args?.filePath as string;
+        if (!rawPath) {
+          throw new Error("Missing required parameter: filePath");
+        }
+
+        const filePath = path.resolve(rawPath);
+        if (!fs.existsSync(filePath)) {
+          throw new Error(`File does not exist: ${filePath}`);
+        }
+
+        const fileName = path.basename(filePath);
+        if (!Scanner.isTestFile(fileName)) {
+          throw new Error(`File must be a valid test file name: ${filePath}`);
+        }
+
+        const engine = new TestDesignEngine(".", provider);
+        const designResult = await engine.designTests(filePath);
+        return {
+          content: [{ type: "text", text: JSON.stringify(designResult, null, 2) }]
         };
       }
       

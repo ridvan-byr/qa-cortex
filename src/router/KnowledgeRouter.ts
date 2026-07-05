@@ -143,6 +143,9 @@ export class KnowledgeRouter {
       /\brequest\.(?:get|post|put|patch|delete)\s*\(/,
       /\bshortest\s*\(/,
       /\btest\.(?:skip|fixme|fail)\s*\(/,
+      /\beyes\.check\s*\(/,
+      /\bpercySnapshot\s*\(/,
+      /\.\b(?:validate|verify|assert)\w*\s*\(/,
     ].some(pattern => pattern.test(content));
   }
 

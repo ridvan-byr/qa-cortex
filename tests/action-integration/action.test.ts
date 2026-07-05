@@ -6,6 +6,7 @@ import { GeminiProvider } from '../../src/reviewer/GeminiProvider';
 import { AdapterRegistry } from '../../src/framework/AdapterRegistry';
 import { KnowledgeRouter } from '../../src/router/KnowledgeRouter';
 import { PLAYWRIGHT_ROUTING_RULES, SELENIUM_ROUTING_RULES } from '../../src/router/RuleMapping';
+import { TestDesignEngine } from '../../src/design/TestDesignEngine';
 
 function testDiffDetector() {
   console.log('Testing DiffDetector...');
@@ -281,6 +282,32 @@ async function testDeterministicRuleFallback() {
   console.log('✓ Deterministic rule fallback tests passed.');
 }
 
+async function testTestDesignEngine() {
+  console.log('Testing TestDesignEngine...');
+
+  const engine = new TestDesignEngine('.', new GeminiProvider(''));
+  
+  // 1. Test missing-assertion form input limits
+  const result1 = await engine.designTests('examples/bad/missing-assertion.spec.ts');
+  assert.strictEqual(result1.fileName, 'examples/bad/missing-assertion.spec.ts');
+  assert.strictEqual(result1.framework, 'playwright');
+  assert.ok(result1.coverageScore < 100);
+  assert.ok(result1.missingScenarios.some(s => s.title === 'Input Length Extreme Boundary Validation'));
+
+  // 2. Test login-form BVA and Unicode credentials
+  const result2 = await engine.designTests('benchmarks/design/login-form.spec.ts');
+  assert.strictEqual(result2.fileName, 'benchmarks/design/login-form.spec.ts');
+  assert.ok(result2.missingScenarios.some(s => s.title === 'Empty Password Field Validation'));
+  assert.ok(result2.missingScenarios.some(s => s.title === 'Unicode & Accent Character Credentials'));
+
+  // 3. Test feedback-form extreme length limits
+  const result3 = await engine.designTests('benchmarks/design/feedback-form.spec.ts');
+  assert.strictEqual(result3.fileName, 'benchmarks/design/feedback-form.spec.ts');
+  assert.ok(result3.missingScenarios.some(s => s.title === 'Input Length Extreme Boundary Validation'));
+
+  console.log('✓ TestDesignEngine tests passed.');
+}
+
 async function runAll() {
   try {
     testDiffDetector();
@@ -290,6 +317,7 @@ async function runAll() {
     testKnowledgeRouterSignalRouting();
     testRuleMappingContract();
     await testDeterministicRuleFallback();
+    await testTestDesignEngine();
     console.log('\nAll integration tests passed successfully!');
   } catch (error) {
     console.error('Test verification failed:', error);

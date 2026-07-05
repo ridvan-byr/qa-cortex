@@ -105,6 +105,9 @@ export class SeleniumAdapter implements FrameworkAdapter {
       /\btoEqual\s*\(/,
       /\btoBe\s*\(/,
       /\btoContain\s*\(/,
+      /\beyes\.check\s*\(/,
+      /\bpercySnapshot\s*\(/,
+      /\.\b(?:validate|verify|assert)\w*\s*\(/,
     ].some(pattern => pattern.test(content));
   }
 }

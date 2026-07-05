@@ -13,6 +13,10 @@ export class DiagnosticManager {
     this.collection.clear();
   }
 
+  public clearUri(uri: vscode.Uri): void {
+    this.collection.delete(uri);
+  }
+
   public dispose(): void {
     this.collection.dispose();
   }

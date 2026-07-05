@@ -13,6 +13,7 @@ export interface RepositoryInfo {
 
 export interface DependencyInfo {
   playwrightVersion?: string;
+  seleniumVersion?: string;
   devDependencies: Record<string, string>;
   dependencies: Record<string, string>;
   hasESLint: boolean;

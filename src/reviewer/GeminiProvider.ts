@@ -2,6 +2,7 @@ import type { LLMProvider } from './LLMProvider';
 import type { ReviewContext } from '../types/ReviewContext';
 import type { Finding } from '../types/Finding';
 import type { ReviewResult } from '../types/ReviewResult';
+import type { TestDesignResult } from '../types/TestDesignResult';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -266,6 +267,9 @@ export class GeminiProvider implements LLMProvider {
       /\brequest\.(?:get|post|put|patch|delete)\s*\(/,
       /\bshortest\s*\(/,
       /\btest\.(?:skip|fixme|fail)\s*\(/,
+      /\beyes\.check\s*\(/,
+      /\bpercySnapshot\s*\(/,
+      /\.\b(?:validate|verify|assert)\w*\s*\(/,
     ];
     return assertionPatterns.some(pattern => pattern.test(content));
   }
@@ -318,10 +322,143 @@ export class GeminiProvider implements LLMProvider {
     for (const finding of findings) {
       const title = finding.title.toLowerCase();
       if (title.includes('locator') || title.includes('selector')) refs.add('locator-review.md');
-      if (title.includes('timeout')) refs.add('waiting-review.md');
+      if (title.includes('timeout') || title.includes('sleep')) refs.add('waiting-review.md');
       if (title.includes('isolation') || title.includes('shared state')) refs.add('isolation-review.md');
       if (title.includes('assertion')) refs.add('assertion-review.md');
+      if (title.includes('cleanup') || title.includes('driver')) refs.add('resource-cleanup-review.md');
     }
     return Array.from(refs);
+  }
+
+  public async designTests(context: ReviewContext, ruleContents: string[]): Promise<TestDesignResult> {
+    if (!this.apiKey) {
+      return this.generateRuleEngineTestDesign(context);
+    }
+
+    try {
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ apiKey: this.apiKey });
+
+      const systemInstruction = `You are QA Brain Test Design Engine. Analyze target test files, identify missing test design scenarios (applying ISTQB Boundary Value Analysis, Equivalence Partitioning, security validation, and data variation principles), explain the QA rationale for each, and output valid JSON matching the TestDesignResult schema.
+
+For each missing scenario, provide:
+- id: unique string (e.g., TS_001)
+- title: concise title
+- category: one of 'Boundary Value', 'Equivalence Partitioning', 'Security', 'Error Path', 'Data Variation'
+- description: what to verify
+- explanation: educational reason detailing why it is missing and why it's a critical QA practice (e.g. explain what boundary or partition is missed)
+- criticality: 'HIGH' | 'MEDIUM' | 'LOW'
+- evidence: line or context in existing code showing this gap
+- suggestedTemplate: boilerplate test code for both 'playwright' and 'selenium' frameworks.
+
+Output JSON only. Do not wrap in markdown or add notes.`;
+
+      const userPrompt = `
+      Review Context:
+      ${JSON.stringify(context, null, 2)}
+
+      Rule Sets Loaded:
+      ${ruleContents.join('\n\n')}
+
+      Target Code to Analyze:
+      ${context.targetFile.content}
+      `;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: userPrompt,
+        config: {
+          systemInstruction,
+          responseMimeType: 'application/json',
+        },
+      });
+
+      const rawText = response.text || '{}';
+      const parsed = JSON.parse(rawText);
+
+      return {
+        fileName: context.targetFile.filePath,
+        framework: context.framework?.adapterName || (context.targetFile.detectedFramework?.toLowerCase() as any) || 'unknown',
+        coverageScore: parsed.coverageScore !== undefined ? parsed.coverageScore : 50,
+        missingScenarios: parsed.missingScenarios || [],
+      };
+    } catch (error) {
+      console.warn('Gemini API call failed, falling back to deterministic rule test design.', error);
+      return this.generateRuleEngineTestDesign(context);
+    }
+  }
+
+  private generateRuleEngineTestDesign(context: ReviewContext): TestDesignResult {
+    const content = context.targetFile.content;
+    const isSelenium = context.framework?.adapterName === 'selenium' || context.targetFile.detectedFramework === 'Selenium';
+    const frameworkName = isSelenium ? 'selenium' : 'playwright';
+    const missingScenarios: any[] = [];
+
+    const hasLogin = /login|signin|sign-in/i.test(content);
+    const hasUsername = /username|email|user/i.test(content);
+    const hasPassword = /password|pass/i.test(content);
+    const hasEmptyCheck = /empty|blank|required|""|''/i.test(content) && /error|failed|please/i.test(content);
+    const hasUnicode = /unicode|special|accent|turkish/i.test(content);
+    const hasBoundary = /boundary|limit|max|min|length/i.test(content);
+
+    if (hasLogin && hasUsername && hasPassword && !hasEmptyCheck) {
+      missingScenarios.push({
+        id: 'TS_001',
+        title: 'Empty Password Field Validation',
+        category: 'Boundary Value',
+        description: 'Verify behavior when password input is left blank.',
+        explanation: 'Empty password checks represent the lower boundary of input validation. The current test suite validates valid and invalid credentials but omits verification of mandatory field validation, which is a critical boundary case.',
+        criticality: 'HIGH',
+        evidence: 'Found credential fields in test file but no check for empty/blank values.',
+        suggestedTemplate: {
+          playwright: `test('should display validation error on empty password', async ({ page }) => {\n  await page.goto('/login');\n  await page.fill('#username', 'user@test.com');\n  await page.fill('#password', '');\n  await page.click('#log-in');\n  await expect(page.locator('.error')).toHaveText('Password is required');\n});`,
+          selenium: `it('should display validation error on empty password', async function() {\n  await driver.get('https://example.com/login');\n  await driver.findElement(By.id('username')).sendKeys('user@test.com');\n  await driver.findElement(By.id('password')).sendKeys('');\n  await driver.findElement(By.id('log-in')).click();\n  const errMsg = await driver.findElement(By.css('.error')).getText();\n  expect(errMsg).to.equal('Password is required');\n});`
+        }
+      });
+    }
+
+    if (hasLogin && !hasUnicode) {
+      missingScenarios.push({
+        id: 'TS_002',
+        title: 'Unicode & Accent Character Credentials',
+        category: 'Data Variation',
+        description: 'Verify login with usernames/emails containing accented or Turkish characters (e.g. ridvan@örnek.com).',
+        explanation: 'Testing with unicode values ensures the application encodes data variations correctly across its login forms. Test suites often verify ASCII strings but miss international characters, which is an equivalence class gap.',
+        criticality: 'MEDIUM',
+        evidence: 'Detected login test sequence but no unicode character test inputs found.',
+        suggestedTemplate: {
+          playwright: `test('should handle unicode character email inputs', async ({ page }) => {\n  await page.goto('/login');\n  await page.fill('#username', 'rıdvan@örnek.com');\n  await page.fill('#password', 'Pass123!');\n  await page.click('#log-in');\n  // Add assertion for appropriate error or success behavior\n});`,
+          selenium: `it('should handle unicode character email inputs', async function() {\n  await driver.get('https://example.com/login');\n  await driver.findElement(By.id('username')).sendKeys('rıdvan@örnek.com');\n  await driver.findElement(By.id('password')).sendKeys('Pass123!');\n  await driver.findElement(By.id('log-in')).click();\n  // Add assertion\n});`
+        }
+      });
+    }
+
+    if (!hasBoundary && (content.includes('sendKeys') || content.includes('fill'))) {
+      missingScenarios.push({
+        id: 'TS_003',
+        title: 'Input Length Extreme Boundary Validation',
+        category: 'Boundary Value',
+        description: 'Verify form input handling for maximum length constraints and long string variations.',
+        explanation: 'Extreme input lengths test buffer validation boundaries. Neglecting maximum input length tests is a major test design omission, leaving the application open to unhandled input-truncation errors or layout breaking.',
+        criticality: 'MEDIUM',
+        evidence: 'Form interaction detected but no maximum length constraints are validated in the specs.',
+        suggestedTemplate: {
+          playwright: `test('should enforce input length limits', async ({ page }) => {\n  await page.goto('/form');\n  const longInput = 'A'.repeat(500);\n  await page.fill('#input-field', longInput);\n  const value = await page.inputValue('#input-field');\n  expect(value.length).toBeLessThanOrEqual(255); // Assumed limit\n});`,
+          selenium: `it('should enforce input length limits', async function() {\n  await driver.get('https://example.com/form');\n  const longInput = 'A'.repeat(500);\n  await driver.findElement(By.id('input-field')).sendKeys(longInput);\n  const value = await driver.findElement(By.id('input-field')).getAttribute('value');\n  expect(value.length).to.be.at.most(255); // Assumed limit\n});`
+        }
+      });
+    }
+
+    let coverageScore = 100;
+    if (missingScenarios.length > 0) {
+      coverageScore = Math.max(30, 100 - (missingScenarios.length * 20));
+    }
+
+    return {
+      fileName: context.targetFile.filePath,
+      framework: frameworkName,
+      coverageScore,
+      missingScenarios
+    };
   }
 }

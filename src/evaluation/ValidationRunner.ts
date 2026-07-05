@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 type RepositorySize = 'small' | 'medium' | 'large' | 'enterprise';
+type ValidationFramework = 'playwright' | 'selenium';
 
 interface ValidationRepository {
   id: string;
@@ -20,11 +21,16 @@ interface ValidationRepository {
 }
 
 interface ValidationConfig {
+  framework?: ValidationFramework;
+  reportTitle?: string;
   repositories: ValidationRepository[];
   ignorePatterns?: string[];
   maxFilesPerRepository?: number;
   runGeminiComparison?: boolean;
   outputDir?: string;
+  markdownReportName?: string;
+  jsonReportName?: string;
+  metricsOutputPath?: string;
 }
 
 interface RepositoryRunResult {
@@ -76,29 +82,45 @@ export class ValidationRunner {
     }
 
     const selectionWarnings = [
-      ...this.validateRepositorySelection(config.repositories),
-      ...this.validateActiveRepositoryCoverage(results),
+      ...this.validateRepositorySelection(config.repositories, config),
+      ...this.validateActiveRepositoryCoverage(results, config),
     ];
     const report = this.buildMarkdownReport(results, ruleUsage, selectionWarnings, config);
-    fs.writeFileSync(path.join(outputDir, 'latest-validation-report.md'), report, 'utf8');
-    fs.writeFileSync(path.join(outputDir, 'latest-validation-report.json'), JSON.stringify({
+    const markdownReportPath = path.join(outputDir, config.markdownReportName || 'latest-validation-report.md');
+    const jsonReportPath = path.join(outputDir, config.jsonReportName || 'latest-validation-report.json');
+    fs.writeFileSync(markdownReportPath, report, 'utf8');
+    fs.writeFileSync(jsonReportPath, JSON.stringify({
       generatedAt: new Date().toISOString(),
+      framework: config.framework,
       selectionWarnings,
       repositories: results,
       ruleCoverage: this.formatRuleCoverage(ruleUsage),
     }, null, 2), 'utf8');
+    if (config.metricsOutputPath) {
+      const metricsOutputPath = path.resolve(config.metricsOutputPath);
+      const metricsDir = path.dirname(metricsOutputPath);
+      if (!fs.existsSync(metricsDir)) {
+        fs.mkdirSync(metricsDir, { recursive: true });
+      }
+      fs.writeFileSync(metricsOutputPath, JSON.stringify(this.buildMetrics(results, ruleUsage, selectionWarnings, config), null, 2), 'utf8');
+    }
 
-    console.log(`Validation report written to ${path.join(outputDir, 'latest-validation-report.md')}`);
+    console.log(`Validation report written to ${markdownReportPath}`);
   }
 
   private static readConfig(configPath: string): ValidationConfig {
     const parsed = JSON.parse(fs.readFileSync(configPath, 'utf8')) as ValidationConfig;
     return {
+      framework: parsed.framework || 'playwright',
+      reportTitle: parsed.reportTitle || 'QA Brain Validation Report',
       repositories: parsed.repositories || [],
       ignorePatterns: parsed.ignorePatterns || [],
       maxFilesPerRepository: parsed.maxFilesPerRepository || 50,
       runGeminiComparison: parsed.runGeminiComparison || false,
       outputDir: parsed.outputDir || 'validation/reports',
+      markdownReportName: parsed.markdownReportName || 'latest-validation-report.md',
+      jsonReportName: parsed.jsonReportName || 'latest-validation-report.json',
+      metricsOutputPath: parsed.metricsOutputPath,
     };
   }
 
@@ -116,11 +138,11 @@ export class ValidationRunner {
     }
 
     const files = Scanner.scanDirectory(repoRoot, config.ignorePatterns || [])
-      .filter(file => this.isLikelyPlaywrightTest(file))
+      .filter(file => this.isLikelyFrameworkTest(file, config.framework || 'playwright'))
       .slice(0, config.maxFilesPerRepository || 50);
 
     if (files.length === 0) {
-      return this.emptyResult(repo, true, ['No Playwright specs found; excluded from active validation coverage.']);
+      return this.emptyResult(repo, true, [`No ${this.frameworkLabel(config)} specs found; excluded from active validation coverage.`]);
     }
 
     const ruleOnlyPipeline = new ReviewPipeline(repoRoot, new GeminiProvider(''), '.');
@@ -157,7 +179,7 @@ export class ValidationRunner {
     }
 
     if (!config.runGeminiComparison) {
-      notes.push('Gemini comparison skipped. Set runGeminiComparison=true to enable it.');
+      notes.push('LLM provider comparison skipped. Set runGeminiComparison=true to enable it.');
     }
 
     return {
@@ -189,8 +211,17 @@ export class ValidationRunner {
     }
   }
 
-  private static isLikelyPlaywrightTest(file: string): boolean {
+  private static isLikelyFrameworkTest(file: string, framework: ValidationFramework): boolean {
     const content = fs.readFileSync(file, 'utf8');
+    if (framework === 'selenium') {
+      const lower = content.toLowerCase();
+      return lower.includes('selenium')
+        || lower.includes('webdriver')
+        || /\b(?:driver|browser)\b/.test(lower)
+        || /\bnew\s+Builder\b/.test(content)
+        || /\bBy\b/.test(content);
+    }
+
     return content.includes('@playwright/test')
       || content.includes('playwright')
       || /\bpage\./.test(content)
@@ -230,8 +261,18 @@ export class ValidationRunner {
     };
   }
 
-  private static validateRepositorySelection(repositories: ValidationRepository[]): string[] {
+  private static validateRepositorySelection(repositories: ValidationRepository[], config: ValidationConfig): string[] {
     const warnings: string[] = [];
+    if ((config.framework || 'playwright') === 'selenium') {
+      if (repositories.length < 5) warnings.push('Selenium calibration should include at least 5 candidate repositories before final sign-off.');
+      for (const repo of repositories) {
+        if (!repo.tags.includes('selenium-webdriver')) {
+          warnings.push(`${repo.name} should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.`);
+        }
+      }
+      return warnings;
+    }
+
     const countBySize = (size: RepositorySize) => repositories.filter(r => r.size === size).length;
     const countByTag = (tag: string) => repositories.filter(r => r.tags.includes(tag)).length;
 
@@ -247,16 +288,29 @@ export class ValidationRunner {
     return warnings;
   }
 
-  private static validateActiveRepositoryCoverage(results: RepositoryRunResult[]): string[] {
+  private static validateActiveRepositoryCoverage(results: RepositoryRunResult[], config: ValidationConfig): string[] {
     const warnings: string[] = [];
     const activeResults = results.filter(result => result.exists && result.filesReviewed > 0);
     const countBySize = (size: RepositorySize) => activeResults.filter(r => r.size === size).length;
+    const frameworkLabel = this.frameworkLabel(config);
+
+    if ((config.framework || 'playwright') === 'selenium') {
+      if (activeResults.length < 5) {
+        warnings.push(`Active Selenium calibration coverage has ${activeResults.length} repositories with ${frameworkLabel} specs; clone or replace candidates before final Sprint 13D sign-off.`);
+      }
+      for (const result of activeResults) {
+        if (result.filesReviewed < 3) {
+          warnings.push(`${result.name} has ${result.filesReviewed} active Selenium test files; preferred minimum is 3.`);
+        }
+      }
+      return warnings;
+    }
 
     if (activeResults.length < 10) {
-      warnings.push(`Active validation coverage has ${activeResults.length} repositories with Playwright specs; replace no-spec repositories before final Sprint 11 sign-off.`);
+      warnings.push(`Active validation coverage has ${activeResults.length} repositories with ${frameworkLabel} specs; replace no-spec repositories before final Sprint 11 sign-off.`);
     }
     if (countBySize('small') < 2) {
-      warnings.push(`Active validation coverage has ${countBySize('small')} small repositories with Playwright specs; minimum target is 2.`);
+      warnings.push(`Active validation coverage has ${countBySize('small')} small repositories with ${frameworkLabel} specs; minimum target is 2.`);
     }
 
     return warnings;
@@ -293,17 +347,18 @@ export class ValidationRunner {
     const coverage = this.formatRuleCoverage(ruleUsage);
 
     const lines: string[] = [];
-    lines.push('# QA Brain Validation Report');
+    lines.push(`# ${config.reportTitle || 'QA Brain Validation Report'}`);
     lines.push('');
     lines.push(`Generated: ${new Date().toISOString()}`);
     lines.push('');
     lines.push('## Summary');
     lines.push('');
     lines.push(`- Repositories configured: ${results.length}`);
+    lines.push(`- Framework: ${this.frameworkLabel(config)}`);
     lines.push(`- Files reviewed: ${totalFiles}`);
     lines.push(`- Findings: ${totalFindings}`);
     lines.push(`- Average review time: ${avgTime}ms`);
-    lines.push(`- Gemini comparison: ${config.runGeminiComparison ? 'Enabled' : 'Skipped'}`);
+    lines.push(`- LLM provider comparison: ${config.runGeminiComparison ? 'Enabled' : 'Deferred'}`);
     lines.push('');
     lines.push('## Repository Selection');
     lines.push('');
@@ -349,6 +404,15 @@ export class ValidationRunner {
     lines.push('- Rules To Modify: Requires manual triage');
     lines.push('- Rules To Merge: Requires manual triage');
     lines.push('- Rules To Remove: Requires manual triage');
+    if ((config.framework || 'playwright') === 'selenium') {
+      lines.push('');
+      lines.push('## Selenium Calibration Metrics');
+      lines.push('');
+      lines.push('- Primary goal: improve precision through calibration.');
+      lines.push('- Precision target: approximately 80%+ as a calibration signal, not a hard gate.');
+      lines.push('- Recall: qualitative assessment only; large-scale recall measurement is deferred until the benchmark corpus grows.');
+      lines.push('- Decision format: GO / CONDITIONAL GO / NO-GO.');
+    }
     lines.push('');
     lines.push('## Findings Requiring Triage');
     lines.push('');
@@ -363,8 +427,16 @@ export class ValidationRunner {
           lines.push(`- Severity: ${finding.severity}`);
           lines.push(`- Evidence: \`${finding.evidence.replace(/`/g, "'")}\``);
           lines.push(`- Recommendation: ${finding.recommendation}`);
-          lines.push('- Triage: TBD');
-          lines.push('- Action: New benchmark / Rule improvement / Documented justification');
+          if ((config.framework || 'playwright') === 'selenium') {
+            lines.push('- Expected: TBD');
+            lines.push('- Actual: TBD');
+            lines.push('- Triage: TBD');
+            lines.push('- Reason: TBD');
+            lines.push('- Action: keep rule / adjust rule / add benchmark / downgrade severity / document limitation / ignore repo');
+          } else {
+            lines.push('- Triage: TBD');
+            lines.push('- Action: New benchmark / Rule improvement / Documented justification');
+          }
           lines.push('');
           findingIndex++;
         }
@@ -377,8 +449,58 @@ export class ValidationRunner {
     lines.push('## False Positive / False Negative Learning');
     lines.push('');
     lines.push('Every false positive and false negative must produce one of: new benchmark, rule improvement, or documented justification.');
+    if ((config.framework || 'playwright') === 'selenium') {
+      lines.push('');
+      lines.push('## Go Decision');
+      lines.push('');
+      lines.push('- Decision: TBD');
+      lines.push('- GO: Selenium Foundation Validated');
+      lines.push('- CONDITIONAL GO: Limited support, more calibration needed');
+      lines.push('- NO-GO: Adapter signal quality insufficient');
+      lines.push('');
+      lines.push('## Next Actions');
+      lines.push('');
+      lines.push('- Complete manual triage for every Selenium finding.');
+      lines.push('- Convert each FP/FN into a benchmark, rule adjustment, severity downgrade, or documented limitation.');
+      lines.push('- Keep Playwright benchmark behavior semantically unchanged while calibrating Selenium.');
+    }
 
     return lines.join('\n');
+  }
+
+  private static buildMetrics(
+    results: RepositoryRunResult[],
+    ruleUsage: Map<string, number>,
+    selectionWarnings: string[],
+    config: ValidationConfig
+  ): Record<string, unknown> {
+    const files = results.reduce((sum, result) => sum + result.filesReviewed, 0);
+    const findings = results.reduce((sum, result) => sum + result.findings, 0);
+    const activeRepositories = results.filter(result => result.exists && result.filesReviewed > 0).length;
+
+    return {
+      generatedAt: new Date().toISOString(),
+      framework: config.framework || 'playwright',
+      repositoriesConfigured: results.length,
+      activeRepositories,
+      filesReviewed: files,
+      findings,
+      truePositives: null,
+      falsePositives: null,
+      falseNegativeCandidates: null,
+      precision: null,
+      precisionTarget: (config.framework || 'playwright') === 'selenium' ? '~80%+ calibration signal; final decision based on manual triage' : null,
+      recall: (config.framework || 'playwright') === 'selenium' ? 'Qualitative assessment only' : null,
+      ruleCoverage: this.formatRuleCoverage(ruleUsage),
+      selectionWarnings,
+      goDecision: 'TBD',
+    };
+  }
+
+  private static frameworkLabel(config: ValidationConfig): string {
+    return (config.framework || 'playwright') === 'selenium'
+      ? 'Selenium WebDriver for Node.js'
+      : 'Playwright';
   }
 }
 

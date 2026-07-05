@@ -1,0 +1,11 @@
+{
+  "repositoriesConfigured": 5,
+  "activeRepositories": 5,
+  "filesReviewed": 9,
+  "findings": 2,
+  "truePositives": 2,
+  "falsePositives": 0,
+  "falseNegativeCandidates": 0,
+  "precision": 1.0,
+  "goDecision": "GO"
+}

@@ -73,6 +73,9 @@ export class ReportGenerator {
     if (context.dependencies.playwrightVersion) {
       observations.push(`Repository uses Playwright ${context.dependencies.playwrightVersion}`);
     }
+    if (context.dependencies.seleniumVersion) {
+      observations.push(`Repository uses Selenium WebDriver ${context.dependencies.seleniumVersion}`);
+    }
     if (context.pageObjects.length > 0) {
       observations.push(`${context.pageObjects.length} Page Object files mapped`);
     }
@@ -88,9 +91,11 @@ export class ReportGenerator {
     }
     if (observations.length === 0) report += `None\n`;
 
+    const framework = (context.framework?.adapterName || context.targetFile.detectedFramework || 'playwright').toLowerCase();
+
     report += `\n---\n\n## References\n\n`;
     for (const reference of result.references) {
-      report += `- ${this.expandReference(reference)}\n`;
+      report += `- ${this.expandReference(reference, framework)}\n`;
     }
     if (result.references.length === 0) report += `None\n`;
 
@@ -106,6 +111,7 @@ export class ReportGenerator {
     }
 
     if (context.dependencies.playwrightVersion) strengths.add('Uses Playwright');
+    if (context.dependencies.seleniumVersion) strengths.add('Uses Selenium');
     if (context.pageObjects.length > 0 && result.score.qualityChecklist.pomEncapsulation) strengths.add('Uses Page Object structure');
     if (result.score.qualityChecklist.autoWaiting) strengths.add('Avoids hardcoded waits');
     if (result.score.qualityChecklist.stateIsolation) strengths.add('Keeps test state isolated');
@@ -160,12 +166,13 @@ export class ReportGenerator {
     return 'GENERAL_001';
   }
 
-  private expandReference(reference: string): string {
+  private expandReference(reference: string, framework: string): string {
     const map: Record<string, string> = {
-      'locator-review.md': 'knowledge/playwright/review-rules/locator-review.md',
-      'waiting-review.md': 'knowledge/playwright/review-rules/waiting-review.md',
-      'isolation-review.md': 'knowledge/playwright/review-rules/isolation-review.md',
-      'assertion-review.md': 'knowledge/playwright/review-rules/assertion-review.md',
+      'locator-review.md': `knowledge/${framework}/review-rules/locator-review.md`,
+      'waiting-review.md': `knowledge/${framework}/review-rules/waiting-review.md`,
+      'isolation-review.md': `knowledge/${framework}/review-rules/isolation-review.md`,
+      'assertion-review.md': `knowledge/${framework}/review-rules/assertion-review.md`,
+      'resource-cleanup-review.md': `knowledge/${framework}/review-rules/resource-cleanup-review.md`,
     };
     return map[reference] || reference;
   }

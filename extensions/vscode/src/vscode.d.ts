@@ -18,6 +18,7 @@ declare module 'vscode' {
 
   export class Selection extends Range {
     isEmpty: boolean;
+    active: Position;
   }
 
   export enum DiagnosticSeverity {
@@ -29,6 +30,8 @@ declare module 'vscode' {
 
   export class Diagnostic {
     constructor(range: Range, message: string, severity?: DiagnosticSeverity);
+    message: string;
+    severity: DiagnosticSeverity;
     source?: string;
     code?: string;
   }
@@ -60,9 +63,17 @@ declare module 'vscode' {
     lineAt(line: number): TextLine;
   }
 
+  export interface TextEditorEdit {
+    replace(location: Position | Range | Selection, value: string): void;
+    insert(location: Position, value: string): void;
+    delete(location: Range | Selection): void;
+  }
+
   export interface TextEditor {
     document: TextDocument;
     selection: Selection;
+    edit(callback: (editBuilder: TextEditorEdit) => void, options?: { undoStopBefore: boolean; undoStopAfter: boolean }): Thenable<boolean>;
+    revealRange(range: Range, revealType?: number): void;
   }
 
   export interface DiagnosticCollection {
@@ -79,10 +90,40 @@ declare module 'vscode' {
     dispose(): void;
   }
 
+  export class ThemeColor {
+    constructor(id: string);
+  }
+
+  export class CodeAction {
+    constructor(title: string, kind?: CodeActionKind);
+    title: string;
+    command?: Command;
+    diagnostics?: Diagnostic[];
+  }
+
+  export class CodeActionKind {
+    static readonly Empty: CodeActionKind;
+    static readonly QuickFix: CodeActionKind;
+  }
+
+  export interface CodeActionContext {
+    diagnostics: Diagnostic[];
+  }
+
+  export interface CodeActionProvider {
+    provideCodeActions(
+      document: TextDocument,
+      range: Range | Selection,
+      context: CodeActionContext,
+      token: CancellationToken
+    ): CodeAction[] | Thenable<CodeAction[]>;
+  }
+
   export interface StatusBarItem {
     text: string;
     tooltip?: string;
     command?: string;
+    backgroundColor?: ThemeColor;
     show(): void;
     hide(): void;
     dispose(): void;
@@ -107,14 +148,51 @@ declare module 'vscode' {
     name: string;
   }
 
+  export interface Memento {
+    get<T>(key: string): T | undefined;
+    get<T>(key: string, defaultValue: T): T;
+    update(key: string, value: any): Thenable<void>;
+  }
+
   export interface ExtensionContext {
     subscriptions: Disposable[];
     globalStorageUri: Uri;
+    workspaceState: Memento;
   }
 
   export interface CodeLensProvider {
     provideCodeLenses(document: TextDocument): CodeLens[] | Thenable<CodeLens[]>;
   }
+
+  export interface Webview {
+    html: string;
+    options: any;
+    onDidReceiveMessage: (listener: (message: any) => any) => Disposable;
+    postMessage(message: any): Thenable<boolean>;
+    asWebviewUri(localResource: Uri): Uri;
+  }
+
+  export interface WebviewView {
+    webview: Webview;
+    onDidDispose: (listener: () => any) => Disposable;
+    visible: boolean;
+    show(preserveFocus?: boolean): void;
+  }
+
+  export interface WebviewViewProvider {
+    resolveWebviewView(
+      webviewView: WebviewView,
+      context: any,
+      token: CancellationToken
+    ): void | Thenable<void>;
+  }
+
+  export const TextEditorRevealType: {
+    Default: number;
+    InCenter: number;
+    InCenterIfOutsideViewport: number;
+    AtTop: number;
+  };
 
   export const StatusBarAlignment: {
     Left: number;
@@ -125,15 +203,20 @@ declare module 'vscode' {
     Notification: any;
   };
 
+  export class ThemeColor {
+    constructor(id: string);
+  }
+
   export const window: {
     activeTextEditor?: TextEditor;
     createOutputChannel(name: string): OutputChannel;
     createStatusBarItem(alignment?: number, priority?: number): StatusBarItem;
-    showInformationMessage(message: string): Thenable<string | undefined>;
+    showInformationMessage(message: string, options?: { modal?: boolean }): Thenable<string | undefined>;
     showWarningMessage(message: string): Thenable<string | undefined>;
     showErrorMessage(message: string): Thenable<string | undefined>;
     withProgress<R>(options: ProgressOptions, task: (progress: Progress<{ message?: string; increment?: number }>, token: CancellationToken) => Thenable<R>): Thenable<R>;
     showTextDocument(document: TextDocument, options?: any): Thenable<TextEditor>;
+    registerWebviewViewProvider(viewId: string, provider: WebviewViewProvider, options?: any): Disposable;
   };
 
   export const workspace: {
@@ -144,16 +227,32 @@ declare module 'vscode' {
     createFileSystemWatcher(globPattern: string): Disposable;
     openTextDocument(uri: Uri): Thenable<TextDocument>;
     onDidSaveTextDocument(listener: (document: TextDocument) => any): Disposable;
+    onDidCloseTextDocument(listener: (document: TextDocument) => any): Disposable;
     findFiles(include: string, exclude?: string, maxResults?: number): Thenable<Uri[]>;
   };
 
   export const languages: {
     createDiagnosticCollection(name: string): DiagnosticCollection;
     registerCodeLensProvider(selector: any, provider: CodeLensProvider): Disposable;
+    registerCodeActionsProvider(selector: any, provider: CodeActionProvider, metadata?: { providedCodeActionKinds?: CodeActionKind[] }): Disposable;
   };
 
   export const commands: {
     registerCommand(command: string, callback: (...args: any[]) => any): Disposable;
     executeCommand<T = unknown>(command: string, ...rest: any[]): Thenable<T>;
+  };
+
+  export const ViewColumn: {
+    Active: number;
+    Beside: number;
+    One: number;
+    Two: number;
+    Three: number;
+  };
+
+  export const env: {
+    clipboard: {
+      writeText(text: string): Thenable<void>;
+    };
   };
 }

@@ -19,7 +19,8 @@
     "onCommand:qaBrain.openLatestReport",
     "onCommand:qaBrain.clearDiagnostics",
     "onLanguage:typescript",
-    "onLanguage:javascript"
+    "onLanguage:javascript",
+    "onLanguage:python"
   ],
   "main": "./out/src/extension.js",
   "contributes": {
@@ -43,8 +44,30 @@
       {
         "command": "qaBrain.clearDiagnostics",
         "title": "QA Brain: Clear Diagnostics"
+      },
+      {
+        "command": "qaBrain.showFindingDetails",
+        "title": "QA Brain: Show Finding Details"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "qa-brain-sidebar",
+          "title": "QA Brain",
+          "icon": "$(beaker)"
+        }
+      ]
+    },
+    "views": {
+      "qa-brain-sidebar": [
+        {
+          "type": "webview",
+          "id": "qaBrain.sidebarView",
+          "name": "QA Brain Dashboard"
+        }
+      ]
+    },
     "configuration": {
       "title": "QA Brain",
       "properties": {
@@ -54,7 +77,18 @@
           "enum": [
             "rule-only"
           ],
-          "description": "Review mode. Sprint 12 supports rule-only mode."
+          "description": "Review mode. Supports rule-only mode."
+        },
+        "qaBrain.frameworkOverride": {
+          "type": "string",
+          "default": "Auto",
+          "enum": [
+            "Auto",
+            "Playwright",
+            "Selenium",
+            "Disabled"
+          ],
+          "description": "Override framework detection. If Auto, QA Brain will automatically detect workspace framework dependencies. If Disabled, review on save is paused."
         },
         "qaBrain.reviewOnSave": {
           "type": "boolean",
@@ -72,7 +106,10 @@
             "**/*.spec.ts",
             "**/*.test.ts",
             "**/*.spec.js",
-            "**/*.test.js"
+            "**/*.test.js",
+            "**/*.py",
+            "**/test_*.py",
+            "**/*_test.py"
           ],
           "items": {
             "type": "string"
@@ -105,6 +142,12 @@
           "type": "boolean",
           "default": true,
           "description": "Show QA Brain status bar item."
+        },
+        "qaBrain.statusBarAttentionMode": {
+          "type": "string",
+          "default": "icon",
+          "enum": ["off", "icon", "background"],
+          "description": "How the status bar draws attention on errors. 'icon' changes emoji to warning, 'background' colors the entire status bar, 'off' disables indicators."
         }
       }
     }

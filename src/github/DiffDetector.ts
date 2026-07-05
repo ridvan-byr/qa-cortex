@@ -1,3 +1,5 @@
+import { Scanner } from '../core/Scanner';
+
 export interface ChangedFile {
   filename: string;
   status: string; // 'added' | 'modified' | 'removed' | 'renamed'
@@ -52,7 +54,7 @@ export class DiffDetector {
     return files
       .filter(f => f.status !== 'removed')
       .map(f => f.filename)
-      .filter(name => name.endsWith('.spec.ts') || name.endsWith('.test.ts'))
+      .filter(name => Scanner.isTestFile(name))
       .filter(name => !this.matchesIgnorePattern(name, ignorePatterns));
   }
 

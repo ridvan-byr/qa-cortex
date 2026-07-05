@@ -113,10 +113,17 @@ export class Scanner {
         if (entry.name !== 'node_modules' && entry.name !== 'dist' && entry.name !== '.git') {
           this.scanDirRecursive(fullPath, files, ignorePatterns);
         }
-      } else if (entry.isFile() && (entry.name.endsWith('.spec.ts') || entry.name.endsWith('.test.ts'))) {
+      } else if (entry.isFile() && this.isTestFile(entry.name)) {
         files.push(fullPath);
       }
     }
+  }
+
+  public static isTestFile(filename: string): boolean {
+    const lower = filename.toLowerCase();
+    return /\.(spec|test)\.(ts|js|tsx|jsx)$/.test(lower)
+      || /^tests?-.*\.(ts|js|tsx|jsx)$/.test(lower)
+      || /^tests?\.(ts|js|tsx|jsx)$/.test(lower);
   }
 
   /**

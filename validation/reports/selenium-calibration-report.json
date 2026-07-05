@@ -1,0 +1,237 @@
+{
+  "generatedAt": "2026-07-05T10:41:53.085Z",
+  "framework": "selenium",
+  "selectionWarnings": [
+    "selenium-javascript-examples has 1 active Selenium test files; preferred minimum is 3.",
+    "demo-js has 1 active Selenium test files; preferred minimum is 3.",
+    "selenium-webdriverjs-pom-example has 1 active Selenium test files; preferred minimum is 3.",
+    "example-selenium-javascript-jest has 1 active Selenium test files; preferred minimum is 3."
+  ],
+  "repositories": [
+    {
+      "id": "selenium-01",
+      "name": "selenium-javascript-examples",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-javascript-examples/WebdriverJS-Mocha-Template",
+      "size": "small",
+      "tags": [
+        "selenium-webdriver",
+        "templates"
+      ],
+      "exists": true,
+      "filesReviewed": 1,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 7,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "tests/tests.js",
+          "reviewTimeMs": 7,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-02",
+      "name": "demo-js",
+      "localPath": "C:/tmp/qa-brain-validation-repos/demo-js/selenium",
+      "size": "small",
+      "tags": [
+        "selenium-webdriver",
+        "saucelabs"
+      ],
+      "exists": true,
+      "filesReviewed": 1,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 3,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "test/simple.safari.spec.js",
+          "reviewTimeMs": 3,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-03",
+      "name": "selenium-webdriverjs-pom-example",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-webdriverjs-pom-example",
+      "size": "small",
+      "tags": [
+        "selenium-webdriver",
+        "pom"
+      ],
+      "exists": true,
+      "filesReviewed": 1,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 3,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "src/test-cases/test-google-search.ts",
+          "reviewTimeMs": 3,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-04",
+      "name": "example-selenium-javascript-jest",
+      "localPath": "C:/tmp/qa-brain-validation-repos/example-selenium-javascript-jest",
+      "size": "small",
+      "tags": [
+        "selenium-webdriver",
+        "jest"
+      ],
+      "exists": true,
+      "filesReviewed": 1,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 4,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "test/acme-bank.test.js",
+          "reviewTimeMs": 4,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-05",
+      "name": "selenium-mocha",
+      "localPath": "C:/tmp/qa-brain-validation-repos/selenium-mocha",
+      "size": "small",
+      "tags": [
+        "selenium-webdriver",
+        "mocha"
+      ],
+      "exists": true,
+      "filesReviewed": 5,
+      "findings": 2,
+      "criticalFindings": 2,
+      "averageReviewTimeMs": 3,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "test/01.login.basic.spec.js",
+          "reviewTimeMs": 4,
+          "findings": []
+        },
+        {
+          "file": "test/02.login.basic.hooks.spec.js",
+          "reviewTimeMs": 4,
+          "findings": [
+            {
+              "title": "Brittle Selenium XPath Locator",
+              "severity": "High",
+              "evidence": "const alertButton = await driver.findElement(By.xpath(\"//button[contains(text(), 'Click for JS Alert')]\"));",
+              "recommendation": "Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors."
+            },
+            {
+              "title": "Brittle CSS Selector Chain",
+              "severity": "High",
+              "evidence": "const checkbox1 = await driver.findElement(By.css(\"input:nth-child(1)\"));",
+              "recommendation": "Replace brittle CSS chain with getByRole"
+            }
+          ]
+        },
+        {
+          "file": "test/03.login.pom.spec.js",
+          "reviewTimeMs": 2,
+          "findings": []
+        },
+        {
+          "file": "test/04.login.driver.spec.js",
+          "reviewTimeMs": 1,
+          "findings": []
+        },
+        {
+          "file": "test/05.login.driver.hooks.spec.js",
+          "reviewTimeMs": 2,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    }
+  ],
+  "ruleCoverage": [
+    {
+      "rule": "knowledge/google/maintainability.md",
+      "triggerCount": 4,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/google/test-isolation.md",
+      "triggerCount": 6,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/istqb/boundary-value-analysis.md",
+      "triggerCount": 7,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/owasp/authentication-testing.md",
+      "triggerCount": 7,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/owasp/input-validation.md",
+      "triggerCount": 2,
+      "confidence": "Low"
+    },
+    {
+      "rule": "knowledge/selenium/README.md",
+      "triggerCount": 9,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/selenium/review-rules/locator-review.md",
+      "triggerCount": 4,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/selenium/review-rules/resource-cleanup-review.md",
+      "triggerCount": 6,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/unicode/unicode-testing.md",
+      "triggerCount": 2,
+      "confidence": "Low"
+    }
+  ]
+}

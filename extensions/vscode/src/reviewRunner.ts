@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import type { ExtensionContext, TextDocument } from 'vscode';
 import type { ReviewRun } from './types';
 
@@ -12,23 +13,62 @@ export class ReviewRunner {
   }
 
   public isSupportedTestFile(filePath: string): boolean {
-    return /\.(spec|test)\.[jt]s$/.test(filePath);
+    try {
+      const { Scanner } = this.loadCoreScanner();
+      return Scanner.isTestFile(path.basename(filePath));
+    } catch (err) {
+      // Fallback if core is not built yet
+      return /\.(spec|test)\.[jt]sx?$/.test(filePath);
+    }
   }
 
   public getWorkspaceRoot(document?: TextDocument): string {
     if (document?.uri.fsPath) {
       return this.findNearestPackageRoot(path.dirname(document.uri.fsPath));
     }
-    return process.cwd();
+    return vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || process.cwd();
   }
 
   public async reviewFile(filePath: string, workspaceRoot?: string): Promise<ReviewRun> {
+    const config = vscode.workspace.getConfiguration('qaBrain');
+    const frameworkOverride = config.get<string>('frameworkOverride', 'Auto');
+
+    if (frameworkOverride === 'Disabled') {
+      throw new Error("QA Brain reviews are disabled by configuration.");
+    }
+
+    if (filePath.endsWith('.py')) {
+      throw new Error("Python support planned in v4.0");
+    }
+
     const root = workspaceRoot || this.findNearestPackageRoot(path.dirname(filePath));
     const { ReviewPipeline, GeminiProvider } = this.loadCore();
     const pipeline = new ReviewPipeline(root, new GeminiProvider(''), this.repoRoot);
     const { report, result } = await this.runQuietly<{ report: string; result: any }>(() => pipeline.runPipeline(filePath));
 
-    return { filePath, report, result };
+    // Dynamic framework detection from Core ContextBuilder
+    let frameworkName = 'Unknown';
+    try {
+      const { RepositoryLoader, ContextBuilder } = this.loadCoreContextBuilder();
+      const loader = new RepositoryLoader(root);
+      const builder = new ContextBuilder(loader);
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const context = builder.buildContext(filePath, fileContent);
+      frameworkName = context.framework?.adapterName || context.targetFile?.detectedFramework || 'Unknown';
+    } catch (e) {
+      // Best-effort context retrieval fallback
+    }
+
+    if (frameworkOverride !== 'Auto') {
+      frameworkName = frameworkOverride;
+    }
+
+    // Capitalize framework name
+    if (frameworkName && frameworkName !== 'Unknown') {
+      frameworkName = frameworkName.charAt(0).toUpperCase() + frameworkName.slice(1).toLowerCase();
+    }
+
+    return { filePath, report, result, framework: frameworkName };
   }
 
   public async reviewSelection(document: TextDocument, selectedText: string, selectionStartLine: number): Promise<ReviewRun> {
@@ -69,6 +109,22 @@ export class ReviewRunner {
     return {
       ReviewPipeline: pipelineModule.ReviewPipeline,
       GeminiProvider: providerModule.GeminiProvider,
+    };
+  }
+
+  private loadCoreScanner(): any {
+    const corePath = path.join(this.repoRoot, 'dist', 'src');
+    const scannerModule = require(path.join(corePath, 'core', 'Scanner.js'));
+    return { Scanner: scannerModule.Scanner };
+  }
+
+  private loadCoreContextBuilder(): any {
+    const corePath = path.join(this.repoRoot, 'dist', 'src');
+    const contextModule = require(path.join(corePath, 'loader', 'ContextBuilder.js'));
+    const loaderModule = require(path.join(corePath, 'loader', 'RepositoryLoader.js'));
+    return {
+      ContextBuilder: contextModule.ContextBuilder,
+      RepositoryLoader: loaderModule.RepositoryLoader,
     };
   }
 

@@ -189,16 +189,82 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Keep Playwright regression suite green.
 - [x] Document Selenium support level as foundation with seed benchmarks.
 
-### ⬜ Sprint 13D — Selenium Calibration & Validation
+### ✅ Sprint 13D — Selenium Calibration & Validation
 - **Objective**: Calibrate and validate Selenium adapter and rules against real repositories.
-- **Status**: Planned.
-- [ ] Select real Selenium WebDriver for Node.js repositories.
-- [ ] Run rule-only validation.
-- [ ] Triage false positives and false negatives.
-- [ ] Feed validated findings back into benchmarks.
-- [ ] Publish `validation/reports/selenium-calibration-report.md`.
-- [ ] Publish `validation/metrics/selenium-calibration-metrics.json`.
-- [ ] Produce GO / CONDITIONAL GO / NO-GO decision.
+- **Status**: Completed.
+- [x] Select real Selenium WebDriver for Node.js repositories.
+- [x] Run rule-only validation.
+- [x] Triage false positives and false negatives.
+- [x] Feed validated findings back into benchmarks.
+- [x] Publish `validation/reports/selenium-calibration-report.md`.
+- [x] Publish `validation/metrics/selenium-calibration-metrics.json`.
+- [x] Produce GO / CONDITIONAL GO / NO-GO decision.
 
-### ⬜ v1.0 — Stable Release
-- **Objective**: Reach production stability with validated accuracy metrics and full documentation.
+### ✅ Sprint 14 — Test Design Engine MVP (v3.0 Core)
+- **Objective**: Identify missing test design scenarios with educational explanations, prioritize them, and generate boilerplate tests.
+- **Status**: Completed.
+- [x] Implement core `TestDesignEngine` and `TestDesignResult` structures.
+- [x] Detect missing boundary value, equivalence partitioning, security, and data variation scenarios.
+- [x] Add detailed QA scenario explanations to educate users.
+- [x] Prioritize missing scenarios and generate Playwright & Selenium Node.js test templates.
+- [x] Expose `generate_test_design` tool in the MCP Server for agent discovery.
+- [x] Create test design benchmark specs and add verification integration tests.
+
+### ✅ Sprint 15 — Framework-Neutral VS Code Client
+- **Objective**: Transform the VS Code extension into a framework-neutral client powered by the QA Brain core APIs.
+- **Status**: Completed.
+- [x] Implement core-driven framework detection in the extension.
+- [x] Port Scanner.isTestFile() as the single source of truth for file eligibility.
+- [x] Add frameworkOverride settings configuration.
+- [x] Display detected framework dynamically in the VS Code Status Bar.
+- [x] Gracefully fail on unsupported files (e.g. Python) without extension errors.
+
+### ✅ Sprint 16 — VS Code Diagnostics & Squiggles
+- **Objective**: Render inline diagnostics, CodeLenses, and status items inside VS Code.
+- **Status**: Completed.
+- [x] Draw error/warning squiggles in the editor and feed Problems panel.
+- [x] Add CodeLenses for quick review execution on test files.
+- [x] Add VS Code status bar item showing quality and audit states.
+- [x] Register CodeActions (Quick Fixes) for Show Finding Details and Open Report.
+- [x] Implement complete diagnostics lifecycle clearing on document close.
+- [x] Add status bar attention configurations.
+
+### ✅ Sprint 17 — Framework-Neutral VS Code Workspace UI (Phase 1)
+- **Objective**: Surface QA Brain intelligence through a responsive, native-themed workspace dashboard inside the VS Code Sidebar.
+- **Status**: Completed.
+- [x] Implement Sidebar Webview view container and registration.
+- [x] Establish MVVM architecture with DashboardViewModel.
+- [x] Build Review Tab with finding list, jump-to-line, and reveal-rule action commands.
+- [x] Build Metrics Tab with quality/risk/maintainability scores and trend delta tracking.
+- [x] Establish native VS Code styling and workspace state preservation.
+
+### ✅ Sprint 18 — Advanced Workspace Workbench (Phase 2)
+- **Objective**: Expand the Workspace UI with advanced analysis features, code templates workbench, and insights.
+- **Status**: Completed.
+- [x] Implement dynamic Design Tab workbench (running real TestDesignEngine).
+- [x] Implement Coverage Tab displaying coverage stats by test design technique.
+- [x] Implement Insights Tab showing workspace risks, top violated rules, and suggestions.
+- [x] Add copy and editor insert workflow for generated test code templates.
+
+### ⬜ Sprint 19 — VS Code Marketplace Release & Hardening
+- **Objective**: Configure packaging, set up opt-in telemetry, organize rule packs, and publish.
+- **Status**: Planned.
+- [ ] Add Opt-in Telemetry and crash reporting.
+- [ ] Organize modular, versioned Rule Packs under `knowledge/`.
+- [ ] Publish extension Release Candidate (RC) to VS Code Marketplace.
+
+### ⬜ Sprint 20 — Python Core & Scanner (v4.0 Core)
+- **Objective**: Generalize scanning engine to parse Python test folders and package structures.
+- **Status**: Planned.
+
+### ⬜ Sprint 21 — Python Adapter & Calibration
+- **Objective**: Build Python Selenium adapter and calibrate on open-source Python repos.
+- **Status**: Planned.
+
+### ⬜ v5.0 — Quality Intelligence Platform
+- **Objective**: Introduce Quality, Risk, and Confidence intelligence metrics and path coverage analytics.
+- **Status**: Planned.
+
+### ⬜ v6.0 — Enterprise Platform
+- **Objective**: Deliver configurable quality gates, SARIF export, and baseline comparison features.
+- **Status**: Planned.
