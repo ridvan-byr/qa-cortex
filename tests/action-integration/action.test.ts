@@ -113,6 +113,73 @@ function testScanner() {
   console.log('✓ Scanner tests passed.');
 }
 
+function testPythonSupport() {
+  console.log('Testing Python support...');
+  const { Scanner } = require('../../src/core/Scanner');
+  const { ContextBuilder } = require('../../src/loader/ContextBuilder');
+
+  // 1. Test Scanner file matching
+  assert.strictEqual(Scanner.isTestFile('test_login.py'), true);
+  assert.strictEqual(Scanner.isTestFile('login_test.py'), true);
+  assert.strictEqual(Scanner.isTestFile('test.py'), true);
+  assert.strictEqual(Scanner.isTestFile('login.py'), false);
+  assert.strictEqual(Scanner.isTestFile('utils.py'), false);
+
+  // Mock loader for ContextBuilder tests
+  const mockLoader = {
+    readRawFile(filePath: string): string | null {
+      if (filePath === 'requirements.txt') {
+        return `
+# Dependencies
+pytest==7.1.2
+selenium>=4.0.0
+playwright
+`;
+      }
+      if (filePath === 'pages/login_page.py') {
+        return `
+class LoginPage(BasePage):
+    def __init__(self, driver):
+        self.driver = driver
+    def enter_username(self, username):
+        pass
+    async def submit_form(self):
+        pass
+`;
+      }
+      return null;
+    },
+    directoryExists(dirPath: string): boolean {
+      return dirPath === 'pages';
+    },
+    scanDirectory(dirPath: string, match: string | string[]): string[] {
+      if (dirPath === 'pages') return ['pages/login_page.py'];
+      return [];
+    }
+  };
+
+  const builder = new ContextBuilder(mockLoader as any);
+
+  // 2. Test requirements.txt dependency mapping
+  const context = builder.buildContext('test_login.py', 'from selenium import webdriver');
+  assert.strictEqual(context.dependencies.playwrightVersion, 'latest');
+  assert.strictEqual(context.dependencies.seleniumVersion, '4.0.0');
+  assert.strictEqual(context.dependencies.dependencies['pytest'], '7.1.2');
+
+  // 3. Test Python framework detection
+  assert.strictEqual(context.targetFile.detectedFramework, 'Selenium');
+  
+  const playwrightContext = builder.buildContext('test_playwright.py', 'from playwright.sync_api import sync_playwright');
+  assert.strictEqual(playwrightContext.targetFile.detectedFramework, 'Playwright');
+
+  // 4. Test Python POM mapping
+  assert.strictEqual(context.pageObjects.length, 1);
+  assert.strictEqual(context.pageObjects[0].className, 'LoginPage');
+  assert.deepStrictEqual(context.pageObjects[0].methods, ['enter_username', 'submit_form']);
+
+  console.log('✓ Python support tests passed.');
+}
+
 function testFrameworkAdapterRegistry() {
   console.log('Testing FrameworkAdapter registry...');
 
@@ -313,6 +380,7 @@ async function runAll() {
     testDiffDetector();
     testPRCommentFormatter();
     testScanner();
+    testPythonSupport();
     testFrameworkAdapterRegistry();
     testKnowledgeRouterSignalRouting();
     testRuleMappingContract();

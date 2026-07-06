@@ -1,6 +1,6 @@
 {
   "name": "qa-brain",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "AI-powered QA Knowledge Base for Playwright Test Design, Review and Test Generation.",
   "main": "./dist/src/cli.js",
   "bin": {

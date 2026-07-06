@@ -271,9 +271,14 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Keep existing benchmark, validation, VS Code compile, and VSIX packaging checks green.
 - [x] Created Mimari Karar Günlüğü (Architecture Decisions Log) under `docs/architecture-decisions.md`.
 
-### ⬜ Sprint 20 — Python Core & Scanner (v4.0 Core)
+### ✅ Sprint 20 — Python Core & Scanner (v4.0 Core)
 - **Objective**: Generalize scanning engine to parse Python test folders and package structures.
-- **Status**: Planned.
+- **Status**: Completed.
+- [x] Generalize test file scanner to detect python files (`.py`) and match pytest/unittest naming standards (`test_*.py`, `*_test.py`).
+- [x] Implement `requirements.txt` parser inside `ContextBuilder` to map Python project dependencies.
+- [x] Support python class and method regex matches in `mapPageObjects` and `mapFixtures` (including `conftest.py`).
+- [x] Integrate python-specific selenium/playwright import detection in `detectFramework`.
+- [x] Add regression test coverage for python scanner features.
 
 ### ⬜ Sprint 21 — Python Adapter & Calibration
 - **Objective**: Build Python Selenium adapter and calibrate on open-source Python repos.

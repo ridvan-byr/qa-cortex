@@ -85,29 +85,62 @@ export class ContextBuilder {
       hasLintStaged: false,
     };
 
-    if (!rawPackage) return defaultInfo;
+    if (rawPackage) {
+      try {
+        const parsed = JSON.parse(rawPackage);
+        const devDeps = parsed.devDependencies || {};
+        const deps = parsed.dependencies || {};
 
-    try {
-      const parsed = JSON.parse(rawPackage);
-      const devDeps = parsed.devDependencies || {};
-      const deps = parsed.dependencies || {};
+        const playwrightVersion = devDeps['@playwright/test'] || deps['@playwright/test'];
+        const seleniumVersion = devDeps['selenium-webdriver'] || deps['selenium-webdriver'];
 
-      const playwrightVersion = devDeps['@playwright/test'] || deps['@playwright/test'];
-      const seleniumVersion = devDeps['selenium-webdriver'] || deps['selenium-webdriver'];
+        return {
+          playwrightVersion,
+          seleniumVersion,
+          devDependencies: devDeps,
+          dependencies: deps,
+          hasESLint: !!(devDeps['eslint'] || deps['eslint']),
+          hasPrettier: !!(devDeps['prettier'] || deps['prettier']),
+          hasHusky: !!(devDeps['husky'] || deps['husky']),
+          hasLintStaged: !!(devDeps['lint-staged'] || deps['lint-staged']),
+        };
+      } catch {
+        // Fall through to requirements.txt
+      }
+    }
+
+    // Parse Python dependencies from requirements.txt if present
+    const rawRequirements = this.loader.readRawFile('requirements.txt');
+    if (rawRequirements) {
+      const devDeps: Record<string, string> = {};
+      const deps: Record<string, string> = {};
+
+      for (const line of rawRequirements.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+
+        // Parse package name and version (e.g. pytest==7.1.2 or selenium>=4.0.0 or playwright)
+        const match = trimmed.match(/^([a-zA-Z0-9_\-]+)(?:[<=>~]+([0-9\.\*a-zA-Z\-]+))?/);
+        if (match) {
+          const pkg = match[1].toLowerCase();
+          const ver = match[2] || 'latest';
+          deps[pkg] = ver;
+        }
+      }
 
       return {
-        playwrightVersion,
-        seleniumVersion,
+        playwrightVersion: deps['playwright'],
+        seleniumVersion: deps['selenium'],
         devDependencies: devDeps,
         dependencies: deps,
-        hasESLint: !!(devDeps['eslint'] || deps['eslint']),
-        hasPrettier: !!(devDeps['prettier'] || deps['prettier']),
-        hasHusky: !!(devDeps['husky'] || deps['husky']),
-        hasLintStaged: !!(devDeps['lint-staged'] || deps['lint-staged']),
+        hasESLint: false,
+        hasPrettier: false,
+        hasHusky: false,
+        hasLintStaged: false,
       };
-    } catch {
-      return defaultInfo;
     }
+
+    return defaultInfo;
   }
 
   private mapConfiguration(): ConfigurationInfo {
@@ -156,23 +189,36 @@ export class ContextBuilder {
   private mapPageObjects(pagesDir?: string): PageObjectInfo[] {
     if (!pagesDir) return [];
     
-    const files = this.loader.scanDirectory(pagesDir, ['.ts', '.js', '.tsx', '.jsx']);
+    const files = this.loader.scanDirectory(pagesDir, ['.ts', '.js', '.tsx', '.jsx', '.py']);
     const poms: PageObjectInfo[] = [];
 
     for (const file of files) {
       const content = this.loader.readRawFile(file);
       if (!content) continue;
 
+      const isPython = file.endsWith('.py');
+
       // Match class declaration
-      const classMatch = content.match(/class\s+([a-zA-Z0-9_]+)/);
+      const classMatch = isPython 
+        ? content.match(/class\s+([a-zA-Z0-9_]+)(?:\s*\([a-zA-Z0-9_]+\))?\s*:/)
+        : content.match(/class\s+([a-zA-Z0-9_]+)/);
       if (!classMatch) continue;
 
-      // Match async methods
+      // Match methods
       const methods: string[] = [];
-      const methodMatches = content.matchAll(/async\s+([a-zA-Z0-9_]+)\s*\(/g);
-      for (const match of methodMatches) {
-        if (match[1] && match[1] !== 'constructor' && !methods.includes(match[1])) {
-          methods.push(match[1]);
+      if (isPython) {
+        const methodMatches = content.matchAll(/(?:def|async\s+def)\s+([a-zA-Z0-9_]+)\s*\(/g);
+        for (const match of methodMatches) {
+          if (match[1] && match[1] !== '__init__' && !methods.includes(match[1])) {
+            methods.push(match[1]);
+          }
+        }
+      } else {
+        const methodMatches = content.matchAll(/async\s+([a-zA-Z0-9_]+)\s*\(/g);
+        for (const match of methodMatches) {
+          if (match[1] && match[1] !== 'constructor' && !methods.includes(match[1])) {
+            methods.push(match[1]);
+          }
         }
       }
 
@@ -191,22 +237,23 @@ export class ContextBuilder {
 
     // Scan specific directory if exists
     if (fixturesDir) {
-      const files = this.loader.scanDirectory(fixturesDir, ['.ts', '.js', '.tsx', '.jsx']);
+      const files = this.loader.scanDirectory(fixturesDir, ['.ts', '.js', '.tsx', '.jsx', '.py']);
       for (const file of files) {
         const ext = path.extname(file);
         fixtures.push({ name: path.basename(file, ext), filePath: file });
       }
     }
 
-    // Also check for standalone fixtures inside tests/ or examples/
+    // Also check for standalone fixtures inside tests/ or examples/ or conftest.py
     const rootFixtures = [
       'tests/fixtures.ts', 'examples/fixtures.ts', 'fixtures.ts',
-      'tests/fixtures.js', 'examples/fixtures.js', 'fixtures.js'
+      'tests/fixtures.js', 'examples/fixtures.js', 'fixtures.js',
+      'tests/conftest.py', 'conftest.py'
     ];
     for (const item of rootFixtures) {
       const content = this.loader.readRawFile(item);
       if (content) {
-        fixtures.push({ name: 'fixtures', filePath: item });
+        fixtures.push({ name: path.basename(item, path.extname(item)), filePath: item });
       }
     }
 
@@ -214,10 +261,52 @@ export class ContextBuilder {
   }
 
   private detectFramework(deps: DependencyInfo, content: string): string {
-    if (content.includes('selenium-webdriver') || /\bnew\s+Builder\s*\(\s*\)/.test(content) || /\bdriver\.findElement\s*\(/.test(content)) return 'Selenium';
-    if (deps.playwrightVersion || content.includes('@playwright/test')) return 'Playwright';
-    if (deps.devDependencies['selenium-webdriver'] || deps.dependencies['selenium-webdriver']) return 'Selenium';
-    if (deps.devDependencies['cypress'] || deps.dependencies['cypress'] || content.includes('cy.')) return 'Cypress';
+    // 1. Differentiate by file content imports first (essential for multi-framework repos)
+    if (
+      content.includes('from selenium import') ||
+      content.includes('import selenium') ||
+      content.includes('webdriver.Chrome(') ||
+      content.includes('webdriver.Firefox(') ||
+      content.includes('webdriver.Remote(')
+    ) {
+      return 'Selenium';
+    }
+
+    if (
+      content.includes('@playwright/test') ||
+      content.includes('from playwright') ||
+      content.includes('import playwright')
+    ) {
+      return 'Playwright';
+    }
+
+    // 2. Fallback to package dependency checks
+    if (
+      content.includes('selenium-webdriver') ||
+      /\bnew\s+Builder\s*\(\s*\)/.test(content) ||
+      /\bdriver\.findElement\s*\(/.test(content) ||
+      deps.devDependencies['selenium-webdriver'] ||
+      deps.dependencies['selenium-webdriver'] ||
+      deps.dependencies['selenium']
+    ) {
+      return 'Selenium';
+    }
+
+    if (
+      deps.playwrightVersion ||
+      deps.dependencies['playwright']
+    ) {
+      return 'Playwright';
+    }
+
+    if (
+      deps.devDependencies['cypress'] ||
+      deps.dependencies['cypress'] ||
+      content.includes('cy.')
+    ) {
+      return 'Cypress';
+    }
+
     return 'Unknown';
   }
 

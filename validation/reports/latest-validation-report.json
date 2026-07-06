@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T10:50:53.730Z",
+  "generatedAt": "2026-07-06T11:51:23.768Z",
   "framework": "playwright",
   "selectionWarnings": [],
   "repositories": [
@@ -16,7 +16,7 @@
       "filesReviewed": 3,
       "findings": 0,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 11,
+      "averageReviewTimeMs": 5,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -24,17 +24,17 @@
       "files": [
         {
           "file": "tests/click.spec.ts",
-          "reviewTimeMs": 29,
+          "reviewTimeMs": 8,
           "findings": []
         },
         {
           "file": "tests/core.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/library.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         }
       ],
@@ -55,7 +55,7 @@
       "filesReviewed": 4,
       "findings": 0,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 5,
+      "averageReviewTimeMs": 7,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -63,22 +63,22 @@
       "files": [
         {
           "file": "apps/web/e2e/anon/access-to-pages.spec.ts",
-          "reviewTimeMs": 18,
+          "reviewTimeMs": 21,
           "findings": []
         },
         {
           "file": "apps/web/e2e/anon/public-pages.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "apps/web/e2e/user/access-to-pages.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "apps/web/e2e/user/private-items.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         }
       ],
@@ -99,7 +99,7 @@
       "filesReviewed": 19,
       "findings": 0,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 2,
+      "averageReviewTimeMs": 3,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -107,7 +107,7 @@
       "files": [
         {
           "file": "accessibility/tests/example.spec.ts",
-          "reviewTimeMs": 9,
+          "reviewTimeMs": 5,
           "findings": []
         },
         {
@@ -117,52 +117,52 @@
         },
         {
           "file": "basic/1-getting-started.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "basic/2-actions.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "basic/3-assertions.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "basic/4-file-uploads.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "basic/5-networking.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "basic/pom/pom-with-fixtures.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "basic/pom/pom.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "chrome-extension/tests/example.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "drag-and-drop/tests/example.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "fixtures/tests/express.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -172,32 +172,32 @@
         },
         {
           "file": "github-api/tests/example.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "oauth/tests/example.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "performance/tests/example.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "svgomg/tests/example.spec.ts",
-          "reviewTimeMs": 1,
-          "findings": []
-        },
-        {
-          "file": "todomvc/tests/example.spec.ts",
           "reviewTimeMs": 2,
           "findings": []
         },
         {
+          "file": "todomvc/tests/example.spec.ts",
+          "reviewTimeMs": 4,
+          "findings": []
+        },
+        {
           "file": "visual-comparison/tests/example.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         }
       ],
@@ -218,7 +218,7 @@
       "filesReviewed": 17,
       "findings": 0,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 3,
+      "averageReviewTimeMs": 2,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -226,22 +226,22 @@
       "files": [
         {
           "file": "src/cli/commands/test.ts",
-          "reviewTimeMs": 24,
+          "reviewTimeMs": 5,
           "findings": []
         },
         {
           "file": "test/ai-fix-prompt-attachment/check-report/cucumber-report.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "test/ai-fix-prompt-attachment/check-report/playwright-report.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "test/reporter-cucumber-ext-attachments/check-report/index.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -251,7 +251,7 @@
         },
         {
           "file": "test/reporter-cucumber-html/features/after-hook/specs/timeout.feature.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -271,7 +271,7 @@
         },
         {
           "file": "test/reporter-cucumber-html/features/before-all-hook/specs/fixture.feature.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -291,12 +291,12 @@
         },
         {
           "file": "test/reporter-cucumber-html/features/before-hook/specs/timeout.feature.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "test/reporter-cucumber-html/features/failing-steps/specs/error.feature.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -306,7 +306,7 @@
         },
         {
           "file": "test/reporter-cucumber-html/features/success-steps/specs/success.feature.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         }
       ],
@@ -335,7 +335,7 @@
       "files": [
         {
           "file": "examples/metamask/test/playwright/00_mock.spec.ts",
-          "reviewTimeMs": 25,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -360,7 +360,7 @@
         },
         {
           "file": "packages/cache/test/utils/createCacheForWalletSetupFunction.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -370,7 +370,7 @@
         },
         {
           "file": "wallets/ethereum-wallet-mock/test/playwright/metamask/addNewAccount.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -380,7 +380,7 @@
         },
         {
           "file": "wallets/ethereum-wallet-mock/test/playwright/metamask/switchAccount.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -400,7 +400,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/PPOM.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
@@ -415,7 +415,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/addNewToken.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
@@ -440,7 +440,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/closeTransactionDetails.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -450,7 +450,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/confirmTransaction.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -465,17 +465,17 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/encrypt.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/goBackToHomePage.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/importWallet.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -495,7 +495,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/openSidebarMenu.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -510,7 +510,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/rejectPermission.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -557,7 +557,7 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/toggleDismissSecretRecoveryPhraseReminder.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
@@ -567,12 +567,12 @@
         },
         {
           "file": "wallets/metamask/test/playwright/e2e/unlock.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
           "file": "wallets/phantom/test/playwright/e2e/addNewAccount.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -582,7 +582,7 @@
         },
         {
           "file": "wallets/phantom/test/playwright/e2e/confirmSignature.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -608,7 +608,7 @@
       "filesReviewed": 50,
       "findings": 0,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 1,
+      "averageReviewTimeMs": 2,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -616,7 +616,7 @@
       "files": [
         {
           "file": "packages/allure-bun/test/spec/runtime/attachments.test.ts",
-          "reviewTimeMs": 9,
+          "reviewTimeMs": 19,
           "findings": []
         },
         {
@@ -656,12 +656,12 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/annotations.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "packages/allure-playwright/test/spec/attachments.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -681,7 +681,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/globalLabels.test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -691,7 +691,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/hooks.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -706,7 +706,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/reporterOptions.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -741,7 +741,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/legacy/tags.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -751,7 +751,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/modern/globals.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -766,7 +766,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/modern/links.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -776,7 +776,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/modern/steps.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -786,7 +786,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/sync/globals.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -796,12 +796,12 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/sync/links.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "packages/allure-playwright/test/spec/runtime/sync/parameters.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -811,7 +811,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/screenshots.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -821,7 +821,7 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/status.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -831,12 +831,12 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/stdio.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "packages/allure-playwright/test/spec/steps.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -851,12 +851,12 @@
         },
         {
           "file": "packages/allure-playwright/test/spec/testplan.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "packages/allure-playwright/test/spec/titleMetadata.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -891,7 +891,7 @@
       "files": [
         {
           "file": "examples/playwright-test-todomvc/spec/bulk_operations.spec.ts",
-          "reviewTimeMs": 22,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -901,7 +901,7 @@
         },
         {
           "file": "examples/playwright-test-todomvc/spec/editing.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -926,7 +926,7 @@
         },
         {
           "file": "examples/playwright-test-todomvc/spec/vanilla_playwright_test.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -936,7 +936,7 @@
         },
         {
           "file": "integration/playwright-electron/spec/electron/externally-managed.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -976,7 +976,7 @@
         },
         {
           "file": "integration/playwright-test/examples/events/compatibility/passing-native-api.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -1011,22 +1011,22 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/error.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/error_configuration.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/error_worker_afterAll.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/error_worker_beforeAll.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -1036,7 +1036,7 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/expected_failure.spec.ts",
-          "reviewTimeMs": 0,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -1046,17 +1046,17 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/failing/serenity-js_assertion.spec.ts",
-          "reviewTimeMs": 0,
-          "findings": []
-        },
-        {
-          "file": "integration/playwright-test/examples/outcomes/failing/serenity-js_screenplay_assertion.spec.ts",
           "reviewTimeMs": 1,
           "findings": []
         },
         {
-          "file": "integration/playwright-test/examples/outcomes/failing/serenity-js_screenplay_compromised.spec.ts",
+          "file": "integration/playwright-test/examples/outcomes/failing/serenity-js_screenplay_assertion.spec.ts",
           "reviewTimeMs": 0,
+          "findings": []
+        },
+        {
+          "file": "integration/playwright-test/examples/outcomes/failing/serenity-js_screenplay_compromised.spec.ts",
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
@@ -1066,17 +1066,17 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/passing.spec.ts",
-          "reviewTimeMs": 1,
-          "findings": []
-        },
-        {
-          "file": "integration/playwright-test/examples/outcomes/repeated.spec.ts",
           "reviewTimeMs": 2,
           "findings": []
         },
         {
+          "file": "integration/playwright-test/examples/outcomes/repeated.spec.ts",
+          "reviewTimeMs": 3,
+          "findings": []
+        },
+        {
           "file": "integration/playwright-test/examples/outcomes/retried.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1086,7 +1086,7 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/skipped/skip.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -1096,12 +1096,12 @@
         },
         {
           "file": "integration/playwright-test/examples/outcomes/skipped/skip_describe.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
           "file": "integration/playwright-test/examples/outcomes/skipped/skip_describe_conditional.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -1131,7 +1131,7 @@
         },
         {
           "file": "integration/playwright-test/examples/screenplay/ability-discard-timeout.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 0,
           "findings": []
         },
         {
@@ -1165,22 +1165,22 @@
       "files": [
         {
           "file": "tests/auto-close.spec.ts",
-          "reviewTimeMs": 30,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "tests/codegen.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/debug-tests.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "tests/decorations.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1195,32 +1195,32 @@
         },
         {
           "file": "tests/list-files.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "tests/list-tests.spec.ts",
-          "reviewTimeMs": 3,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "tests/pick-selector.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/pnp.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/problems.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/project-setup.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1235,22 +1235,22 @@
         },
         {
           "file": "tests/run-tests.spec.ts",
-          "reviewTimeMs": 4,
+          "reviewTimeMs": 5,
           "findings": []
         },
         {
           "file": "tests/settings.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "tests/source-map.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/trace-viewer.spec.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1260,12 +1260,12 @@
         },
         {
           "file": "tests/update-snapshots.spec.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/watch.spec.ts",
-          "reviewTimeMs": 3,
+          "reviewTimeMs": 4,
           "findings": []
         }
       ],
@@ -1294,17 +1294,17 @@
       "files": [
         {
           "file": "examples/github.test.ts",
-          "reviewTimeMs": 21,
+          "reviewTimeMs": 4,
           "findings": []
         },
         {
           "file": "examples/google.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "packages/shortest/src/core/runner/test-case.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1316,7 +1316,7 @@
         },
         {
           "file": "packages/shortest/src/types/test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1326,7 +1326,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-ai.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1338,7 +1338,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-browser.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1350,7 +1350,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-email-rendering.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1362,7 +1362,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-github-login.ts",
-          "reviewTimeMs": 3,
+          "reviewTimeMs": 5,
           "findings": [
             {
               "title": "Redundant Hardcoded Timeout (waitForTimeout)",
@@ -1374,7 +1374,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-helpers.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1386,7 +1386,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-keyboard.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1398,7 +1398,7 @@
         },
         {
           "file": "packages/shortest/tests/e2e/test-loop.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 4,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1431,7 +1431,7 @@
       "filesReviewed": 12,
       "findings": 1,
       "criticalFindings": 0,
-      "averageReviewTimeMs": 3,
+      "averageReviewTimeMs": 4,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -1439,22 +1439,22 @@
       "files": [
         {
           "file": "tests/accessibility/Axe.test.ts",
-          "reviewTimeMs": 22,
+          "reviewTimeMs": 24,
           "findings": []
         },
         {
           "file": "tests/api/GET.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/api/POST.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/db/DB.test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": [
             {
               "title": "Missing Assertion",
@@ -1466,12 +1466,12 @@
         },
         {
           "file": "tests/functional/AlertsFrameWindows.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/functional/Elements.test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
@@ -1481,27 +1481,27 @@
         },
         {
           "file": "tests/functional/Interactions.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/functional/Login.test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/functional/PdfToText.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 1,
           "findings": []
         },
         {
           "file": "tests/functional/Widgets.test.ts",
-          "reviewTimeMs": 2,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "tests/visualComparison/visualComparision.test.ts",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         }
       ],

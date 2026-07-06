@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2
+
+- Added Python test file scanner to scan `test_*.py`, `*_test.py`, and `test.py` files.
+- Added `requirements.txt` parsing support to map Python dependencies like `pytest`, `selenium`, and `playwright`.
+- Added Python Page Object Model (POM) parsing matching Python classes and async/sync methods.
+- Added Python pytest fixture parsing matching `conftest.py` setup files.
+- Added Python Selenium and Playwright framework detection based on library imports.
+- Added regression test suite covering Python scanner integration features.
+
 ## 0.1.1
 
 - Added direct LLM configuration UI in the VS Code sidebar dashboard supporting Gemini, OpenAI, Anthropic, and OpenRouter.

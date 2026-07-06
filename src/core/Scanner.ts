@@ -121,9 +121,19 @@ export class Scanner {
 
   public static isTestFile(filename: string): boolean {
     const lower = filename.toLowerCase();
-    return /\.(spec|test)\.(ts|js|tsx|jsx)$/.test(lower)
+    const isJsTsTest = /\.(spec|test)\.(ts|js|tsx|jsx)$/.test(lower)
       || /^tests?-.*\.(ts|js|tsx|jsx)$/.test(lower)
       || /^tests?\.(ts|js|tsx|jsx)$/.test(lower);
+
+    const isPythonTest = lower.endsWith('.py') && (
+      lower.startsWith('test_') ||
+      lower.endsWith('_test.py') ||
+      lower === 'test.py' ||
+      lower.includes('.spec.py') ||
+      lower.includes('.test.py')
+    );
+
+    return isJsTsTest || isPythonTest;
   }
 
   /**
