@@ -1,4 +1,16 @@
+export type FindingCategory =
+  | 'BrittleLocator'
+  | 'HardcodedWait'
+  | 'SharedState'
+  | 'MissingAssertion'
+  | 'SelectorLeak'
+  | 'ResourceCleanup'
+  | 'Duplicate'
+  | 'Unspecified';
+
 export interface Finding {
+  ruleId?: string; // Optional unique rule identifier (e.g., LOCATOR_001)
+  category?: FindingCategory; // Structured category type for scoring
   title: string;
   description: string;
   severity: 'Critical' | 'High' | 'Medium' | 'Low';

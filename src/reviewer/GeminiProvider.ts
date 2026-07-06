@@ -355,6 +355,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (isSelenium && seleniumSelectorLeak) {
       findings.push({
+        ruleId: 'SELENIUM_POM_001',
+        category: 'SelectorLeak',
         title: 'Selector Leak',
         description: 'A Page Object is referenced but a Selenium selector is still used directly in the spec.',
         severity: 'Medium',
@@ -364,6 +366,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
       });
     } else if (isSelenium && seleniumXPath) {
       findings.push({
+        ruleId: 'SELENIUM_LOCATOR_001',
+        category: 'BrittleLocator',
         title: 'Brittle Selenium XPath Locator',
         description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
         severity: 'High',
@@ -373,6 +377,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
       });
     } else if (absoluteXPath) {
       findings.push({
+        ruleId: 'LOCATOR_001',
+        category: 'BrittleLocator',
         title: 'Brittle XPath Locator with Selector Leak',
         description: 'The test uses an absolute XPath selector directly in the spec, which is brittle and bypasses page object encapsulation.',
         severity: 'High',
@@ -382,6 +388,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
       });
     } else if (importsPageObject && rawXPath) {
       findings.push({
+        ruleId: 'POM_001',
+        category: 'SelectorLeak',
         title: 'Selector Leak',
         description: 'A Page Object is imported but a raw selector is still used directly in the spec.',
         severity: 'Medium',
@@ -391,6 +399,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
       });
     } else if (rawXPath) {
       findings.push({
+        ruleId: 'LOCATOR_001',
+        category: 'BrittleLocator',
         title: 'Brittle XPath Locator',
         description: 'The test uses a raw XPath selector, which is harder to maintain than user-facing Playwright locators.',
         severity: 'High',
@@ -402,6 +412,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (brittleCss) {
       findings.push({
+        ruleId: 'LOCATOR_002',
+        category: 'BrittleLocator',
         title: 'Brittle CSS Selector Chain',
         description: 'The test uses a deep nested CSS selector chain that can break when markup structure changes.',
         severity: 'High',
@@ -413,6 +425,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (hardcodedWait) {
       findings.push({
+        ruleId: 'WAITING_001',
+        category: 'HardcodedWait',
         title: 'Redundant Hardcoded Timeout (waitForTimeout)',
         description: 'The test uses a fixed sleep instead of waiting for observable UI or network state.',
         severity: 'High',
@@ -424,6 +438,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (isSelenium && seleniumHardcodedSleep) {
       findings.push({
+        ruleId: 'SELENIUM_WAITING_001',
+        category: 'HardcodedWait',
         title: 'Hardcoded Sleep',
         description: 'The test uses a fixed Selenium sleep instead of waiting for observable browser state.',
         severity: 'High',
@@ -435,6 +451,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (seleniumMissingQuit) {
       findings.push({
+        ruleId: 'SELENIUM_CLEANUP_001',
+        category: 'ResourceCleanup',
         title: 'Resource Cleanup Missing',
         description: 'The test creates a WebDriver session but does not close it with driver.quit().',
         severity: 'High',
@@ -446,6 +464,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (sharedState) {
       findings.push({
+        ruleId: 'FIXTURE_001',
+        category: 'SharedState',
         title: 'Test Isolation Violation (Shared State)',
         description: 'A mutable variable is defined outside the test body and can leak state between tests.',
         severity: 'Critical',
@@ -457,6 +477,8 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     if (!hasAssertions && findings.length === 0 && !skipMissingAssertion) {
       findings.push({
+        ruleId: 'ASSERTION_001',
+        category: 'MissingAssertion',
         title: 'Missing Assertion',
         description: 'The test performs actions but does not assert the expected outcome.',
         severity: 'Medium',

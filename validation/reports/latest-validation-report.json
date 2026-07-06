@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T14:27:23.006Z",
+  "generatedAt": "2026-07-06T15:50:28.447Z",
   "framework": "playwright",
   "selectionWarnings": [
     "Active validation coverage has 0 repositories with Playwright specs; replace no-spec repositories before final Sprint 11 sign-off.",

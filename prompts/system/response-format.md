@@ -14,6 +14,8 @@ Short overview of the review, including any detected project architecture maps (
 
 Each finding must contain:
 
+- **RuleId**: Optional unique identifier matching the tested rule if known (e.g. `LOCATOR_001`, `WAITING_001`, `FIXTURE_001`, `ASSERTION_001`).
+- **Category**: One of: `BrittleLocator`, `HardcodedWait`, `SharedState`, `MissingAssertion`, `SelectorLeak`, `ResourceCleanup`, `Duplicate`, `Unspecified`.
 - **Title**: Descriptive name of the issue.
 - **Description**: Detailed explanation of the issue and why it matters.
 - **Severity**: Critical / High / Medium / Low.

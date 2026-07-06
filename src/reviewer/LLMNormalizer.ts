@@ -1,5 +1,5 @@
 import type { ReviewResult } from '../types/ReviewResult';
-import type { Finding } from '../types/Finding';
+import type { Finding, FindingCategory } from '../types/Finding';
 import type { TestDesignResult, MissingScenario } from '../types/TestDesignResult';
 
 export class LLMNormalizer {
@@ -8,6 +8,8 @@ export class LLMNormalizer {
     const normalizedFindings: Finding[] = rawFindings.map((f: any) => {
       const confidence = f?.confidence || {};
       return {
+        ruleId: typeof f?.ruleId === 'string' ? f.ruleId.trim() : undefined,
+        category: this.normalizeFindingCategory(f?.category, f?.title),
         title: typeof f?.title === 'string' ? f.title.trim() : 'Unspecified Code Issue',
         description: typeof f?.description === 'string' ? f.description.trim() : '',
         severity: this.normalizeSeverity(f?.severity),
@@ -95,5 +97,28 @@ export class LLMNormalizer {
     if (c === 'HIGH' || c === 'CRITICAL') return 'HIGH';
     if (c === 'MEDIUM' || c === 'WARN') return 'MEDIUM';
     return 'LOW';
+  }
+
+  private static normalizeFindingCategory(cat: any, title?: string): FindingCategory {
+    const c = String(cat || '').toLowerCase().trim();
+    if (c === 'brittlelocator' || c.includes('locator') || c.includes('xpath') || c.includes('css')) return 'BrittleLocator';
+    if (c === 'hardcodedwait' || c.includes('wait') || c.includes('sleep') || c.includes('timeout')) return 'HardcodedWait';
+    if (c === 'sharedstate' || c.includes('shared') || c.includes('isolation')) return 'SharedState';
+    if (c === 'missingassertion' || c.includes('assertion') || c.includes('expect')) return 'MissingAssertion';
+    if (c === 'selectorleak' || c.includes('leak')) return 'SelectorLeak';
+    if (c === 'resourcecleanup' || c.includes('cleanup') || c.includes('quit') || c.includes('close')) return 'ResourceCleanup';
+    if (c === 'duplicate' || c.includes('dry')) return 'Duplicate';
+
+    // Try fallback based on title if category is unspecified/unknown
+    const t = String(title || '').toLowerCase();
+    if (t.includes('xpath') || t.includes('brittle selector') || t.includes('brittle css') || t.includes('locator')) return 'BrittleLocator';
+    if (t.includes('waitfortimeout') || t.includes('hardcoded wait') || t.includes('hardcoded sleep') || t.includes('sleep')) return 'HardcodedWait';
+    if (t.includes('isolation') || t.includes('shared state') || t.includes('state leak')) return 'SharedState';
+    if (t.includes('missing assertion') || t.includes('weak assertion')) return 'MissingAssertion';
+    if (t.includes('selector leak') || t.includes('seçici sızıntısı')) return 'SelectorLeak';
+    if (t.includes('resource cleanup') || t.includes('quit') || t.includes('close')) return 'ResourceCleanup';
+    if (t.includes('duplicate') || t.includes('dry')) return 'Duplicate';
+
+    return 'Unspecified';
   }
 }

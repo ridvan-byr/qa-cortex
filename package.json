@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npx ts-node tests/action-integration/action.test.ts",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "validate": "npx ts-node src/evaluation/ValidationRunner.ts"
   },
   "repository": {
@@ -38,7 +39,9 @@
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^1.6.0"
   }
 }

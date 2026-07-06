@@ -16,23 +16,10 @@ export class ScoringEngine {
 
     // 2. Quality and Maintainability Checklists
     const pomEncapsulation = this.checkPomEncapsulation(context, findings);
-    const resilientLocators = !findings.some(f => 
-      f.title.toLowerCase().includes('xpath') || 
-      f.title.toLowerCase().includes('brittle selector') ||
-      f.title.toLowerCase().includes('brittle css') ||
-      f.description.toLowerCase().includes('brittle')
-    );
-    const stateIsolation = !findings.some(f =>
-      f.title.toLowerCase().includes('isolation') ||
-      f.title.toLowerCase().includes('shared state') ||
-      f.title.toLowerCase().includes('resource cleanup')
-    );
-    const autoWaiting = !findings.some(f =>
-      f.title.toLowerCase().includes('waitfortimeout') ||
-      f.title.toLowerCase().includes('hardcoded wait') ||
-      f.title.toLowerCase().includes('hardcoded sleep')
-    );
-    const strongAssertions = !findings.some(f => f.title.toLowerCase().includes('missing assertion') || f.title.toLowerCase().includes('weak assertion'));
+    const resilientLocators = !findings.some(f => f.category === 'BrittleLocator');
+    const stateIsolation = !findings.some(f => f.category === 'SharedState' || f.category === 'ResourceCleanup');
+    const autoWaiting = !findings.some(f => f.category === 'HardcodedWait');
+    const strongAssertions = !findings.some(f => f.category === 'MissingAssertion');
 
     const qualityChecklist: Score['qualityChecklist'] = {
       pomEncapsulation,
@@ -44,7 +31,7 @@ export class ScoringEngine {
 
     const maintainabilityChecklist: Score['maintainabilityChecklist'] = {
       meaninglessWaitAvoided: autoWaiting,
-      dryPrinciple: !findings.some(f => f.title.toLowerCase().includes('duplicate')),
+      dryPrinciple: !findings.some(f => f.category === 'Duplicate'),
       modularLocators: pomEncapsulation && resilientLocators, // Must have encapsulation AND resilient locators
     };
 
@@ -121,7 +108,7 @@ export class ScoringEngine {
     let score = 100;
     
     // Deduct for missing areas found
-    if (findings.some(f => f.title.toLowerCase().includes('missing assertion'))) {
+    if (findings.some(f => f.category === 'MissingAssertion')) {
       score -= 20;
     }
     
@@ -132,8 +119,8 @@ export class ScoringEngine {
       score -= 20;
     }
     
-    // Check BVA
-    if (!content.includes('empty') && !content.includes('max') && !content.includes('min')) {
+    // Check BVA via structural regex parsing
+    if (!this.detectBvaCoverage(content)) {
       score -= 15;
     }
 
@@ -145,6 +132,30 @@ export class ScoringEngine {
 
     if (score < 0) score = 0;
     return score;
+  }
+
+  private detectBvaCoverage(content: string): boolean {
+    // 1. Find all test/it names
+    const testTitleRegex = /(?:test|it)(?:\.\w+)?\s*\(\s*['"]([^'"]+)['"]/g;
+    let match;
+    const testTitles: string[] = [];
+    while ((match = testTitleRegex.exec(content)) !== null) {
+      testTitles.push(match[1].toLowerCase());
+    }
+
+    // Check if any test title explicitly mentions boundary/BVA keywords
+    const bvaKeywords = /\b(boundary|bva|limit|edge|empty|max|min|negative|zero|null|undefined|overflow|underflow|invalid|bounds)\b/i;
+    const hasBvaTitle = testTitles.some(title => bvaKeywords.test(title));
+    if (hasBvaTitle) return true;
+
+    // 2. Check the code body for boundary value test patterns
+    const bvaPatterns = [
+      /['"]{2}\s*,\s*['"]{2}/, // empty strings as parameters
+      /\.length\s*[><=]=?\s*\d+/, // length checks
+      /\b(max_length|min_length|maxLength|minLength|empty_str)\b/, // variable names
+      /expect\(.*\)\.(?:toBeFalsy|toBeNull|toBeUndefined)\b/, // null checks
+    ];
+    return bvaPatterns.some(pattern => pattern.test(content));
   }
 
   private calculateFeatureCoverage(context: ReviewContext, fileCoverage: number): number | string {
@@ -160,12 +171,7 @@ export class ScoringEngine {
   private checkPomEncapsulation(context: ReviewContext, findings: Finding[]): boolean {
     // If POM files are present, check if we leaked raw selectors in this spec
     const hasPomFiles = context.pageObjects.length > 0;
-    const hasLeakFinding = findings.some(f => 
-      f.title.toLowerCase().includes('selector leak') || 
-      f.title.toLowerCase().includes('seçici sızıntısı') ||
-      f.description.toLowerCase().includes('selector leak') ||
-      f.description.toLowerCase().includes('seçici sızıntısı')
-    );
+    const hasLeakFinding = findings.some(f => f.category === 'SelectorLeak' || f.ruleId === 'LOCATOR_001');
     
     if (hasPomFiles && hasLeakFinding) {
       return false; // Violates encapsulation
