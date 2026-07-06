@@ -258,17 +258,18 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Generated local VSIX RC package and SHA256 checksum.
 - [ ] Publish extension Release Candidate (RC) to VS Code Marketplace after clean-profile smoke test and publisher token setup.
 
-### ⬜ Sprint 19.5 — Core Hardening Before Python Expansion
+### ✅ Sprint 19.5 — Core Hardening & Stability
 - **Objective**: Address critical correctness and maintainability risks found during external project review before expanding to Python support.
-- **Status**: Planned.
-- [ ] Fix MCP repository root detection so absolute file paths resolve their nearest project root instead of assuming server `cwd`.
-- [ ] Add LLM response schema validation and normalization before scoring/reporting.
-- [ ] Extract shared assertion detection helpers used by adapters and deterministic fallback.
-- [ ] Define deterministic finding deduplication severity merge behavior.
-- [ ] Remove or isolate benchmark-overfit string heuristics from scoring and signal extraction.
-- [ ] Clean mixed-language/encoding leftovers in user-facing CLI/MCP messages.
-- [ ] Add regression tests for MCP root detection, invalid LLM JSON shape, assertion helper parity, and dedup severity behavior.
-- [ ] Keep existing benchmark, validation, VS Code compile, and VSIX packaging checks green.
+- **Status**: Completed.
+- [x] Fix MCP repository root detection so absolute file paths resolve their nearest project root instead of assuming server `cwd`.
+- [x] Add LLM response schema validation and normalization before scoring/reporting.
+- [x] Extract shared assertion detection helpers used by adapters and deterministic fallback.
+- [x] Define deterministic finding deduplication severity merge behavior.
+- [x] Remove or isolate benchmark-overfit string heuristics from scoring and signal extraction.
+- [x] Clean mixed-language/encoding leftovers in user-facing CLI/MCP messages.
+- [x] Add regression tests for MCP root detection, invalid LLM JSON shape, assertion helper parity, and dedup severity behavior.
+- [x] Keep existing benchmark, validation, VS Code compile, and VSIX packaging checks green.
+- [x] Created Mimari Karar Günlüğü (Architecture Decisions Log) under `docs/architecture-decisions.md`.
 
 ### ⬜ Sprint 20 — Python Core & Scanner (v4.0 Core)
 - **Objective**: Generalize scanning engine to parse Python test folders and package structures.
