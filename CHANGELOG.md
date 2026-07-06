@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.1
+
+- Added direct LLM configuration UI in the VS Code sidebar dashboard supporting Gemini, OpenAI, Anthropic, and OpenRouter.
+- Added custom API endpoint and model name override inputs with automatic status masking.
+- Added a settings cog toggle button in the dashboard header.
+- Added an English `README.md` to populate the VS Code Marketplace overview page.
+- Added a standalone `LLMNormalizer` to validate and sanitize raw provider JSON outputs.
+- Added a consolidated `hasAssertionSignal` helper under `src/utils/` to remove duplicate code across adapters and router.
+- Added dynamic project root resolution via `findNearestProjectRoot` in MCP tools to support nested monorepos.
+- Added deterministic ordering (Line -> Title) and severity merging for deduplicated findings.
+- Generalised Turkish/Shampoo overfit checks into a generic non-ASCII/i18n check in `ScoringEngine`.
+- Created `docs/architecture-decisions.md` containing 7 Architecture Decision Records (ADR).
+
 ## 0.1.0 RC
 
 - Added VS Code marketplace packaging preparation.
