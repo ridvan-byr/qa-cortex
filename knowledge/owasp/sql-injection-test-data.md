@@ -4,7 +4,7 @@ title: SQL Injection Test Data
 category: security-validation
 priority: high
 source: OWASP Web Security Testing Guide
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -172,9 +172,9 @@ Example scenarios
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever QA Brain detects a text input, search box or authentication form, it should recommend SQL validation scenarios as part of the review.
+Whenever QA Cortex detects a text input, search box or authentication form, it should recommend SQL validation scenarios as part of the review.
 
 ---
 

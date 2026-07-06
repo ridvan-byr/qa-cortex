@@ -1,6 +1,6 @@
-# QA Brain Roadmap
+# QA Cortex Roadmap
 
-QA Brain is an AI-powered Quality Engineering engine designed to perform whole-project evaluations on test automation repositories, producing senior-level QA audit reports.
+QA Cortex is an AI-powered Quality Engineering engine designed to perform whole-project evaluations on test automation repositories, producing senior-level QA audit reports.
 
 This roadmap details completed sprints and outlines the path toward building the core engine and its various client integrations.
 
@@ -27,7 +27,7 @@ Framework support labels are defined in `docs/framework-support-policy.md`.
 ## Roadmap Overview
 
 ```
-                                 QA Brain
+                                 QA Cortex
                                     │
     ┌───────────────────────────────┴───────────────────────────────┐
     ▼                                                               ▼
@@ -69,7 +69,7 @@ Framework support labels are defined in `docs/framework-support-policy.md`.
 - [x] Integrated Mandatory Code Evidence and Architecture Confidence scores.
 
 ### ✅ Sprint 6 — Core Engine
-- [x] Developed the core QA Brain engine code to dynamically read, load, and execute review rules and prompts.
+- [x] Developed the core QA Cortex engine code to dynamically read, load, and execute review rules and prompts.
 - [x] Implemented decoupled ReviewPipeline, neutral ContextBuilder, and Gemini LLM provider.
 - [x] Decoupled mathematical ScoringEngine and ReportGenerator.
 
@@ -106,7 +106,7 @@ Framework support labels are defined in `docs/framework-support-policy.md`.
 - [x] Fixed `globToRegex` placeholder bug across `Scanner` and `DiffDetector`.
 
 ### ✅ Sprint 11 — Real Repository Validation
-- **Objective**: Run QA Brain on 10+ open-source Playwright repos and measure real-world Precision/Recall.
+- **Objective**: Run QA Cortex on 10+ open-source Playwright repos and measure real-world Precision/Recall.
 - **Status**: Completed.
 - [x] Created validation workspace under `validation/`.
 - [x] Added `ValidationRunner` for repository selection checks, rule coverage, review time, and finding triage reports.
@@ -132,7 +132,7 @@ Follow-up after Sprint 11:
 - **Status**: Completed.
 - [x] Planned VS Code Client MVP scope in `docs/implementation-plan.md`.
 - [x] Created isolated extension package under `extensions/vscode`.
-- [x] Added rule-only review integration using the existing QA Brain core pipeline.
+- [x] Added rule-only review integration using the existing QA Cortex core pipeline.
 - [x] Added commands for current file, selection, changed files, latest report, and diagnostics clearing.
 - [x] Added Problems panel diagnostics, Output Channel report, Status Bar, and CodeLens support.
 - [x] Added config defaults for `reviewOnSave`, `openReportAfterReview`, diagnostics, CodeLens, and Status Bar.
@@ -141,7 +141,7 @@ Follow-up after Sprint 11:
 - [x] Completed final build/test/benchmark validation with no regression.
 
 ### ✅ Sprint 13A — Core Adapter & Signal Architecture
-- **Objective**: Prepare QA Brain core for framework adapters without changing current Playwright behavior.
+- **Objective**: Prepare QA Cortex core for framework adapters without changing current Playwright behavior.
 - **Status**: Completed.
 - [x] Add small `FrameworkAdapter` API.
 - [x] Add `FrameworkSignal` and `FrameworkContext` types.
@@ -178,7 +178,7 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Publish `docs/architecture-freeze-sprint-13.md`.
 
 ### ✅ Sprint 13C — Selenium WebDriver Adapter
-- **Objective**: Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Brain's generic rule model and Playwright output stability.
+- **Objective**: Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Cortex's generic rule model and Playwright output stability.
 - **Status**: Completed.
 - [x] Document architecture principles for framework-independent QA rules.
 - [x] Detect Selenium WebDriver for Node.js projects.
@@ -211,7 +211,7 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Create test design benchmark specs and add verification integration tests.
 
 ### ✅ Sprint 15 — Framework-Neutral VS Code Client
-- **Objective**: Transform the VS Code extension into a framework-neutral client powered by the QA Brain core APIs.
+- **Objective**: Transform the VS Code extension into a framework-neutral client powered by the QA Cortex core APIs.
 - **Status**: Completed.
 - [x] Implement core-driven framework detection in the extension.
 - [x] Port Scanner.isTestFile() as the single source of truth for file eligibility.
@@ -230,7 +230,7 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Add status bar attention configurations.
 
 ### ✅ Sprint 17 — Framework-Neutral VS Code Workspace UI (Phase 1)
-- **Objective**: Surface QA Brain intelligence through a responsive, native-themed workspace dashboard inside the VS Code Sidebar.
+- **Objective**: Surface QA Cortex intelligence through a responsive, native-themed workspace dashboard inside the VS Code Sidebar.
 - **Status**: Completed.
 - [x] Implement Sidebar Webview view container and registration.
 - [x] Establish MVVM architecture with DashboardViewModel.
@@ -252,7 +252,7 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Added strict opt-in telemetry with `qaBrain.telemetryEnabled` defaulting to `false`.
 - [x] Added anonymized local telemetry events for review, test design, crash, and feature usage.
 - [x] Added versioned rule pack manifest at `knowledge/rule-pack.json`.
-- [x] Added extension package asset preparation for compiled QA Brain core and knowledge files.
+- [x] Added extension package asset preparation for compiled QA Cortex core and knowledge files.
 - [x] Added `.vscodeignore` exclusions for source, tests, benchmarks, validation data, screenshots, and generated files.
 - [x] Added extension marketplace metadata, package scripts, root license copy, changelog, versioning policy, and release checklist.
 - [x] Generated local VSIX RC package and SHA256 checksum.

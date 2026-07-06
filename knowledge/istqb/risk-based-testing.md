@@ -4,7 +4,7 @@ title: Risk-Based Testing
 category: test-strategy
 priority: critical
 source: ISTQB Foundation Level
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -133,9 +133,9 @@ One smoke test may be sufficient.
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should increase review strictness as business risk increases.
+QA Cortex should increase review strictness as business risk increases.
 
 High-risk features require:
 

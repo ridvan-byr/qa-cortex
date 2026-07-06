@@ -4,7 +4,7 @@ title: Cross-Site Scripting (XSS) Test Data
 category: security-validation
 priority: high
 source: OWASP Web Security Testing Guide
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -153,9 +153,9 @@ Common areas
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever QA Brain detects a text field whose content is displayed later in the UI, recommend XSS validation scenarios.
+Whenever QA Cortex detects a text field whose content is displayed later in the UI, recommend XSS validation scenarios.
 
 ---
 

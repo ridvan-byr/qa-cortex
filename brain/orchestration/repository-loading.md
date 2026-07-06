@@ -17,7 +17,7 @@ Bu modül, token kullanımını ve yapay zeka ajanının analiz odağını en ü
 
 ## 1. Yükleme Sırası (Sequential Loading Order)
 
-QA Brain, analiz sürecinde bağlam (context) bütünlüğünü korumak için dosyaları şu sıra ile yüklemelidir:
+QA Cortex, analiz sürecinde bağlam (context) bütünlüğünü korumak için dosyaları şu sıra ile yüklemelidir:
 
 ```
 Step 1: package.json (Bağımlılıklar)

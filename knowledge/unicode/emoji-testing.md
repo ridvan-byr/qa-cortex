@@ -4,7 +4,7 @@ title: Emoji Testing
 category: internationalization
 priority: high
 source: Unicode Standard
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -197,7 +197,7 @@ await page.getByLabel("Name").fill("Ridvan😀");
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
 Whenever Unicode testing is suggested, emoji testing should also be considered unless business rules explicitly forbid emojis.
 

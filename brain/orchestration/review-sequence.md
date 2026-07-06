@@ -1,6 +1,6 @@
 # Review Sequence
 
-QA Brain follows this execution order.
+QA Cortex follows this execution order.
 
 Receive Test
 

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import type { Finding, ReviewRun, Severity } from './types';
 
 export class DiagnosticManager {
-  private readonly collection = vscode.languages.createDiagnosticCollection('QA Brain');
+  private readonly collection = vscode.languages.createDiagnosticCollection('QA Cortex');
 
   public setDiagnostics(document: vscode.TextDocument, run: ReviewRun): void {
     const diagnostics = run.result.findings.map(finding => this.toDiagnostic(document, run, finding));
@@ -32,7 +32,7 @@ export class DiagnosticManager {
       `${finding.title}: ${finding.recommendation}`,
       this.mapSeverity(finding.severity)
     );
-    diagnostic.source = 'QA Brain';
+    diagnostic.source = 'QA Cortex';
     diagnostic.code = finding.severity;
     return diagnostic;
   }

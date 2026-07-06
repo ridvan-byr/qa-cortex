@@ -1,4 +1,4 @@
-# QA Brain Validation Report
+# QA Cortex Validation Report
 
 Generated: 2026-07-06T11:51:23.767Z
 

@@ -9,7 +9,7 @@ version: 1.0
 
 # Decision Engine
 
-The Decision Engine determines which reasoning path QA Brain should follow.
+The Decision Engine determines which reasoning path QA Cortex should follow.
 
 ---
 
@@ -101,7 +101,7 @@ Recommendations should always be:
 
 # Decision Principles
 
-QA Brain must:
+QA Cortex must:
 
 - Never assume requirements.
 - Never invent scenarios.

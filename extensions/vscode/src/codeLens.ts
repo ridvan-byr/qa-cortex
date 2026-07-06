@@ -34,7 +34,7 @@ export class QaBrainCodeLensProvider implements vscode.CodeLensProvider {
     const state = this.reviews.get(path.normalize(document.fileName));
     const summary = state
       ? `🧠 Quality ${state.qualityScore} • Risk ${state.riskScore}`
-      : '🧠 QA Brain: Review this test';
+      : '🧠 QA Cortex: Review this test';
 
     const top = new vscode.Range(new vscode.Position(0, 0), new vscode.Position(0, 0));
     const lenses: vscode.CodeLens[] = [

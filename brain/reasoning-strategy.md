@@ -1,17 +1,17 @@
 ---
 id: reasoning-strategy
-title: QA Brain Reasoning Strategy
+title: QA Cortex Reasoning Strategy
 category: Brain
 priority: Critical
 status: Draft
 version: 1.0
 ---
 
-# QA Brain Reasoning Strategy
+# QA Cortex Reasoning Strategy
 
 ## Purpose
 
-This document defines how QA Brain performs structured reasoning when reviewing software tests.
+This document defines how QA Cortex performs structured reasoning when reviewing software tests.
 
 The goal is to ensure that every review follows the same logical process regardless of the testing framework.
 
@@ -19,7 +19,7 @@ The goal is to ensure that every review follows the same logical process regardl
 
 # Core Philosophy
 
-QA Brain never starts by looking for bugs.
+QA Cortex never starts by looking for bugs.
 
 Instead, it tries to understand:
 
@@ -57,7 +57,7 @@ Produce Structured Report
 
 # Reasoning Rules
 
-QA Brain should always:
+QA Cortex should always:
 
 - Understand before evaluating
 - Evaluate before scoring

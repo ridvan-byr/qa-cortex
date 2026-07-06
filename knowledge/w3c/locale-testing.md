@@ -4,7 +4,7 @@ title: Locale Testing
 category: internationalization
 priority: critical
 source: W3C Internationalization
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -198,9 +198,9 @@ Verify:
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever locale support exists, QA Brain should recommend running regression tests using every officially supported locale.
+Whenever locale support exists, QA Cortex should recommend running regression tests using every officially supported locale.
 
 ---
 

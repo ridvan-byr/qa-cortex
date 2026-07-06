@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   statusBar.command = 'qaBrain.reviewCurrentFile';
 
-  const updateStatus = (text: string, tooltip = 'QA Brain', qualityScore?: number, riskScore?: number): void => {
+  const updateStatus = (text: string, tooltip = 'QA Cortex', qualityScore?: number, riskScore?: number): void => {
     const config = vscode.workspace.getConfiguration('qaBrain');
     if (!config.get<boolean>('showStatusBar', true)) {
       statusBar.hide();
@@ -53,16 +53,16 @@ export function activate(context: vscode.ExtensionContext): void {
     statusBar.show();
   };
 
-  updateStatus('🧠 QA Brain | Ready');
+  updateStatus('🧠 QA Cortex | Ready');
 
   const reviewCurrentFile = async (uri?: vscode.Uri): Promise<void> => {
     const document = await resolveDocument(uri);
     if (!document) {
-      await vscode.window.showWarningMessage('QA Brain: Open a supported test file first.');
+      await vscode.window.showWarningMessage('QA Cortex: Open a supported test file first.');
       return;
     }
     if (!runner.isSupportedTestFile(document.fileName)) {
-      await vscode.window.showWarningMessage('QA Brain: Current file is not a supported test file.');
+      await vscode.window.showWarningMessage('QA Cortex: Current file is not a supported test file.');
       return;
     }
     await reviewDocument(document);
@@ -71,15 +71,15 @@ export function activate(context: vscode.ExtensionContext): void {
   const runTestDesign = async (uri?: vscode.Uri): Promise<void> => {
     const document = await resolveDocument(uri);
     if (!document) {
-      await vscode.window.showWarningMessage('QA Brain: Open a supported test file first.');
+      await vscode.window.showWarningMessage('QA Cortex: Open a supported test file first.');
       return;
     }
     if (!runner.isSupportedTestFile(document.fileName)) {
-      await vscode.window.showWarningMessage('QA Brain: Current file is not a supported test file.');
+      await vscode.window.showWarningMessage('QA Cortex: Current file is not a supported test file.');
       return;
     }
     if (document.fileName.endsWith('.py')) {
-      await vscode.window.showInformationMessage('QA Brain: Python discovery is enabled, but Python test design is not enabled yet.');
+      await vscode.window.showInformationMessage('QA Cortex: Python discovery is enabled, but Python test design is not enabled yet.');
       return;
     }
     const workspaceRoot = runner.getWorkspaceRoot(document);
@@ -98,7 +98,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const reviewSelection = async (): Promise<void> => {
     const editor = vscode.window.activeTextEditor;
     if (!editor || editor.selection.isEmpty) {
-      await vscode.window.showWarningMessage('QA Brain: Select a test block to review.');
+      await vscode.window.showWarningMessage('QA Cortex: Select a test block to review.');
       return;
     }
     const selectedText = editor.document.getText(editor.selection);
@@ -118,13 +118,13 @@ export function activate(context: vscode.ExtensionContext): void {
   const reviewChangedFiles = async (): Promise<void> => {
     const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
     if (!workspaceRoot) {
-      await vscode.window.showWarningMessage('QA Brain: Open a workspace to review changed files.');
+      await vscode.window.showWarningMessage('QA Cortex: Open a workspace to review changed files.');
       return;
     }
 
     const changedFiles = await getChangedTestFiles(workspaceRoot, runner);
     if (changedFiles.length === 0) {
-      await vscode.window.showInformationMessage('QA Brain: No changed test files found.');
+      await vscode.window.showInformationMessage('QA Cortex: No changed test files found.');
       return;
     }
 
@@ -177,7 +177,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
     const frameworkLabel = run.framework ? ` | ${run.framework}` : '';
     updateStatus(
-      `🧠 QA Brain${frameworkLabel} | ${run.result.score.qualityScore}`,
+      `🧠 QA Cortex${frameworkLabel} | ${run.result.score.qualityScore}`,
       `Risk ${run.result.score.riskScore} • ${run.result.findings.length} finding(s)`,
       run.result.score.qualityScore,
       run.result.score.riskScore
@@ -191,28 +191,28 @@ export function activate(context: vscode.ExtensionContext): void {
   };
 
   const runWithProgress = async (title: string, operation: (token: vscode.CancellationToken) => Promise<void>): Promise<void> => {
-    updateStatus('🧠 QA Brain | Reviewing...');
+    updateStatus('🧠 QA Cortex | Reviewing...');
     try {
       await vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title, cancellable: true },
         async (_progress, token) => operation(token)
       );
-      updateStatus('🧠 QA Brain | Ready');
+      updateStatus('🧠 QA Cortex | Ready');
     } catch (error: any) {
-      updateStatus('🧠 QA Brain | Ready');
+      updateStatus('🧠 QA Cortex | Ready');
       telemetry.trackCrash(error, 'runWithProgress');
       const errMsg = error?.message || String(error);
       if (errMsg.includes('planned in v4.0') || errMsg.includes('disabled by configuration')) {
-        await vscode.window.showInformationMessage(`QA Brain: ${errMsg}`);
+        await vscode.window.showInformationMessage(`QA Cortex: ${errMsg}`);
       } else {
-        await vscode.window.showErrorMessage(`QA Brain review failed: ${errMsg}`);
+        await vscode.window.showErrorMessage(`QA Cortex review failed: ${errMsg}`);
       }
     }
   };
 
   const openLatestReport = async (): Promise<void> => {
     if (!latestReportPath || !fs.existsSync(latestReportPath)) {
-      await vscode.window.showWarningMessage('QA Brain: No latest report is available yet.');
+      await vscode.window.showWarningMessage('QA Cortex: No latest report is available yet.');
       return;
     }
     const document = await vscode.workspace.openTextDocument(vscode.Uri.file(latestReportPath));
@@ -232,7 +232,7 @@ export function activate(context: vscode.ExtensionContext): void {
       diagnostics.clear();
       codeLens.clear();
       dashboardViewModel.clearState();
-      updateStatus('🧠 QA Brain | Ready');
+      updateStatus('🧠 QA Cortex | Ready');
     }),
     vscode.workspace.onDidSaveTextDocument(document => {
       const config = vscode.workspace.getConfiguration('qaBrain');

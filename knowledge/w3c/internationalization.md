@@ -4,7 +4,7 @@ title: Right-to-Left (RTL) Testing
 category: internationalization
 priority: high
 source: W3C Internationalization
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -171,9 +171,9 @@ Verify:
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever RTL locales are supported, QA Brain should recommend a dedicated RTL regression suite.
+Whenever RTL locales are supported, QA Cortex should recommend a dedicated RTL regression suite.
 
 ---
 

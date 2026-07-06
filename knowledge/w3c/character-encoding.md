@@ -4,7 +4,7 @@ title: Character Encoding Testing
 category: internationalization
 priority: critical
 source: W3C Character Model
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -172,9 +172,9 @@ Verify encoding after:
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever text crosses system boundaries, QA Brain should recommend character encoding verification.
+Whenever text crosses system boundaries, QA Cortex should recommend character encoding verification.
 
 ---
 

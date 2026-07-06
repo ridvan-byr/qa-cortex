@@ -4,7 +4,7 @@ title: UTF-8 Testing
 category: internationalization
 priority: critical
 source: Unicode Standard
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -136,9 +136,9 @@ Verify displayed text exactly matches the original value.
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever text crosses system boundaries (UI → API → Database → Export), QA Brain should recommend UTF-8 validation.
+Whenever text crosses system boundaries (UI → API → Database → Export), QA Cortex should recommend UTF-8 validation.
 
 ---
 

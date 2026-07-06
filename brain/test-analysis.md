@@ -9,7 +9,7 @@ version: 1.0
 
 # Test Analysis Pipeline
 
-QA Brain should analyze every test in the following order.
+QA Cortex should analyze every test in the following order.
 
 ---
 

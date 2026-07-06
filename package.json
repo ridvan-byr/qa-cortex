@@ -1,7 +1,7 @@
 {
   "name": "qa-brain",
-  "version": "0.1.2",
-  "description": "AI-powered QA Knowledge Base for Playwright Test Design, Review and Test Generation.",
+  "version": "0.1.3",
+  "description": "QA Cortex: AI-powered QA knowledge engine for test design, review and test generation.",
   "main": "./dist/src/cli.js",
   "bin": {
     "qa-brain": "./dist/src/cli.js",

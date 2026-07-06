@@ -8,7 +8,7 @@ export class ReportGenerator {
   public generateMarkdown(result: ReviewResult, context: ReviewContext): string {
     let report = '';
 
-    report += `# QA Brain Review Report\n\n`;
+    report += `# QA Cortex Review Report\n\n`;
     report += `## Summary\n\n${result.summary}\n\n---\n\n`;
 
     report += `## Findings\n\n`;

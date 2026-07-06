@@ -1,8 +1,8 @@
 {
   "name": "qa-brain-vscode-client",
-  "displayName": "QA Brain",
-  "description": "Framework-neutral VS Code client for QA Brain deterministic test review and design analysis.",
-  "version": "0.1.2",
+  "displayName": "QA Cortex",
+  "description": "Framework-neutral VS Code client for QA Cortex deterministic test review and design analysis.",
+  "version": "0.1.3",
   "publisher": "qa-brain",
   "license": "MIT",
   "icon": "assets/icon.png",
@@ -47,38 +47,38 @@
     "commands": [
       {
         "command": "qaBrain.reviewCurrentFile",
-        "title": "QA Brain: Review Current Test File",
-        "category": "QA Brain"
+        "title": "QA Cortex: Review Current Test File",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.reviewSelection",
-        "title": "QA Brain: Review Selection",
-        "category": "QA Brain"
+        "title": "QA Cortex: Review Selection",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.reviewChangedFiles",
-        "title": "QA Brain: Review Changed Files",
-        "category": "QA Brain"
+        "title": "QA Cortex: Review Changed Files",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.runTestDesign",
-        "title": "QA Brain: Run Test Design Analysis",
-        "category": "QA Brain"
+        "title": "QA Cortex: Run Test Design Analysis",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.openLatestReport",
-        "title": "QA Brain: Open Latest Report",
-        "category": "QA Brain"
+        "title": "QA Cortex: Open Latest Report",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.clearDiagnostics",
-        "title": "QA Brain: Clear Diagnostics",
-        "category": "QA Brain"
+        "title": "QA Cortex: Clear Diagnostics",
+        "category": "QA Cortex"
       },
       {
         "command": "qaBrain.showFindingDetails",
-        "title": "QA Brain: Show Finding Details",
-        "category": "QA Brain"
+        "title": "QA Cortex: Show Finding Details",
+        "category": "QA Cortex"
       }
     ],
     "menus": {
@@ -116,7 +116,7 @@
       "activitybar": [
         {
           "id": "qa-brain-sidebar",
-          "title": "QA Brain",
+          "title": "QA Cortex",
           "icon": "assets/activity-icon.svg"
         }
       ]
@@ -126,12 +126,12 @@
         {
           "type": "webview",
           "id": "qaBrain.sidebarView",
-          "name": "QA Brain Dashboard"
+          "name": "QA Cortex Dashboard"
         }
       ]
     },
     "configuration": {
-      "title": "QA Brain",
+      "title": "QA Cortex",
       "properties": {
         "qaBrain.reviewMode": {
           "type": "string",
@@ -171,12 +171,12 @@
             "Selenium",
             "Disabled"
           ],
-          "description": "Override framework detection. If Auto, QA Brain will automatically detect workspace framework dependencies. If Disabled, review on save is paused."
+          "description": "Override framework detection. If Auto, QA Cortex will automatically detect workspace framework dependencies. If Disabled, review on save is paused."
         },
         "qaBrain.reviewOnSave": {
           "type": "boolean",
           "default": false,
-          "description": "Run QA Brain when a supported test file is saved."
+          "description": "Run QA Cortex when a supported test file is saved."
         },
         "qaBrain.openReportAfterReview": {
           "type": "boolean",
@@ -197,7 +197,7 @@
           "items": {
             "type": "string"
           },
-          "description": "File patterns eligible for QA Brain review."
+          "description": "File patterns eligible for QA Cortex review."
         },
         "qaBrain.excludePatterns": {
           "type": "array",
@@ -209,22 +209,22 @@
           "items": {
             "type": "string"
           },
-          "description": "File patterns excluded from QA Brain review."
+          "description": "File patterns excluded from QA Cortex review."
         },
         "qaBrain.showDiagnostics": {
           "type": "boolean",
           "default": true,
-          "description": "Show QA Brain findings in the Problems panel."
+          "description": "Show QA Cortex findings in the Problems panel."
         },
         "qaBrain.showCodeLens": {
           "type": "boolean",
           "default": true,
-          "description": "Show QA Brain CodeLens summary on supported test files."
+          "description": "Show QA Cortex CodeLens summary on supported test files."
         },
         "qaBrain.showStatusBar": {
           "type": "boolean",
           "default": true,
-          "description": "Show QA Brain status bar item."
+          "description": "Show QA Cortex status bar item."
         },
         "qaBrain.statusBarAttentionMode": {
           "type": "string",
@@ -235,7 +235,7 @@
         "qaBrain.telemetryEnabled": {
           "type": "boolean",
           "default": false,
-          "description": "Opt in to local anonymized QA Brain telemetry. Disabled by default. Telemetry never records file paths, repository URIs, source code, or secrets."
+          "description": "Opt in to local anonymized QA Cortex telemetry. Disabled by default. Telemetry never records file paths, repository URIs, source code, or secrets."
         }
       }
     }

@@ -4,7 +4,7 @@ title: Unicode Testing
 category: internationalization
 priority: critical
 source: Unicode Standard
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -210,9 +210,9 @@ Straße
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever an input field exists, QA Brain should recommend Unicode scenarios unless the business explicitly restricts accepted characters.
+Whenever an input field exists, QA Cortex should recommend Unicode scenarios unless the business explicitly restricts accepted characters.
 
 ---
 

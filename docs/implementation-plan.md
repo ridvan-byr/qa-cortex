@@ -1,4 +1,4 @@
-# QA Brain Implementation Plan
+# QA Cortex Implementation Plan
 
 Bu dosya, sprint bazli uygulama planini ve unutulmamasi gereken stratejik kararları takip etmek icin kullanilir.
 
@@ -12,7 +12,7 @@ Bu dosya, sprint bazli uygulama planini ve unutulmamasi gereken stratejik kararl
 
 ## Stratejik Hedef
 
-QA Brain uzun vadede iki framework icin birinci sinif destek vermelidir:
+QA Cortex uzun vadede iki framework icin birinci sinif destek vermelidir:
 
 - Playwright tam destek
 - Selenium tam destek
@@ -23,7 +23,7 @@ Cypress ve diger frameworkler simdilik ikincil hedef olarak kalmalidir. Playwrig
 
 ### Amac
 
-QA Brain'i gercek Playwright repository'leri uzerinde dogrulamak ve Playwright stable release icin guvenilir bir kalite/accuracy baseline'i olusturmak.
+QA Cortex'i gercek Playwright repository'leri uzerinde dogrulamak ve Playwright stable release icin guvenilir bir kalite/accuracy baseline'i olusturmak.
 
 ### Scope
 
@@ -216,7 +216,7 @@ Sprint 11 basarili sayilmak icin asagidaki kriterleri hedeflemelidir:
 Sprint 11 sonunda README ve validation raporunda kullanilabilecek ozet format:
 
 ```text
-QA Brain Validation Report
+QA Cortex Validation Report
 
 Repositories: TBD
 Files Reviewed: TBD
@@ -229,7 +229,7 @@ Golden Repositories: TBD
 Recommendation Accuracy: TBD
 ```
 
-Bu rapor, QA Brain'in yalnizca calisan bir review araci degil, dogrulugu olculmus bir review motoru oldugunu gostermelidir.
+Bu rapor, QA Cortex'in yalnizca calisan bir review araci degil, dogrulugu olculmus bir review motoru oldugunu gostermelidir.
 
 ## Playwright Tam Destek Track
 
@@ -237,14 +237,14 @@ Bu rapor, QA Brain'in yalnizca calisan bir review araci degil, dogrulugu olculmu
 
 ### Amac
 
-QA Brain'i VS Code icinde API key gerektirmeyen, hizli, rule-only calisan bir gelistirici deneyimi olarak sunmak.
+QA Cortex'i VS Code icinde API key gerektirmeyen, hizli, rule-only calisan bir gelistirici deneyimi olarak sunmak.
 
-Bu sprintte yazilan sey sadece bir extension degil, QA Brain'in ilk GUI/client deneyimi olarak ele alinmalidir. Bu nedenle isimlendirme `VS Code Client` olarak dusunulmelidir.
+Bu sprintte yazilan sey sadece bir extension degil, QA Cortex'in ilk GUI/client deneyimi olarak ele alinmalidir. Bu nedenle isimlendirme `VS Code Client` olarak dusunulmelidir.
 
 ### Ana Kararlar
 
 - Ilk surum Rule Only olacak.
-- Mevcut QA Brain core pipeline yeniden kullanilacak; ikinci bir review motoru yazilmayacak.
+- Mevcut QA Cortex core pipeline yeniden kullanilacak; ikinci bir review motoru yazilmayacak.
 - Extension ayri klasorde tutulacak: `extensions/vscode`.
 - Repository review bu sprintte eklenmeyecek.
 - LLM provider secimi bu sprintte eklenmeyecek.
@@ -266,11 +266,11 @@ Bu sprintte yazilan sey sadece bir extension degil, QA Brain'in ilk GUI/client d
 
 ### Komutlar
 
-- `QA Brain: Review Current Test File`
-- `QA Brain: Review Selection`
-- `QA Brain: Review Changed Files`
-- `QA Brain: Open Latest Report`
-- `QA Brain: Clear Diagnostics`
+- `QA Cortex: Review Current Test File`
+- `QA Cortex: Review Selection`
+- `QA Cortex: Review Changed Files`
+- `QA Cortex: Open Latest Report`
+- `QA Cortex: Clear Diagnostics`
 
 ### Config
 
@@ -287,8 +287,8 @@ Bu sprintte yazilan sey sadece bir extension degil, QA Brain'in ilk GUI/client d
 
 ```text
 Open Playwright test file
-  -> QA Brain Ready
-  -> QA Brain: Review Current Test File
+  -> QA Cortex Ready
+  -> QA Cortex: Review Current Test File
   -> Progress notification
   -> Problems panel diagnostics
   -> Output Channel report
@@ -299,7 +299,7 @@ Open Playwright test file
 ### Output Channel Format
 
 ```text
-QA Brain Review
+QA Cortex Review
 login.spec.ts
 
 Quality: 84
@@ -347,7 +347,7 @@ Use getByRole().
 
 ### Sprint Sonu Beklenen Cikti
 
-Sprint sonunda QA Brain, VS Code icinde aktif Playwright test dosyasini ve secili kod blogunu rule-only mode ile inceleyebilmeli; bulgulari Problems panelinde, ozeti Output Channel'da ve dosya durumunu Status Bar / CodeLens uzerinde gosterebilmelidir.
+Sprint sonunda QA Cortex, VS Code icinde aktif Playwright test dosyasini ve secili kod blogunu rule-only mode ile inceleyebilmeli; bulgulari Problems panelinde, ozeti Output Channel'da ve dosya durumunu Status Bar / CodeLens uzerinde gosterebilmelidir.
 
 Playwright icin tam destek su alanlari kapsamalidir:
 
@@ -399,7 +399,7 @@ Once Selenium WebDriver for Node.js projeleri desteklenmelidir.
 
 ## Framework Adapter ve Signal Mimarisi
 
-Sprint 13 icin final mimari karar: QA Brain, buyuk bir `NormalizedTestModel` icine tum frameworkleri zorlamamalidir. Bunun yerine kucuk bir adapter API ve esnek `FrameworkSignal` modeli kullanilmalidir.
+Sprint 13 icin final mimari karar: QA Cortex, buyuk bir `NormalizedTestModel` icine tum frameworkleri zorlamamalidir. Bunun yerine kucuk bir adapter API ve esnek `FrameworkSignal` modeli kullanilmalidir.
 
 ### Ana Prensipler
 
@@ -650,7 +650,7 @@ Architecture Freeze sonucu:
 Sprint goal:
 
 ```text
-Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Brain's generic rule model and Playwright output stability.
+Integrate Selenium WebDriver for Node.js as the second framework adapter while preserving QA Cortex's generic rule model and Playwright output stability.
 ```
 
 #### Architecture Terminology
@@ -807,7 +807,7 @@ Framework support seviyeleri ve README terminolojisi `docs/framework-support-pol
 
 ## Report UX Improvement Backlog
 
-Bu backlog Sprint 13A mimari isinden ayridir. Amac QA Brain raporlarini sadece finding listesi olmaktan cikarip kanita dayali, ogretici ve enterprise ekipler icin okunabilir kalite raporlarina donusturmektir.
+Bu backlog Sprint 13A mimari isinden ayridir. Amac QA Cortex raporlarini sadece finding listesi olmaktan cikarip kanita dayali, ogretici ve enterprise ekipler icin okunabilir kalite raporlarina donusturmektir.
 
 Onerilen iyilestirmeler:
 
@@ -850,7 +850,7 @@ Bu backlog Sprint 13B oncesinde mini polish olarak veya Sprint 13B icinde ayri b
 
 Claude tarafindan yapilan proje incelemesinde isaretlenen cekirdek dogruluk ve bakim risklerini, Python/SARIF/Enterprise gibi yeni genisleme islerine gecmeden once kapatmak.
 
-Bu sprintin amaci yeni ozellik eklemek degil, mevcut QA Brain cekirdeginin daha guvenilir, daha az kirilgan ve genislemeye daha hazir hale gelmesini saglamaktir.
+Bu sprintin amaci yeni ozellik eklemek degil, mevcut QA Cortex cekirdeginin daha guvenilir, daha az kirilgan ve genislemeye daha hazir hale gelmesini saglamaktir.
 
 ### Neden Simdi?
 

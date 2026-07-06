@@ -1,6 +1,6 @@
-# QA Brain Architecture Principles
+# QA Cortex Architecture Principles
 
-This document records the architectural rules that guide QA Brain as it evolves from a Playwright reviewer into a framework-independent Quality Engineering platform.
+This document records the architectural rules that guide QA Cortex as it evolves from a Playwright reviewer into a framework-independent Quality Engineering platform.
 
 ## Core Model
 
@@ -11,7 +11,7 @@ QA Principles
   -> Recommendations
 ```
 
-QA Brain should not treat framework APIs as the source of quality knowledge. Framework APIs provide evidence for review rules; the QA principle remains framework-independent whenever possible.
+QA Cortex should not treat framework APIs as the source of quality knowledge. Framework APIs provide evidence for review rules; the QA principle remains framework-independent whenever possible.
 
 ## Principles
 

@@ -1,7 +1,7 @@
-// MOCK SPEC FOR QA BRAIN SELF-TESTING
+// MOCK SPEC FOR QA CORTEX SELF-TESTING
 // Hedef: brain/repository/page-object-analysis.md (Selector Leak Detection)
 //
-// Expected QA Brain Output:
+// Expected QA Cortex Output:
 // 1. Finding -> Selector Leak (Seçici Sızıntısı) detected.
 // 2. Severity -> Medium / High (depending on feature risk).
 // 3. Evidence -> `await page.locator('//button[@id="login-btn"]').click();` (Mandatory Code Evidence).

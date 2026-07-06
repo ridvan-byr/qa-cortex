@@ -81,7 +81,7 @@ function testPRCommentFormatter() {
   const comment = PRCommentFormatter.formatComment(summary);
 
   assert.ok(comment.includes('<!-- qa-brain-review -->'));
-  assert.ok(comment.includes('## 🧠 QA Brain Review'));
+  assert.ok(comment.includes('## 🧠 QA Cortex Review'));
   assert.ok(comment.includes('🤖 Gemini 2.5 Flash + Rules'));
   assert.ok(comment.includes('| `tests/checkout.spec.ts` | 40/100 | ❌ Poor | 1 Critical, 1 Other |'));
   assert.ok(comment.includes('Hardcoded timeout'));

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-QA Brain should never load the entire knowledge base.
+QA Cortex should never load the entire knowledge base.
 
 Only the knowledge required for the detected feature should be loaded.
 

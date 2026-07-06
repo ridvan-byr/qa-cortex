@@ -17,7 +17,7 @@ Bu modül, test otomasyonunun çalışma ortamı ayarlarını belirleyen `playwr
 
 ## Analysis Criteria
 
-QA Brain, konfigürasyon dosyasını okurken aşağıdaki alanları analiz eder:
+QA Cortex, konfigürasyon dosyasını okurken aşağıdaki alanları analiz eder:
 
 ### 1. Eşzamanlılık ve Paralel Çalışma (Concurrency)
 - **`fullyParallel`**: `true` olmalıdır. Aksi halde testler tek tek çalıştırılarak zaman kaybına neden olur.

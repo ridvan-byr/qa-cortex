@@ -103,7 +103,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
       },
       {
         name: "run_benchmark",
-        description: "Runs the built-in QA Brain calibration suite against local ground truth specs. Verifies engine accuracy by calculating Precision, Recall, and checking for regressions.",
+        description: "Runs the built-in QA Cortex calibration suite against local ground truth specs. Verifies engine accuracy by calculating Precision, Recall, and checking for regressions.",
         inputSchema: {
           type: "object",
           properties: {}
@@ -233,7 +233,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("QA Brain MCP Server running on stdio");
+  console.error("QA Cortex MCP Server running on stdio");
 }
 
 main().catch((error) => {

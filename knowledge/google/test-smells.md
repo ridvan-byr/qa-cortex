@@ -4,7 +4,7 @@ title: Test Smells
 category: automation
 priority: high
 source: Google Testing Blog
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -133,9 +133,9 @@ Avoid
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should identify test smells and recommend concrete refactoring actions instead of only reporting issues.
+QA Cortex should identify test smells and recommend concrete refactoring actions instead of only reporting issues.
 
 ---
 

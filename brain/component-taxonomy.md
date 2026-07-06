@@ -9,7 +9,7 @@ version: 1.0
 
 # UI Component Taxonomy
 
-QA Brain should identify which UI component is under test.
+QA Cortex should identify which UI component is under test.
 
 ---
 

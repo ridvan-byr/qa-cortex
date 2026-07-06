@@ -1,7 +1,7 @@
-// MOCK CONFIGURATION FOR QA BRAIN SELF-TESTING
+// MOCK CONFIGURATION FOR QA CORTEX SELF-TESTING
 // Hedef: brain/repository/configuration-analysis.md
 //
-// Expected QA Brain Output:
+// Expected QA Cortex Output:
 // 1. Detected Configuration -> Workers: 1 (Fully Parallel: false)
 // 2. Warning -> Parallel execution is disabled (workers: 1). Recommend fullyParallel: true.
 // 3. Warning -> Tracing is set to 'off'. Recommend 'on-first-retry' or 'retain-on-failure'.

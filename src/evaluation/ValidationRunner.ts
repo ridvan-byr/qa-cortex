@@ -112,7 +112,7 @@ export class ValidationRunner {
     const parsed = JSON.parse(fs.readFileSync(configPath, 'utf8')) as ValidationConfig;
     return {
       framework: parsed.framework || 'playwright',
-      reportTitle: parsed.reportTitle || 'QA Brain Validation Report',
+      reportTitle: parsed.reportTitle || 'QA Cortex Validation Report',
       repositories: parsed.repositories || [],
       ignorePatterns: parsed.ignorePatterns || [],
       maxFilesPerRepository: parsed.maxFilesPerRepository || 50,
@@ -347,7 +347,7 @@ export class ValidationRunner {
     const coverage = this.formatRuleCoverage(ruleUsage);
 
     const lines: string[] = [];
-    lines.push(`# ${config.reportTitle || 'QA Brain Validation Report'}`);
+    lines.push(`# ${config.reportTitle || 'QA Cortex Validation Report'}`);
     lines.push('');
     lines.push(`Generated: ${new Date().toISOString()}`);
     lines.push('');

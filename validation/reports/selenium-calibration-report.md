@@ -1,4 +1,4 @@
-# QA Brain Selenium Calibration & Validation Report
+# QA Cortex Selenium Calibration & Validation Report
 
 Generated: 2026-07-05T10:41:53.084Z
 

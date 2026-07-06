@@ -4,7 +4,7 @@ title: Unicode Normalization Testing
 category: internationalization
 priority: critical
 source: Unicode Standard
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -180,9 +180,9 @@ Whenever login, registration or search features exist, recommend normalization s
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever QA Brain reviews text-processing features, it should recommend normalization scenarios in addition to standard Unicode testing.
+Whenever QA Cortex reviews text-processing features, it should recommend normalization scenarios in addition to standard Unicode testing.
 
 ---
 

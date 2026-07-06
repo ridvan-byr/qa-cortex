@@ -1,10 +1,10 @@
 # Orchestration Layer
 
-The Orchestration Layer coordinates how QA Brain loads knowledge, applies review rules, resolves conflicts, and generates deterministic review results.
+The Orchestration Layer coordinates how QA Cortex loads knowledge, applies review rules, resolves conflicts, and generates deterministic review results.
 
-It acts as the execution planner of QA Brain.
+It acts as the execution planner of QA Cortex.
 
-Instead of evaluating every available rule, QA Brain dynamically selects the most relevant knowledge based on the detected framework, feature, component, and risk level.
+Instead of evaluating every available rule, QA Cortex dynamically selects the most relevant knowledge based on the detected framework, feature, component, and risk level.
 
 ---
 

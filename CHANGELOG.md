@@ -1,8 +1,15 @@
 # Changelog
 
+## 0.1.3
+
+- Renamed the user-facing product brand from QA Brain to QA Cortex.
+- Updated VS Code extension display name, dashboard text, commands, notifications, reports, docs, and release metadata to use QA Cortex.
+- Refreshed the VS Code extension icon asset for the QA Cortex brand.
+- Kept existing `qa-brain` package, command, Marketplace, and repository identifiers for compatibility.
+
 ## 0.1.2
 
-- Published the QA Brain VS Code client to the Visual Studio Marketplace.
+- Published the QA Cortex VS Code client to the Visual Studio Marketplace.
 - Added Python test file scanner to scan `test_*.py`, `*_test.py`, and `test.py` files.
 - Added `requirements.txt` parsing support to map Python dependencies like `pytest`, `selenium`, and `playwright`.
 - Merged `package.json` and `requirements.txt` dependency discovery for mixed Node.js + Python repositories.
@@ -30,6 +37,6 @@
 - Added VS Code marketplace packaging preparation.
 - Added strictly opt-in local telemetry logging for review, test design, crash, and feature usage events.
 - Added versioned rule pack manifest under `knowledge/rule-pack.json`.
-- Added VSIX packaging asset preparation for compiled QA Brain core and knowledge files.
+- Added VSIX packaging asset preparation for compiled QA Cortex core and knowledge files.
 - Added versioning policy documentation.
 - Documented telemetry privacy behavior in `README.md`.

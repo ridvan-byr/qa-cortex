@@ -1,4 +1,4 @@
-# QA Brain Manual Triage Report
+# QA Cortex Manual Triage Report
 
 Generated: 2026-07-04
 
@@ -31,7 +31,7 @@ Latest validation baseline after applying triage actions:
 
 ## Summary
 
-This report does not prove final QA Brain accuracy. It classifies the final uncertainty left after calibration.
+This report does not prove final QA Cortex accuracy. It classifies the final uncertainty left after calibration.
 
 Validation progression:
 
@@ -43,7 +43,7 @@ Validation progression:
 | Clear false positives after manual triage | 0 |
 | Active findings after triage actions | 2 |
 
-The important result is that the remaining findings are no longer a basic detection problem. They are a classification problem: QA Brain is seeing a real missing-assertion signal, but it still needs better context and action calibration.
+The important result is that the remaining findings are no longer a basic detection problem. They are a classification problem: QA Cortex is seeing a real missing-assertion signal, but it still needs better context and action calibration.
 
 ## Remaining Findings Classification
 
@@ -54,7 +54,7 @@ The important result is that the remaining findings are no longer a basic detect
 | Rule Improvement Candidate | 1 |
 | Clear False Positive | 0 |
 
-Do not present `2 / 5` as overall QA Brain precision. It only describes the strict classification of the final 5 findings, not total validation precision across 226 reviewed files.
+Do not present `2 / 5` as overall QA Cortex precision. It only describes the strict classification of the final 5 findings, not total validation precision across 226 reviewed files.
 
 ## Finding Decisions
 
@@ -101,7 +101,7 @@ Do not present `2 / 5` as overall QA Brain precision. It only describes the stri
 - Evidence reviewed: The first test measures `loadEventEnd` and writes an annotation without enforcing a threshold. A later Lighthouse test in the same file has a `performance: 90` threshold.
 - Assertion status: First test has no assertion; file has at least one threshold-based validation later.
 - Recommended assertion: Assert a max load duration or convert metric-only collection into an Observation.
-- Action: Add per-test assertion analysis so QA Brain reasons about each `test(...)` block instead of only the file.
+- Action: Add per-test assertion analysis so QA Cortex reasons about each `test(...)` block instead of only the file.
 - Implementation: Added to backlog; not implemented yet.
 
 ### F4 - Synpress MetaMask Reset Account
@@ -130,7 +130,7 @@ Do not present `2 / 5` as overall QA Brain precision. It only describes the stri
 
 ## Recommended Sprint 11 Interpretation
 
-- QA Brain correctly detects missing assertion signals in the remaining files.
+- QA Cortex correctly detects missing assertion signals in the remaining files.
 - There are 0 clear false positives in the final manual triage set.
 - After applying observation calibration, only the 2 true-positive findings remain active.
 - The no-spec small repository was replaced with `microsoft/playwright-mcp`, so final validation coverage satisfies repository selection criteria.

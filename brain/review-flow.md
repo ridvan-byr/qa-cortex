@@ -11,7 +11,7 @@ version: 1.0
 
 ## Purpose
 
-This document defines the standard workflow QA Brain follows when reviewing software tests.
+This document defines the standard workflow QA Cortex follows when reviewing software tests.
 
 Every review should follow the same deterministic process.
 
@@ -67,7 +67,7 @@ Generate Structured Report
 
 # Review Rules
 
-QA Brain must never:
+QA Cortex must never:
 
 - Skip reasoning steps
 - Jump directly to recommendations

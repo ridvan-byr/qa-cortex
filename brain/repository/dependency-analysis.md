@@ -17,7 +17,7 @@ Bu modül, test projesinin `package.json` dosyasındaki bağımlılıkları, tes
 
 ## Analysis Criteria
 
-QA Brain, `package.json` dosyasını tararken aşağıdaki kütüphanelerin ve konfigürasyonların varlığını gözlemler:
+QA Cortex, `package.json` dosyasını tararken aşağıdaki kütüphanelerin ve konfigürasyonların varlığını gözlemler:
 
 ### 1. Kod Kalitesi ve Formatlama
 - **ESLint**: JavaScript/TypeScript statik kod analizi için kurulu olup olmadığını kontrol eder.
@@ -34,7 +34,7 @@ QA Brain, `package.json` dosyasını tararken aşağıdaki kütüphanelerin ve k
 > [!IMPORTANT]
 > Husky, ESLint, Prettier veya lint-staged gibi araçların projede bulunmaması **Quality Score (Kalite Skoru) veya Maintainability Score (Bakım Skoru) üzerinde negatif bir puanlama cezasına yol açmaz.**
 > 
-> Bu araçların eksikliği durumunda QA Brain, bunu bir bulgu (Finding) olarak raporlamak yerine, raporun **Observations (Gözlemler)** bölümünde bir geliştirme tavsiyesi olarak sunmalıdır.
+> Bu araçların eksikliği durumunda QA Cortex, bunu bir bulgu (Finding) olarak raporlamak yerine, raporun **Observations (Gözlemler)** bölümünde bir geliştirme tavsiyesi olarak sunmalıdır.
 
 ---
 

@@ -4,7 +4,7 @@ title: Failure Path Testing
 category: workflow
 priority: critical
 source: Microsoft Testing Playbook
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -121,7 +121,7 @@ Examples
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
 High-risk workflows should always include both Happy Path and Failure Path automation.
 

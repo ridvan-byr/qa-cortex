@@ -1,59 +1,51 @@
-# QA Brain
+# QA Cortex
 
-**QA Brain** is an AI-powered Quality Engineering & Test Design assistant designed to analyze your test automation repositories (Playwright and Selenium WebDriver), perform code reviews, identify missing test scenarios, and present insights through a rich, native-themed visual workbench dashboard.
+QA Cortex is a Quality Engineering assistant for VS Code. It reviews Playwright and Selenium WebDriver test files, highlights risky automation patterns, suggests missing test scenarios, and presents results in a native VS Code dashboard.
 
-It scans your test specs for brittle locators, Page Object Model (POM) encapsulation leaks, waiting strategy issues, test state isolation, and lifecycle teardown cleanup.
+The extension uses the local QA Cortex rule engine by default. LLM providers are optional and can be configured from the dashboard.
 
----
+## Features
 
-## 🚀 Key Features
+- Review current test file or selected code.
+- Show findings in the Problems panel with editor diagnostics.
+- Display CodeLens summaries for reviewed test files.
+- Generate structured Markdown reports.
+- Run test design analysis for missing scenarios.
+- Show quality, risk, maintainability, coverage, and insight tabs in the sidebar dashboard.
+- Configure Gemini, OpenAI, Anthropic, or OpenRouter as optional provider fallbacks.
 
-### 1. 🧠 AI-Powered Test Code Review
-* Deeply audits Playwright & Selenium test specs for anti-patterns (such as static timeouts, xpath leaks, or bypass of page objects).
-* Highlights the exact issue location (`Evidence`), severity classification (`Severity`), and actionable solutions (`Recommendation`).
-* Simply click on any finding card in the dashboard to jump directly to the target line of code.
+## How To Use
 
-### 2. 🧪 ISTQB-Based Test Design Workbench
-* Automatically analyzes test files to identify missing test scenarios based on ISTQB BVA (Boundary Value Analysis) and ECP (Equivalence Partitioning) standards.
-* Generates ready-to-use boilerplate test templates for both **Playwright** and **Selenium** frameworks.
-* Copy templates or insert them directly at your active cursor location with a single click.
+1. Install the extension.
+2. Open the QA Cortex view from the Activity Bar.
+3. Open a supported test file.
+4. Run `QA Cortex: Review Current Test File` from the Command Palette or editor context menu.
+5. Inspect findings in the Problems panel, Output channel, and QA Cortex dashboard.
 
-### 3. ⚙️ Direct LLM Configuration UI
-* Configure your AI preferences directly inside the Dashboard sidebar by clicking the **⚙️ (Cog)** icon:
-  * Select your provider: **Gemini API, OpenAI (ChatGPT), Anthropic (Claude), or OpenRouter**.
-  * Paste your API Key and customize the model name or API endpoint URL instantly.
+You can also select a code block and run `QA Cortex: Review Selection` for a context-limited review.
 
-### 4. 📈 Quality, Risk & Maintainability Metrics
-* Evaluates key metrics like Quality Score, Feature Risk, and Maintainability.
-* Visually tracks score deltas (`Deltas`) as your test suite improves.
-* Summarizes workspace-level insights (top violated rules, most risky spec files, and code recommendations).
+## Configuration
 
----
+The extension keeps the existing `qaBrain.*` setting keys for compatibility.
 
-## 🛠️ How to Use
+Common settings:
 
-1. Install the extension and click the **🧠 QA Brain** icon in the Activity Bar to open the Dashboard.
-2. Click the **⚙️** (Cog) icon at the top of the panel to select your provider and save your API Key.
-3. Open any supported test file and right-click inside the editor:
-   * Select **`QA Brain: Review Current Test File`** to audit the entire spec.
-   * Or highlight a specific block of code and select **`QA Brain: Review Selection`** to run a context-limited review.
-4. Interact with audit results, metrics, and templates directly from the Dashboard tabs (Review, Design, Coverage, Metrics, Insights).
+- `qaBrain.reviewOnSave`: run review when a supported test file is saved.
+- `qaBrain.showDiagnostics`: show findings in the Problems panel.
+- `qaBrain.showCodeLens`: show CodeLens summaries on supported test files.
+- `qaBrain.showStatusBar`: show the QA Cortex status bar item.
+- `qaBrain.telemetryEnabled`: opt in to local anonymized telemetry. Disabled by default.
+- `qaBrain.apiProvider`: optional provider fallback, such as Gemini, OpenAI, Anthropic, or OpenRouter.
+- `qaBrain.apiKey`: API key for the selected optional provider.
 
----
+## Privacy
 
-## ⚙️ Configuration Settings
+Telemetry is disabled by default. When enabled, telemetry is local and anonymized. QA Cortex does not record file paths, repository URLs, source code, API keys, or secrets.
 
-You can customize the following settings via VS Code Settings (`settings.json`):
+## Compatibility Note
 
-* `qaBrain.apiProvider`: Select the LLM provider (`Gemini`, `OpenAI`, `Anthropic`, `OpenRouter`).
-* `qaBrain.apiKey`: The API Key for the selected provider.
-* `qaBrain.apiModel`: Optional override for the model name (e.g. `gpt-4o`, `claude-3-5-sonnet-latest`).
-* `qaBrain.apiEndpoint`: Optional custom endpoint URL for proxies or OpenRouter targets.
-* `qaBrain.reviewOnSave`: Automatically triggers a review whenever a test file is saved (Default: `false`).
-* `qaBrain.showDiagnostics`: Shows red/yellow warning squiggles and populates the Problems panel (Default: `true`).
-* `qaBrain.showCodeLens`: Shows QA Brain CodeLens summaries at the top of test files (Default: `true`).
+QA Cortex was previously developed under the QA Brain name. Some internal identifiers, command IDs, and package names may still use `qa-brain` or `qaBrain` for compatibility.
 
----
+## License
 
-## 📄 License
-This project is licensed under the **MIT License**. See [LICENSE.txt](LICENSE.txt) for details.
+MIT

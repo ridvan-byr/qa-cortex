@@ -4,7 +4,7 @@ title: Authentication Testing
 category: security-validation
 priority: critical
 source: OWASP Web Security Testing Guide
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -149,7 +149,7 @@ Automate
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
 Authentication workflows should always receive the highest review priority.
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Measure how confident QA Brain is about each finding, requiring explicit, evidence-based justifications.
+Measure how confident QA Cortex is about each finding, requiring explicit, evidence-based justifications.
 
 ---
 

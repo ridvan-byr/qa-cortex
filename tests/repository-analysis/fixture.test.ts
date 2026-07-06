@@ -1,7 +1,7 @@
-// MOCK SPEC FOR QA BRAIN SELF-TESTING
+// MOCK SPEC FOR QA CORTEX SELF-TESTING
 // Hedef: brain/repository/fixture-analysis.md (Test Isolation Violation)
 //
-// Expected QA Brain Output:
+// Expected QA Cortex Output:
 // 1. Finding -> Test Isolation Violation (Shared Mutable State / Dependency).
 // 2. Severity -> Critical.
 // 3. Evidence -> `let globalSessionId = '';` (Mandatory Code Evidence).

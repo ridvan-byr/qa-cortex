@@ -11,13 +11,13 @@ version: 1.0
 
 ## Purpose
 
-Bu doküman, QA Brain'in bir depoyu (repository) baştan sona analiz ederken izlemesi gereken deterministik iş akışını (pipeline) ve adımların sırasını tanımlar.
+Bu doküman, QA Cortex'in bir depoyu (repository) baştan sona analiz ederken izlemesi gereken deterministik iş akışını (pipeline) ve adımların sırasını tanımlar.
 
 ---
 
 ## Analiz Akış Şeması (Review Pipeline)
 
-QA Brain bütünsel analiz yaparken aşağıdaki sırayı birebir takip etmelidir:
+QA Cortex bütünsel analiz yaparken aşağıdaki sırayı birebir takip etmelidir:
 
 ```
 Step 1: Configuration Analysis (playwright.config.ts)
@@ -51,5 +51,5 @@ Step 9: Final Review generation (Observations & Recommendations)
 
 ## Akış Kuralları
 
-- **Sırayı Atlamama Kuralı**: QA Brain, projenin bağımlılık ve konfigürasyonunu tam olarak haritalandırmadan test dosyalarının (`spec.ts`) kalitesini veya sızıntılarını incelemeye başlamamalıdır.
+- **Sırayı Atlamama Kuralı**: QA Cortex, projenin bağımlılık ve konfigürasyonunu tam olarak haritalandırmadan test dosyalarının (`spec.ts`) kalitesini veya sızıntılarını incelemeye başlamamalıdır.
 - **Modüler Kuralların Yüklenmesi**: Her adım, orkestrasyonun `repository-loading.md` tablosunda belirttiği ilgili markdown kurallarını yükleyerek çalışır.

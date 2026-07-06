@@ -1,4 +1,4 @@
-# QA Brain Review: examples/bad/hardcoded-wait.spec.ts
+# QA Cortex Review: examples/bad/hardcoded-wait.spec.ts
 
 ## Summary
 

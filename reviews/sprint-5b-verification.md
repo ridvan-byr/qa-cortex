@@ -1,4 +1,4 @@
-# QA Brain Sprint 5B Simülasyon Doğrulama Raporu
+# QA Cortex Sprint 5B Simülasyon Doğrulama Raporu
 
 Bu rapor, Sprint 5B kapsamında oluşturulan **Mimari Değerlendirme (Architecture Intelligence)** kurallarını test etmek amacıyla [pom.test.ts](file:///c:/Users/ridva/Desktop/qa-brain/tests/repository-analysis/pom.test.ts) ve [fixture.test.ts](file:///c:/Users/ridva/Desktop/qa-brain/tests/repository-analysis/fixture.test.ts) dosyaları üzerinde çalıştırılan simülasyon sonuçlarını içerir.
 

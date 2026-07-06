@@ -4,7 +4,7 @@ title: Testing Pyramid
 category: testing-strategy
 priority: critical
 source: Google Testing Blog
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -141,7 +141,7 @@ Avoid using Playwright for logic that can be validated at lower levels.
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
 When reviewing Playwright tests, recommend moving suitable scenarios to lower testing layers if they do not require UI validation.
 

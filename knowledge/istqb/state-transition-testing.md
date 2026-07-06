@@ -4,7 +4,7 @@ title: State Transition Testing
 category: test-design
 priority: high
 source: ISTQB Foundation Level
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:

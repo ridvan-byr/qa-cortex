@@ -1,10 +1,10 @@
-# QA Brain Sprint 11 Final Validation Report
+# QA Cortex Sprint 11 Final Validation Report
 
 Generated: 2026-07-04
 
 ## Summary
 
-Sprint 11 validated QA Brain against real open-source Playwright repositories and calibrated noisy rule behavior using manual triage.
+Sprint 11 validated QA Cortex against real open-source Playwright repositories and calibrated noisy rule behavior using manual triage.
 
 | Metric | Result |
 | :--- | :--- |
@@ -62,7 +62,7 @@ These benchmarks preserve the real-world learning from Sprint 11 as regression c
 
 ## Accuracy Interpretation
 
-Do not report `2 / 5` as overall QA Brain precision. It only described the strict classification of the last 5 ambiguous findings.
+Do not report `2 / 5` as overall QA Cortex precision. It only described the strict classification of the last 5 ambiguous findings.
 
 Sprint 11 accuracy conclusion:
 

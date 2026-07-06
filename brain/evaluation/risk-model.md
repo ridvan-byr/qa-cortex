@@ -9,7 +9,7 @@ version: 1.0
 
 # Risk Model
 
-QA Brain evaluates business impact before reviewing technical quality.
+QA Cortex evaluates business impact before reviewing technical quality.
 
 ---
 

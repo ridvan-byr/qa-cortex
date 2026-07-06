@@ -5,11 +5,11 @@ import * as path from 'path';
 
 export class QABrainCore {
   /**
-   * Main static runner to execute QA Brain review over a target file.
+   * Main static runner to execute QA Cortex review over a target file.
    */
   public static async runReview(targetFilePath: string): Promise<void> {
     try {
-      console.log(`=== Starting QA Brain Review: ${targetFilePath} ===`);
+      console.log(`=== Starting QA Cortex Review: ${targetFilePath} ===`);
       
       const provider = new GeminiProvider();
       const pipeline = new ReviewPipeline('.', provider);
@@ -33,7 +33,7 @@ export class QABrainCore {
       console.log(`Report Saved To: ${reportPath}`);
       console.log(`==========================================`);
     } catch (error) {
-      console.error('QA Brain Execution Error:', error);
+      console.error('QA Cortex Execution Error:', error);
       process.exit(1);
     }
   }

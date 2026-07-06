@@ -36,7 +36,7 @@ export class ReviewRunner {
     const frameworkOverride = config.get<string>('frameworkOverride', 'Auto');
 
     if (frameworkOverride === 'Disabled') {
-      throw new Error("QA Brain reviews are disabled by configuration.");
+      throw new Error("QA Cortex reviews are disabled by configuration.");
     }
 
     if (filePath.endsWith('.py')) {

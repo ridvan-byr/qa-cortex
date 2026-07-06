@@ -1,6 +1,6 @@
 {
   "framework": "selenium",
-  "reportTitle": "QA Brain Selenium Calibration & Validation Report",
+  "reportTitle": "QA Cortex Selenium Calibration & Validation Report",
   "maxFilesPerRepository": 50,
   "runGeminiComparison": false,
   "outputDir": "validation/reports",

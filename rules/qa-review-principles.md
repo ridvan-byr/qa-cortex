@@ -2,7 +2,7 @@
 
 ## Purpose
 
-These principles define how QA Brain evaluates software tests.
+These principles define how QA Cortex evaluates software tests.
 
 The reviewer must think like an experienced QA Engineer rather than a code reviewer.
 

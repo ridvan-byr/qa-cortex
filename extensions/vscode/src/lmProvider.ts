@@ -12,9 +12,9 @@ export class VsCodeLanguageModelProvider {
       }
 
       selectedModelId = model.id;
-      console.log(`QA Brain: Running LLM review using VS Code Language Model: ${model.id}`);
+      console.log(`QA Cortex: Running LLM review using VS Code Language Model: ${model.id}`);
 
-      const systemInstruction = 'You are QA Brain Reviewer. Match findings and output JSON matching response-format.md schema.';
+      const systemInstruction = 'You are QA Cortex Reviewer. Match findings and output JSON matching response-format.md schema.';
       const userPrompt = `
 Review Context:
 ${JSON.stringify(context, null, 2)}
@@ -53,7 +53,7 @@ ${context.targetFile.content}
       };
     } catch (err: any) {
       console.warn("VS Code Language Model review failed, falling back to local deterministic rules:", err);
-      vscode.window.showWarningMessage(`QA Brain: Falling back to local rules. (Reason: ${err.message || err})`);
+      vscode.window.showWarningMessage(`QA Cortex: Falling back to local rules. (Reason: ${err.message || err})`);
       
       const result = await this.geminiFallback.review(context, ruleContents);
       result.observations = [
@@ -73,9 +73,9 @@ ${context.targetFile.content}
       }
 
       selectedModelId = model.id;
-      console.log(`QA Brain: Running LLM test design using VS Code Language Model: ${model.id}`);
+      console.log(`QA Cortex: Running LLM test design using VS Code Language Model: ${model.id}`);
 
-      const systemInstruction = `You are QA Brain Test Design Engine. Analyze target test files, identify missing test design scenarios (applying ISTQB Boundary Value Analysis, Equivalence Partitioning, security validation, and data variation principles), explain the QA rationale for each, and output valid JSON matching the TestDesignResult schema.
+      const systemInstruction = `You are QA Cortex Test Design Engine. Analyze target test files, identify missing test design scenarios (applying ISTQB Boundary Value Analysis, Equivalence Partitioning, security validation, and data variation principles), explain the QA rationale for each, and output valid JSON matching the TestDesignResult schema.
 
 For each missing scenario, provide:
 - id: unique string (e.g., TS_001)
@@ -121,7 +121,7 @@ ${context.targetFile.content}
       };
     } catch (err: any) {
       console.warn("VS Code Language Model test design failed, falling back to local deterministic rules:", err);
-      vscode.window.showWarningMessage(`QA Brain: Falling back to local rules for Test Design. (Reason: ${err.message || err})`);
+      vscode.window.showWarningMessage(`QA Cortex: Falling back to local rules for Test Design. (Reason: ${err.message || err})`);
       return this.geminiFallback.designTests(context, ruleContents);
     }
   }

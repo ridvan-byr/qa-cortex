@@ -3,12 +3,12 @@ import * as vscode from 'vscode';
 import type { Finding, ReviewRun } from './types';
 
 export class ReviewOutput {
-  public readonly channel = vscode.window.createOutputChannel('QA Brain');
+  public readonly channel = vscode.window.createOutputChannel('QA Cortex');
 
   public show(run: ReviewRun): void {
     const score = run.result.score;
     this.channel.clear();
-    this.channel.appendLine('QA Brain Review');
+    this.channel.appendLine('QA Cortex Review');
     this.channel.appendLine(path.basename(run.filePath));
     this.channel.appendLine('');
     this.channel.appendLine(`Quality: ${score.qualityScore}`);

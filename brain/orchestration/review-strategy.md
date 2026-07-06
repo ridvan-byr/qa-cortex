@@ -1,6 +1,6 @@
 # Review Strategy
 
-QA Brain performs reviews using layered analysis.
+QA Cortex performs reviews using layered analysis.
 
 Order:
 
@@ -18,4 +18,4 @@ Order:
 
 Each layer depends on the previous layer.
 
-QA Brain should never skip a layer.
+QA Cortex should never skip a layer.

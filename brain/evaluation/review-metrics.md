@@ -9,7 +9,7 @@ version: 1.0
 
 # Review Metrics
 
-QA Brain evaluates tests using multiple metrics.
+QA Cortex evaluates tests using multiple metrics.
 
 ---
 

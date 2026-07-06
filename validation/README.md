@@ -1,4 +1,4 @@
-# QA Brain Validation Workspace
+# QA Cortex Validation Workspace
 
 This folder supports Sprint 11 real repository validation.
 

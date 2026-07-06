@@ -4,7 +4,7 @@ title: Test Maintainability
 category: automation
 priority: critical
 source: Google Testing Blog
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -108,9 +108,9 @@ Prefer
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should recommend refactoring whenever duplicated patterns appear across multiple Playwright tests.
+QA Cortex should recommend refactoring whenever duplicated patterns appear across multiple Playwright tests.
 
 ---
 

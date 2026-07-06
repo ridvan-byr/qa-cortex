@@ -4,7 +4,7 @@ title: Flaky Tests
 category: automation
 priority: critical
 source: Google Testing Blog
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -132,9 +132,9 @@ waitForTimeout(5000);
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should flag tests that rely on timing, execution order or unstable selectors.
+QA Cortex should flag tests that rely on timing, execution order or unstable selectors.
 
 ---
 

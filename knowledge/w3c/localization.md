@@ -4,7 +4,7 @@ title: Localization (l10n)
 category: internationalization
 priority: high
 source: W3C Internationalization
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -157,9 +157,9 @@ Execute the same workflow under multiple locales and compare behavior rather tha
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever locale support exists, QA Brain should recommend validating both translated content and locale-specific business behavior.
+Whenever locale support exists, QA Cortex should recommend validating both translated content and locale-specific business behavior.
 
 ---
 

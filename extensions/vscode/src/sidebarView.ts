@@ -77,7 +77,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
               }
             }
           } else {
-            vscode.window.showWarningMessage(`QA Brain: Knowledge rule document not found: ${ruleFile}`);
+            vscode.window.showWarningMessage(`QA Cortex: Knowledge rule document not found: ${ruleFile}`);
           }
           break;
         }
@@ -85,7 +85,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
         case 'copyTemplate':
           this.telemetry?.track('featureUsage', { feature: 'copyTemplate' });
           await vscode.env.clipboard.writeText(message.code);
-          vscode.window.showInformationMessage('QA Brain: Test template copied to clipboard.');
+          vscode.window.showInformationMessage('QA Cortex: Test template copied to clipboard.');
           break;
 
         case 'insertTemplate': {
@@ -95,9 +95,9 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
             editor.edit(editBuilder => {
               editBuilder.insert(editor.selection.active, message.code);
             });
-            vscode.window.showInformationMessage('QA Brain: Test template inserted (Experimental).');
+            vscode.window.showInformationMessage('QA Cortex: Test template inserted (Experimental).');
           } else {
-            vscode.window.showWarningMessage('QA Brain: No active text editor open to insert template.');
+            vscode.window.showWarningMessage('QA Cortex: No active text editor open to insert template.');
           }
           break;
         }
@@ -144,7 +144,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
           {
             const key: string = message.apiKey || '';
             await vscode.workspace.getConfiguration('qaBrain').update('apiKey', key.trim(), vscode.ConfigurationTarget.Global);
-            vscode.window.showInformationMessage('QA Brain: API Key successfully saved and configured.');
+            vscode.window.showInformationMessage('QA Cortex: API Key successfully saved and configured.');
             this.pushState();
           }
           break;
@@ -157,7 +157,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
             await config.update('apiKey', (message.apiKey || '').trim(), vscode.ConfigurationTarget.Global);
             await config.update('apiModel', (message.apiModel || '').trim(), vscode.ConfigurationTarget.Global);
             await config.update('apiEndpoint', (message.apiEndpoint || '').trim(), vscode.ConfigurationTarget.Global);
-            vscode.window.showInformationMessage('QA Brain: API Configuration successfully saved.');
+            vscode.window.showInformationMessage('QA Cortex: API Configuration successfully saved.');
             this.pushState();
           }
           break;
@@ -218,7 +218,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QA Brain Dashboard</title>
+  <title>QA Cortex Dashboard</title>
   <style>
     body {
       background-color: var(--vscode-sideBar-background);
@@ -438,7 +438,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
 </head>
 <body>
   <div class="header">
-    <div class="title">🧠 QA Brain Dashboard</div>
+    <div class="title">🧠 QA Cortex Dashboard</div>
     <div style="display: flex; align-items: center; gap: 8px;">
       <div id="framework-badge" class="framework-badge" style="display: none;">Unknown</div>
       <button class="btn secondary" style="padding: 2px 6px; font-size: 1.1em; line-height: 1;" onclick="toggleSettings()">⚙️</button>
@@ -495,7 +495,7 @@ export class QaBrainSidebarViewProvider implements vscode.WebviewViewProvider {
     <div id="review-list">
       <div class="no-review">
         <p>No active file review. Open a test file and click below to review.</p>
-        <button class="btn" onclick="runReview()">Run QA Brain Review</button>
+        <button class="btn" onclick="runReview()">Run QA Cortex Review</button>
       </div>
     </div>
   </div>

@@ -60,7 +60,7 @@ Latest validation smoke:
 
 Architecture Freeze passed.
 
-QA Brain is ready to start Sprint 13C - Selenium WebDriver Adapter.
+QA Cortex is ready to start Sprint 13C - Selenium WebDriver Adapter.
 
 ## Follow-Up
 

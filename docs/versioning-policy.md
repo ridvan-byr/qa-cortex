@@ -1,6 +1,6 @@
-# QA Brain Versioning Policy
+# QA Cortex Versioning Policy
 
-QA Brain uses semantic versioning for user-facing releases, extension packages, and rule packs.
+QA Cortex uses semantic versioning for user-facing releases, extension packages, and rule packs.
 
 ## Product Versions
 
@@ -18,7 +18,7 @@ Rule packs are versioned independently from the VS Code extension.
 
 ## Compatibility
 
-Each rule pack declares the compatible QA Brain version range in `knowledge/rule-pack.json`.
+Each rule pack declares the compatible QA Cortex version range in `knowledge/rule-pack.json`.
 Clients must treat incompatible rule packs as unsupported instead of silently loading them.
 
 ## Release Candidate Policy

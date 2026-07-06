@@ -14,7 +14,7 @@ source:
 
 Auto Waiting is one of Playwright's core features. Before performing actions such as clicking, filling, or typing, Playwright automatically waits until the target element becomes actionable.
 
-QA Brain must recognize when Playwright's built-in waiting is sufficient and when explicit waiting is justified.
+QA Cortex must recognize when Playwright's built-in waiting is sufficient and when explicit waiting is justified.
 
 ---
 
@@ -84,14 +84,14 @@ Explicit waits are appropriate when waiting for:
 
 # QA Review Rules
 
-QA Brain should flag:
+QA Cortex should flag:
 
 - Frequent use of `waitForTimeout()`
 - Multiple consecutive manual waits
 - Explicit waits that duplicate Auto Waiting
 - Waiting without a business reason
 
-QA Brain should NOT flag:
+QA Cortex should NOT flag:
 
 - Legitimate waits for network responses
 - Waiting for downloads

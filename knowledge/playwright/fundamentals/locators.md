@@ -20,7 +20,7 @@
 
 ## QA Review Rules
 
-QA Brain should flag:
+QA Cortex should flag:
 
 - XPath overuse
 - Deep CSS selectors
@@ -28,7 +28,7 @@ QA Brain should flag:
 - Dynamic class selectors
 - Brittle selectors
 
-QA Brain should prefer:
+QA Cortex should prefer:
 
 - getByRole
 - getByLabel

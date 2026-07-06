@@ -10,7 +10,7 @@ it('waits with a hardcoded selenium sleep', async () => {
 
   try {
     await driver.get('https://example.com/search');
-    await driver.findElement(By.id('search')).sendKeys('qa brain');
+    await driver.findElement(By.id('search')).sendKeys('qa cortex');
     await driver.sleep(3000);
     expect(await driver.getTitle()).to.contain('Search');
   } finally {

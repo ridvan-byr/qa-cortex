@@ -166,7 +166,7 @@ export class DashboardViewModel {
         this.notifyStateChanged();
       }
     } catch (err: any) {
-      vscode.window.showErrorMessage(`QA Brain Test Design failed: ${err.message}`);
+      vscode.window.showErrorMessage(`QA Cortex Test Design failed: ${err.message}`);
     }
   }
 

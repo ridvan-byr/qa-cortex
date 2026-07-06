@@ -4,7 +4,7 @@ title: Happy Path Testing
 category: workflow
 priority: high
 source: Microsoft Testing Playbook
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:

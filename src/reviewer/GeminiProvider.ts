@@ -94,7 +94,7 @@ export class GeminiProvider implements LLMProvider {
       return this.generateRuleEngineReview(context);
     }
 
-    const systemInstruction = 'You are QA Brain Reviewer. Match findings and output JSON matching response-format.md schema.';
+    const systemInstruction = 'You are QA Cortex Reviewer. Match findings and output JSON matching response-format.md schema.';
     const userPrompt = `
       Review Context:
       ${JSON.stringify(context, null, 2)}
@@ -180,7 +180,7 @@ export class GeminiProvider implements LLMProvider {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.apiKey}`,
           'HTTP-Referer': 'https://github.com/ridvan-byr/qa-brain',
-          'X-Title': 'QA Brain'
+          'X-Title': 'QA Cortex'
         };
         const body = {
           model: modelName,
@@ -207,7 +207,7 @@ export class GeminiProvider implements LLMProvider {
       return this.generateRuleEngineTestDesign(context);
     }
 
-    const systemInstruction = `You are QA Brain Test Design Engine. Analyze target test files, identify missing test design scenarios (applying ISTQB Boundary Value Analysis, Equivalence Partitioning, security validation, and data variation principles), explain the QA rationale for each, and output valid JSON matching the TestDesignResult schema.
+    const systemInstruction = `You are QA Cortex Test Design Engine. Analyze target test files, identify missing test design scenarios (applying ISTQB Boundary Value Analysis, Equivalence Partitioning, security validation, and data variation principles), explain the QA rationale for each, and output valid JSON matching the TestDesignResult schema.
 
 For each missing scenario, provide:
 - id: unique string (e.g., TS_001)
@@ -306,7 +306,7 @@ Output JSON only. Do not wrap in markdown or add notes.`;
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.apiKey}`,
           'HTTP-Referer': 'https://github.com/ridvan-byr/qa-brain',
-          'X-Title': 'QA Brain'
+          'X-Title': 'QA Cortex'
         };
         const body = {
           model: modelName,

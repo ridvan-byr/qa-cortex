@@ -14,13 +14,13 @@ export class QaBrainCodeActionProvider implements vscode.CodeActionProvider {
     const codeActions: vscode.CodeAction[] = [];
 
     for (const diagnostic of context.diagnostics) {
-      if (diagnostic.source !== 'QA Brain') {
+      if (diagnostic.source !== 'QA Cortex') {
         continue;
       }
 
       // 1. Show Finding Details Action
       const showDetailsAction = new vscode.CodeAction(
-        '🔍 QA Brain: Show Finding Details',
+        '🔍 QA Cortex: Show Finding Details',
         vscode.CodeActionKind.QuickFix
       );
       showDetailsAction.command = {
@@ -33,7 +33,7 @@ export class QaBrainCodeActionProvider implements vscode.CodeActionProvider {
 
       // 2. Open Report Action
       const openReportAction = new vscode.CodeAction(
-        '📖 QA Brain: Open Report',
+        '📖 QA Cortex: Open Report',
         vscode.CodeActionKind.QuickFix
       );
       openReportAction.command = {

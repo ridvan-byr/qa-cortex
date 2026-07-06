@@ -1,4 +1,4 @@
-# QA Brain Repository-Level Audit Report
+# QA Cortex Repository-Level Audit Report
 
 This report presents a full-repository evaluation of the `qa-brain` test automation workspace, mapping configurations, POM architectures, fixture isolation, and split coverage across all test files.
 

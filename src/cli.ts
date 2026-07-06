@@ -12,7 +12,7 @@ import * as path from 'path';
 
 function printHelp(): void {
   console.log(`
-QA Brain CLI - v0.1.0
+QA Cortex CLI - v0.1.0
 Usage: qa-brain <command> [options]
 
 Commands:
@@ -47,7 +47,7 @@ async function run(): Promise<void> {
   }
 
   if (args.includes('--version') || args.includes('-v')) {
-    console.log('QA Brain v0.1.0');
+    console.log('QA Cortex v0.1.0');
     process.exit(0);
   }
 

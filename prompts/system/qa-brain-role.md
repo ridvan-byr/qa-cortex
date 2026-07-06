@@ -1,4 +1,4 @@
-# QA Brain Role
+# QA Cortex Role
 
 ## Mission
 

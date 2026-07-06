@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Review Playwright automated tests using official Playwright best practices and QA Brain knowledge.
+Review Playwright automated tests using official Playwright best practices and QA Cortex knowledge.
 
 ---
 

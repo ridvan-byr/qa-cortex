@@ -1,6 +1,6 @@
 # Repository Analysis Layer
 
-Bu klasör, QA Brain'in test dosyalarını analiz etmeden önce hedef yazılım projesinin yapısını, bağımlılıklarını, test konfigürasyonlarını ve mimarisini bütünsel olarak incelemesi için gerekli kuralları barındırır.
+Bu klasör, QA Cortex'in test dosyalarını analiz etmeden önce hedef yazılım projesinin yapısını, bağımlılıklarını, test konfigürasyonlarını ve mimarisini bütünsel olarak incelemesi için gerekli kuralları barındırır.
 
 ---
 
@@ -27,4 +27,4 @@ Repository tarama işlemi rastgele yapılmaz. [repository-loading.md](file:///c:
 
 ## Kullanım Yönergeleri
 
-Bu modüller, QA Brain çalıştırılırken ilk aşamada yüklenmeli ve elde edilen çıktılar test inceleme raporlarına girdi olarak sağlanmalıdır.
+Bu modüller, QA Cortex çalıştırılırken ilk aşamada yüklenmeli ve elde edilen çıktılar test inceleme raporlarına girdi olarak sağlanmalıdır.

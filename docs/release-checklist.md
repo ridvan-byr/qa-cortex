@@ -1,4 +1,4 @@
-# QA Brain Release Checklist
+# QA Cortex Release Checklist
 
 Use this checklist before publishing a release candidate or marketplace build.
 
@@ -15,7 +15,7 @@ Use this checklist before publishing a release candidate or marketplace build.
 - [ ] `CHANGELOG.md` is updated.
 - [ ] `.vscodeignore` excludes tests, benchmarks, validation data, screenshots, and source maps.
 - [ ] Compiled extension files are included under `out/`.
-- [ ] Compiled QA Brain core is included under `qa-brain-core/dist/`.
+- [ ] Compiled QA Cortex core is included under `qa-brain-core/dist/`.
 - [ ] Rule assets and `knowledge/rule-pack.json` are included under `qa-brain-core/knowledge/`.
 - [ ] SHA256 checksum is generated for the VSIX.
 

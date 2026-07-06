@@ -4,7 +4,7 @@ title: Turkish Character Testing
 category: localization
 priority: critical
 source: Unicode Standard
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -184,7 +184,7 @@ Ask
 
 ## Playwright Perspective
 
-Whenever QA Brain detects a text input, suggest at least one Turkish dataset.
+Whenever QA Cortex detects a text input, suggest at least one Turkish dataset.
 
 ---
 
@@ -208,7 +208,7 @@ Whenever QA Brain detects a text input, suggest at least one Turkish dataset.
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
 Turkish datasets should automatically be suggested whenever the application supports Turkish users or does not explicitly restrict language input.
 

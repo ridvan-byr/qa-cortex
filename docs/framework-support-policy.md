@@ -1,6 +1,6 @@
-# QA Brain Framework Support Policy
+# QA Cortex Framework Support Policy
 
-This document defines how QA Brain classifies framework support.
+This document defines how QA Cortex classifies framework support.
 
 The goal is to avoid claiming stable support before a framework has passed benchmark, calibration, validation, and documentation gates.
 
@@ -8,7 +8,7 @@ The goal is to avoid claiming stable support before a framework has passed bench
 
 ### Stable
 
-Stable means QA Brain can be recommended for regular use with this framework.
+Stable means QA Cortex can be recommended for regular use with this framework.
 
 Required checklist:
 
@@ -39,7 +39,7 @@ Required checklist:
 
 ### Planned
 
-Planned means the framework is on the roadmap, but QA Brain does not yet provide meaningful support.
+Planned means the framework is on the roadmap, but QA Cortex does not yet provide meaningful support.
 
 Planned frameworks should not be listed as supported in README usage examples.
 

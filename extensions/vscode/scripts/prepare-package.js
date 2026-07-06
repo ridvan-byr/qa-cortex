@@ -25,4 +25,4 @@ copyDirectory(path.join(repoRoot, 'knowledge'), path.join(packageRoot, 'knowledg
 
 fs.copyFileSync(path.join(repoRoot, 'LICENSE'), path.join(packageRoot, 'LICENSE'));
 
-console.log(`QA Brain package assets prepared at ${packageRoot}`);
+console.log(`QA Cortex package assets prepared at ${packageRoot}`);

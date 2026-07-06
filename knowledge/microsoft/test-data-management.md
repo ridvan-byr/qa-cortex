@@ -4,7 +4,7 @@ title: Test Data Management
 category: test-data
 priority: critical
 source: Microsoft Testing Playbook
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -166,9 +166,9 @@ Use Existing User Forever
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should warn whenever:
+QA Cortex should warn whenever:
 
 - Shared accounts are reused.
 - Tests depend on execution order.

@@ -1,19 +1,19 @@
 ---
 id: brain-architecture
-title: QA Brain Architecture
+title: QA Cortex Architecture
 category: Brain
 priority: Critical
 status: Draft
 version: 1.0
 ---
 
-# QA Brain Architecture
+# QA Cortex Architecture
 
 ## Purpose
 
-QA Brain is an AI-powered Quality Engineering knowledge engine designed to analyze software tests, identify quality gaps, evaluate coverage, and recommend missing test scenarios using structured QA knowledge.
+QA Cortex is an AI-powered Quality Engineering knowledge engine designed to analyze software tests, identify quality gaps, evaluate coverage, and recommend missing test scenarios using structured QA knowledge.
 
-Unlike a traditional AI prompt, QA Brain follows a reasoning process based on industry standards such as:
+Unlike a traditional AI prompt, QA Cortex follows a reasoning process based on industry standards such as:
 
 - ISTQB
 - Microsoft Testing Playbook
@@ -144,7 +144,7 @@ Examples:
 
 # Design Principles
 
-QA Brain should always:
+QA Cortex should always:
 
 - Reason before answering
 - Use structured QA knowledge
@@ -152,20 +152,20 @@ QA Brain should always:
 - Explain recommendations
 - Produce deterministic reviews whenever possible---
 id: brain-architecture
-title: QA Brain Architecture
+title: QA Cortex Architecture
 category: Brain
 priority: Critical
 status: Draft
 version: 1.0
 ---
 
-# QA Brain Architecture
+# QA Cortex Architecture
 
 ## Purpose
 
-QA Brain is an AI-powered Quality Engineering knowledge engine designed to analyze software tests, identify quality gaps, evaluate coverage, and recommend missing test scenarios using structured QA knowledge.
+QA Cortex is an AI-powered Quality Engineering knowledge engine designed to analyze software tests, identify quality gaps, evaluate coverage, and recommend missing test scenarios using structured QA knowledge.
 
-Unlike a traditional AI prompt, QA Brain follows a reasoning process based on industry standards such as:
+Unlike a traditional AI prompt, QA Cortex follows a reasoning process based on industry standards such as:
 
 - ISTQB
 - Microsoft Testing Playbook
@@ -296,7 +296,7 @@ Examples:
 
 # Design Principles
 
-QA Brain should always:
+QA Cortex should always:
 
 - Reason before answering
 - Use structured QA knowledge

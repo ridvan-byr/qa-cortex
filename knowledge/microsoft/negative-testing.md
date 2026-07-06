@@ -4,7 +4,7 @@ title: Negative Testing
 category: validation
 priority: critical
 source: Microsoft Testing Playbook
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -154,9 +154,9 @@ Also automate:
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever QA Brain detects an input field, it should automatically ask:
+Whenever QA Cortex detects an input field, it should automatically ask:
 
 "Where are the negative tests?"
 

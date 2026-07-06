@@ -141,7 +141,7 @@ async function run(): Promise<void> {
         comment_id: existingComment.id,
         body: commentBody,
       });
-      core.info('Updated existing QA Brain comment.');
+      core.info('Updated existing QA Cortex comment.');
     } else {
       await octokit.rest.issues.createComment({
         owner,
@@ -149,7 +149,7 @@ async function run(): Promise<void> {
         issue_number: prNumber,
         body: commentBody,
       });
-      core.info('Created new QA Brain comment.');
+      core.info('Created new QA Cortex comment.');
     }
 
     // ── 8. GitHub Step Summary ──
@@ -162,13 +162,13 @@ async function run(): Promise<void> {
 
     if (failOnCritical && summary.criticalFindings > 0) {
       core.setFailed(
-        `QA Brain found ${summary.criticalFindings} critical/high finding(s). Review the PR comment for details.`
+        `QA Cortex found ${summary.criticalFindings} critical/high finding(s). Review the PR comment for details.`
       );
     } else {
-      core.info(`✅ QA Brain review complete. ${summary.filesReviewed} files reviewed, ${summary.criticalFindings} critical findings.`);
+      core.info(`✅ QA Cortex review complete. ${summary.filesReviewed} files reviewed, ${summary.criticalFindings} critical findings.`);
     }
   } catch (error: any) {
-    core.setFailed(`QA Brain Action failed: ${error.message}`);
+    core.setFailed(`QA Cortex Action failed: ${error.message}`);
   }
 }
 

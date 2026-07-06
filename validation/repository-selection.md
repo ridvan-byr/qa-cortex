@@ -1,4 +1,4 @@
-# QA Brain Selenium Repository Selection
+# QA Cortex Selenium Repository Selection
 
 This document records the rationale and technical characteristics of the 5 repositories selected for the Sprint 13D Selenium WebDriver calibration run.
 

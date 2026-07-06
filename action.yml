@@ -1,4 +1,4 @@
-name: 'QA Brain Review'
+name: 'QA Cortex Review'
 description: 'AI-powered Playwright test review for pull requests. Scans changed test files and posts structured review comments.'
 author: 'ridvan-byr'
 

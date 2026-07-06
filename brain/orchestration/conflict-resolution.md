@@ -2,7 +2,7 @@
 
 Sometimes multiple knowledge sources produce different recommendations.
 
-QA Brain resolves conflicts using the following priority:
+QA Cortex resolves conflicts using the following priority:
 
 1. Official Framework Documentation
 2. Security Standards (OWASP)

@@ -1,13 +1,13 @@
 # Mimari Karar Günlüğü (Architecture Decisions Log)
 
-Bu günlük, QA Brain projesinde tasarım kararlarının, mimari kalıpların ve teknik gerekçelerin kurumsal düzeyde takip edilebilmesi amacıyla tutulmaktadır.
+Bu günlük, QA Cortex projesinde tasarım kararlarının, mimari kalıpların ve teknik gerekçelerin kurumsal düzeyde takip edilebilmesi amacıyla tutulmaktadır.
 
 ---
 
 ## [ADR-001] Modüler Framework Adaptör Mimarisi (Adapter Architecture)
 * **Tarih:** 2026-07-03
 * **Durum:** Kabul Edildi
-* **Gerekçe:** QA Brain başlangıçta sadece Playwright test kütüphanesini destekliyordu. Selenium WebDriver gibi farklı kütüphanelerin entegrasyonunu çekirdek motora zarar vermeden sağlayabilmek için arayüz tabanlı bir adaptör deseni (`FrameworkAdapter`) kuruldu.
+* **Gerekçe:** QA Cortex başlangıçta sadece Playwright test kütüphanesini destekliyordu. Selenium WebDriver gibi farklı kütüphanelerin entegrasyonunu çekirdek motora zarar vermeden sağlayabilmek için arayüz tabanlı bir adaptör deseni (`FrameworkAdapter`) kuruldu.
 * **Sonuç:** Playwright ve Selenium davranışları ayrı adaptör sınıfları altına taşındı, kural motoru genel ve kütüphaneye özel olmak üzere ikiye ayrıldı.
 
 ---

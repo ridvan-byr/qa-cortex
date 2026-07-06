@@ -1,6 +1,6 @@
 # Rule Selection
 
-QA Brain selects review rules according to:
+QA Cortex selects review rules according to:
 
 - Framework
 - Feature

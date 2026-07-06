@@ -11,7 +11,7 @@ version: 1.0
 
 ## Purpose
 
-Confidence represents how certain QA Brain is about its findings.
+Confidence represents how certain QA Cortex is about its findings.
 
 Unlike deterministic rule violations, some recommendations are based on inference and should include a confidence level.
 
@@ -31,7 +31,7 @@ Unlike deterministic rule violations, some recommendations are based on inferenc
 
 # Confidence Factors
 
-QA Brain should consider:
+QA Cortex should consider:
 
 - Explicit assertions
 - Test data visibility

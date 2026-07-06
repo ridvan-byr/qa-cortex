@@ -4,7 +4,7 @@ title: Input Validation Testing
 category: security-validation
 priority: critical
 source: OWASP Web Security Testing Guide
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -160,9 +160,9 @@ Every input field should have:
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-Whenever an editable input exists, QA Brain should recommend a complete validation matrix before approving test coverage.
+Whenever an editable input exists, QA Cortex should recommend a complete validation matrix before approving test coverage.
 
 ---
 

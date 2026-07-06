@@ -1,7 +1,7 @@
-// MOCK PACKAGE.JSON FOR QA BRAIN SELF-TESTING
+// MOCK PACKAGE.JSON FOR QA CORTEX SELF-TESTING
 // Hedef: brain/repository/dependency-analysis.md
 //
-// Expected QA Brain Output:
+// Expected QA Cortex Output:
 // 1. Observations -> [✗] ESLint static code quality checker detected.
 // 2. Observations -> [✗] Husky git commit hooks integration detected.
 // 3. Score Validation -> Quality Score and Maintainability Score MUST remain 100/100 (No penalties).

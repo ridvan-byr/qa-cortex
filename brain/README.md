@@ -1,8 +1,8 @@
 # Brain Layer
 
-The Brain Layer is the reasoning core of QA Brain.
+The Brain Layer is the reasoning core of QA Cortex.
 
-Unlike the `knowledge/` directory, which stores structured QA knowledge, the Brain Layer defines **how QA Brain thinks**, **how it selects knowledge**, and **how it generates consistent review decisions**.
+Unlike the `knowledge/` directory, which stores structured QA knowledge, the Brain Layer defines **how QA Cortex thinks**, **how it selects knowledge**, and **how it generates consistent review decisions**.
 
 It is responsible for transforming static QA knowledge into intelligent analysis.
 

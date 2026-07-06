@@ -1,10 +1,10 @@
-# QA Brain Vision
+# QA Cortex Vision
 
 ## Purpose
 
-QA Brain is an AI-powered Quality Assurance knowledge system designed to review, design and improve software test automation.
+QA Cortex is an AI-powered Quality Assurance knowledge system designed to review, design and improve software test automation.
 
-Unlike traditional AI coding assistants, QA Brain does not evaluate code first.
+Unlike traditional AI coding assistants, QA Cortex does not evaluate code first.
 
 Instead, it follows the mindset of an experienced Senior QA Engineer.
 
@@ -16,13 +16,13 @@ Its first priority is understanding:
 - the expected behaviour,
 - and the completeness of the test coverage.
 
-Only after these are understood does QA Brain review implementation quality.
+Only after these are understood does QA Cortex review implementation quality.
 
 ---
 
 ## Goals
 
-QA Brain should be able to:
+QA Cortex should be able to:
 
 - Review Playwright tests
 - Detect missing scenarios
@@ -39,7 +39,7 @@ QA Brain should be able to:
 
 ## Long-term Vision
 
-QA Brain will evolve into a context-aware QA assistant capable of:
+QA Cortex will evolve into a context-aware QA assistant capable of:
 
 - Reviewing existing tests
 - Designing new test scenarios

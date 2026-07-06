@@ -4,7 +4,7 @@ title: Test Isolation
 category: automation
 priority: critical
 source: Google Testing Blog
-owner: QA Brain
+owner: QA Cortex
 status: verified
 version: 1.0
 tags:
@@ -132,9 +132,9 @@ Test B requires Test A
 
 ---
 
-## QA Brain Guidance
+## QA Cortex Guidance
 
-QA Brain should warn whenever tests depend on previous execution or shared mutable state.
+QA Cortex should warn whenever tests depend on previous execution or shared mutable state.
 
 ---
 

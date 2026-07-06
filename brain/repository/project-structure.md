@@ -17,7 +17,7 @@ Bu modül, hedef test otomasyon projesinin dosya ve klasör yerleşim düzenini 
 
 ## Directory Discovery Strategy
 
-QA Brain, test bileşenlerinin yerini tespit etmek için aşağıdaki klasör adlandırma varyasyonlarını tarar:
+QA Cortex, test bileşenlerinin yerini tespit etmek için aşağıdaki klasör adlandırma varyasyonlarını tarar:
 
 ### 1. Test Dosyaları Klasörü (Test Suite Location)
 - `tests/`

@@ -9,7 +9,7 @@ status: verified
 
 ## Purpose
 
-This pattern defines how QA Brain should evaluate any text input field.
+This pattern defines how QA Cortex should evaluate any text input field.
 
 Examples include:
 

@@ -11,7 +11,7 @@ version: 1.0
 
 ## Purpose
 
-Before evaluating test quality, QA Brain must first determine which business feature is being tested.
+Before evaluating test quality, QA Cortex must first determine which business feature is being tested.
 
 Feature identification determines:
 

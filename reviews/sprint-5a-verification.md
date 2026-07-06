@@ -1,4 +1,4 @@
-# QA Brain Sprint 5A Simülasyon Doğrulama Raporu
+# QA Cortex Sprint 5A Simülasyon Doğrulama Raporu
 
 Bu rapor, Sprint 5A kapsamında oluşturulan **Depo Tanıma Mimarisi** kurallarını test etmek amacıyla [config.test.ts](file:///c:/Users/ridva/Desktop/qa-brain/tests/repository-analysis/config.test.ts) ve [dependency.test.ts](file:///c:/Users/ridva/Desktop/qa-brain/tests/repository-analysis/dependency.test.ts) dosyaları üzerinde çalıştırılan simülasyon sonuçlarını içerir.
 

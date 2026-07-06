@@ -25,7 +25,7 @@ export class PRCommentFormatter {
     const lines: string[] = [];
 
     lines.push(this.COMMENT_MARKER);
-    lines.push('## 🧠 QA Brain Review\n');
+    lines.push('## 🧠 QA Cortex Review\n');
 
     // Execution mode badge
     lines.push(`> **Execution Mode**: ${summary.executionMode}\n`);
@@ -72,7 +72,7 @@ export class PRCommentFormatter {
     }
 
     lines.push('\n---');
-    lines.push('*Powered by [QA Brain](https://github.com/ridvan-byr/qa-brain) v0.1.0*');
+    lines.push('*Powered by [QA Cortex](https://github.com/ridvan-byr/qa-brain) v0.1.0*');
 
     return lines.join('\n');
   }
@@ -83,7 +83,7 @@ export class PRCommentFormatter {
   static formatStepSummary(summary: PRReviewSummary): string {
     const lines: string[] = [];
 
-    lines.push('### 🧠 QA Brain Summary\n');
+    lines.push('### 🧠 QA Cortex Summary\n');
     lines.push(`| Metric | Value |`);
     lines.push(`|--------|-------|`);
     lines.push(`| Files Reviewed | ${summary.filesReviewed} |`);
@@ -101,7 +101,7 @@ export class PRCommentFormatter {
   }
 
   /**
-   * Returns the marker string used to identify existing QA Brain comments.
+   * Returns the marker string used to identify existing QA Cortex comments.
    */
   static getCommentMarker(): string {
     return this.COMMENT_MARKER;

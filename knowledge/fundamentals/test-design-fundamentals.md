@@ -69,6 +69,6 @@ This often produces high code coverage but poor test coverage.
 
 ---
 
-## QA Brain Rule
+## QA Cortex Rule
 
 Before reviewing Playwright code, always evaluate the quality of the test design.
