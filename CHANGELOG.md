@@ -5,6 +5,11 @@
 - First official release of **QA Cortex** (formerly QA Brain).
 - Completed the QA Cortex brand migration across product text, package metadata, command names, configuration keys, reports, docs, and release metadata.
 - Updated VS Code extension display name, dashboard text, commands, notifications, status bar, diagnostics, and output channel to use QA Cortex.
+- Migrated integration test suite to **Vitest**, reducing test execution times to < 20ms and adding `vitest.config.ts` isolation.
+- Created automated **GitHub Actions CI workflow** (`.github/workflows/ci.yml`) using Node 22 and kilitli npm dependency caching.
+- Hardened `ScoringEngine` scoring formulas by migrating from fragile free-text substring matches to structured `FindingCategory` and `ruleId` fields.
+- Refined `Scanner.ts` file detection regex to eliminate false-positive scans on non-test source files (e.g., `test-case.ts`).
+- Generalized path calibration filters in `KnowledgeRouter` and `GeminiProvider` to remove repository-specific exceptions.
 - Added Python test file scanner to scan `test_*.py`, `*_test.py`, and `test.py` files.
 - Added `requirements.txt` parsing support to map Python dependencies like `pytest`, `selenium`, and `playwright`.
 - Merged `package.json` and `requirements.txt` dependency discovery for mixed Node.js + Python repositories.
