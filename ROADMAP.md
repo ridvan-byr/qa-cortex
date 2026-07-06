@@ -256,7 +256,7 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Added `.vscodeignore` exclusions for source, tests, benchmarks, validation data, screenshots, and generated files.
 - [x] Added extension marketplace metadata, package scripts, root license copy, changelog, versioning policy, and release checklist.
 - [x] Generated local VSIX RC package and SHA256 checksum.
-- [ ] Publish extension Release Candidate (RC) to VS Code Marketplace after clean-profile smoke test and publisher token setup.
+- [x] Publish extension Release Candidate (RC) to VS Code Marketplace after clean-profile smoke test and publisher token setup.
 
 ### ✅ Sprint 19.5 — Core Hardening & Stability
 - **Objective**: Address critical correctness and maintainability risks found during external project review before expanding to Python support.
