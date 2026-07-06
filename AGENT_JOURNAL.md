@@ -201,3 +201,25 @@ The next focus is extension release packaging and marketplace hardening:
 - Push Sprint 19.5 changes to GitHub.
 - Publish `qa-brain-vscode-client-0.1.1.vsix` to the VS Code Marketplace.
 - Kick off Sprint 20 (Python Core & Scanner integration).
+
+## 2026-07-06 - Sprint 20 - Python Core & Scanner (v4.0 Core)
+
+- **Python Test File Detection**:
+  - Extended `isTestFile()` in `src/core/Scanner.ts` to recognize Python file extensions (`.py`) and standard pytest/unittest patterns (`test_*.py`, `*_test.py`, `test.py`).
+- **Python Dependency Parsing**:
+  - Integrated `requirements.txt` parsing inside `ContextBuilder.ts`'s `mapDependencies()`. Successfully extracts python dependencies (e.g. `pytest`, `selenium`, `playwright`) and maps them to standard fields.
+- **Python POM and Fixture Mapping**:
+  - Extended `mapPageObjects()` and `mapFixtures()` in `ContextBuilder.ts` to scan `.py` files. Matches python class declarations and async/sync method definitions, and resolves pytest fixture files (e.g. `conftest.py`).
+- **Python Framework Detection**:
+  - Refined `detectFramework()` in `ContextBuilder.ts` to detect Python Selenium and Playwright framework imports. Prioritized file-level imports over global project dependencies to support hybrid repositories.
+- **Verification**:
+  - Added new birim test suite `testPythonSupport()` inside `tests/action-integration/action.test.ts`. Verified correct file scan filtering, POM mapping, and dependency parsing.
+  - Bumped version to `0.1.2` across root `package.json` and extension client `package.json`.
+  - Packaged and compiled version `0.1.2` VSIX successfully.
+  - All unit/integration tests and 12/12 calibration benchmarks passed successfully.
+
+### Next Steps for Release / Next Agent
+- Push Sprint 20 changes to GitHub.
+- Publish `qa-brain-vscode-client-0.1.2.vsix` to the VS Code Marketplace.
+- Update the marketplace changelog.
+- Kick off Sprint 21 (Python Selenium Adapter & Calibration).
