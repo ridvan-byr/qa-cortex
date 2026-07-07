@@ -266,3 +266,38 @@ The next focus is extension release packaging and marketplace hardening:
 - Publish the new QA Cortex Marketplace listing.
 - Run a manual VS Code smoke test to confirm Activity Bar icon, dashboard title, command palette labels, status bar, output channel, and report title show QA Cortex.
 
+---
+
+## 2026-07-07 - Antigravity (Gemini 2.5 Flash)
+
+### Tamamlanan Kritik İyileştirmeler & Ön Gereksinimler
+
+1. **CI Validasyon Akışının Düzeltilmesi (Silent Success Giderimi) - [TAMAMLANDI]**:
+   - `clone-repos.js` ve `repositories.json` içindeki hardcoded `C:/tmp` dizin yolları, bağıl `validation/repos/...` yollarıyla değiştirilerek cross-platform uyumlu hale getirildi.
+   - `.github/workflows/ci.yml` içerisine `npm run validate` adımından hemen önce `node validation/clone-repos.js` adımı eklenerek CI üzerinde gerçek test taraması yapılması sağlandı.
+   - `tsconfig.json` güncellenerek `validation/repos/` altındaki üçüncü taraf test dosyalarının derlemeyi tıkaması engellendi.
+   - Eğer taranan dosya sayısı 0 ise veya süreç başarısız olduysa `ValidationRunner`'ın hata fırlatarak exit code 1 ile sonlanması sağlandı.
+
+2. **AI Editör Kural Entegrasyonu (`init-rules` CLI Komutu) - [TAMAMLANDI]**:
+   - Projedeki Playwright kurallarını otomatik derleyerek hedef test projesine `.cursorrules`, `.agents/AGENTS.md` ve `.github/copilot-instructions.md` şeklinde kural dosyaları üreten `init-rules` komutu geliştirildi ve CLI'a entegre edildi.
+
+### Gelecek Sürüm Planları & İyileştirmeler
+
+Aşağıdaki maddeler, projenin sonraki aşamalarında yapılacak genel iyileştirme planları olarak güncellenmiştir:
+
+2. **Benchmark Senaryolarının Genişletilmesi (12 → 40/50)**:
+   - Microsoft Playwright MCP, Synpress ve Serenity-JS gibi 10 gerçek repodan 30-40 arası gerçek test dosyası seçilip `benchmarks/` altına dahil edilerek sistemin Precision/Recall doğruluğu gerçek kodlarla ölçülecektir.
+
+3. **Sürüm Numaralarının Eşleştirilmesi**:
+   - Kod içi "v4.0 Core" adlandırmaları ile `package.json`'daki SemVer sürüm yapısı `v0.x` formatına göre standartlaştırılacaktır.
+
+4. **Marketplace Yayın Otomasyonu**:
+   - `vsce publish` adımı ve Marketplace yayıncı hesabı üzerinden sürüm yayınlama adımları otomatikleştirilecektir.
+
+5. **VS Code Eklenti Arayüzü (Webview UI) Modernizasyonu**:
+   - **Gelişmiş Tasarım & Estetik**: Varsayılan düz gri/siyah VS Code renkleri yerine, HSL renk paletleri, gradyanlar, yumuşak gölgeler (`box-shadow`), modern Google Fonts (Inter/Outfit) ve hover mikro-animasyonları kullanılacak.
+   - **Görsel Metrik Göstergeleri**: Kalite, risk ve bakım kolaylığı skorları sadece metin olarak değil; skorun değerine göre renk değiştiren gradyanlı modern ilerleme çubukları (progress bars) veya dairesel grafiklerle gösterilecek.
+   - **Yenilenen Sekme (Tab) Tasarımı**: Aktif sekmeyi gösteren şık bir alt çizgi geçiş efekti ve tab içerikleri için pürüzsüz geçiş (fade-in) animasyonları eklenecek.
+   - **Ayarlar Paneli Estetiği**: ⚙️ Butonuna basıldığında açılan panelin formu; yuvarlatılmış köşeler, odaklanıldığında (focus) parlayan kenarlıklar ve temiz yerleşim ile premium bir kart haline getirilecek.
+
+
