@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   FrameworkAdapter,
   FrameworkContext,
   FrameworkDetectionInput,
@@ -47,8 +47,8 @@ export class SeleniumAdapter implements FrameworkAdapter {
       signals.push(this.signal('locator', file, this.findLine(content, /By\.(?:xpath|css|id|name|className|linkText|partialLinkText)\s*\(|driver\.findElement\s*\(/), ['locator', 'maintainability']));
     }
 
-    if (/\bdriver\.sleep\s*\(/.test(content) || /\buntil\.\w+\s*\(/.test(content)) {
-      signals.push(this.signal('wait', file, this.findLine(content, /driver\.sleep\s*\(|until\.\w+\s*\(/), ['waiting', 'flakiness']));
+    if (/\bdriver\.sleep\s*\(/.test(content) || /\buntil\.\w+\s*\(/.test(content) || /\.setTimeouts\s*\(\s*\{\s*implicit\s*:/.test(content)) {
+      signals.push(this.signal('wait', file, this.findLine(content, /driver\.sleep\s*\(|until\.\w+\s*\(|setTimeouts\s*\(\s*\{\s*implicit/), ['waiting', 'flakiness']));
     }
 
     if (/\bnew\s+Builder\s*\(\s*\).*\.build\s*\(/s.test(content) || /\bdriver\.quit\s*\(/.test(content)) {
@@ -104,3 +104,4 @@ export class SeleniumAdapter implements FrameworkAdapter {
     return hasAssertionSignal(content);
   }
 }
+

@@ -1,0 +1,15 @@
+{
+  "id": "POM_002",
+  "category": "POM",
+  "specFile": "benchmarks/playwright/pom/inline-selectors-no-pom.spec.ts",
+  "expectedFindings": [
+    "inline_selectors"
+  ],
+  "expectedSeverity": {
+    "inline_selectors": "Medium"
+  },
+  "expectedRecommendation": {
+    "inline_selectors": "Move repeated selectors"
+  },
+  "targetQualityScore": 80
+}

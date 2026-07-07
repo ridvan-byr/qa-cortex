@@ -1,11 +1,14 @@
-export type FindingCategory =
+﻿export type FindingCategory =
   | 'BrittleLocator'
   | 'HardcodedWait'
   | 'SharedState'
   | 'MissingAssertion'
+  | 'WeakAssertion'
   | 'SelectorLeak'
   | 'ResourceCleanup'
   | 'Duplicate'
+  | 'TestNaming'
+  | 'HardcodedTestData'
   | 'Unspecified';
 
 export interface Finding {
@@ -21,3 +24,5 @@ export interface Finding {
   evidence: string; // Mandatory code evidence block
   recommendation: string; // Code correction or architectural suggestion
 }
+
+

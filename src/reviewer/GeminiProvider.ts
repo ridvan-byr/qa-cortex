@@ -1,4 +1,4 @@
-import type { LLMProvider } from './LLMProvider';
+﻿import type { LLMProvider } from './LLMProvider';
 import type { ReviewContext } from '../types/ReviewContext';
 import type { Finding } from '../types/Finding';
 import type { ReviewResult } from '../types/ReviewResult';
@@ -371,10 +371,15 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
     const absoluteXPath = this.findLine(content, /locator\(\s*['"](?:xpath=)?\/\/(?:html|body|\*)/);
     const rawXPath = this.findLine(content, /locator\(\s*['"](?:xpath=)?\/\//);
-    const brittleCss = this.findLine(content, /locator\(\s*['"][^'"]*(?:>\s*[^'"]+){2,}|nth-child\(/);
+    const brittleCss = this.findLine(content, /locator\(\s*['"][^'"]*(?:(?:>\s*[^'"]+){2,}|[^'"]*nth-child\()/);
+    const generatedIdLocator = this.findLine(content, /locator\(\s*['"]#[a-z0-9_-]*\d{3,}[a-z0-9_-]*['"]\s*\)/i);
     const hardcodedWait = this.findLine(content, /waitForTimeout\s*\(/);
     const seleniumXPath = this.findLine(content, /driver\.findElement\s*\(\s*By\.xpath\s*\(/);
     const seleniumHardcodedSleep = this.findLine(content, /driver\.sleep\s*\(/);
+    const seleniumImplicitWait = this.findLine(content, /setTimeouts\s*\(\s*\{\s*implicit\s*:/);
+    const seleniumBrittleCss = this.findLine(content, /By\.css\s*\(\s*['"][^'"]*(?:>\s*[^'"]+){2,}|By\.css\s*\(\s*['"][^'"]*nth-child\(/);
+    const seleniumTestCount = (content.match(/\bit\s*\(/g) || []).length;
+    const seleniumSharedDriver = isSelenium && seleniumTestCount > 1 && this.findLine(content, /^\s*let\s+driver(?:\s*:\s*any)?\s*;/m) && /before\s*\(/.test(content);
     const seleniumBuildsDriver = /\bnew\s+Builder\s*\(\s*\).*\.build\s*\(/s.test(content);
     const seleniumMissingQuit = isSelenium && seleniumBuildsDriver && !/\bdriver\.quit\s*\(/.test(content);
     const seleniumSelectorLeak = isSelenium
@@ -383,6 +388,10 @@ Output JSON only. Do not wrap in markdown or add notes.`;
     const sharedState = this.findTopLevelMutableState(content);
     const importsPageObject = /import\s+.*\b\w+Page\b/.test(content);
     const hasAssertions = this.hasAssertionSignal(content);
+    const weakAssertion = this.findLine(content, /\.(?:toBeTruthy|toBeDefined|toBeFalsy)\s*\(|assert\.ok\s*\(\s*(?:true|\w+)\s*\)/);
+    const badTestName = this.findLine(content, /\btest\s*\(\s*['"](?:test\d*|check|it works|asdf|todo|sample)['"]/i);
+    const hardcodedTestData = this.findRepeatedHardcodedTestData(content);
+    const inlineSelectorNoPom = this.findInlineSelectorCluster(content);
     const skipMissingAssertion = this.isFrameworkBehaviorContext(context.targetFile.filePath, content);
 
     const isPython = context.targetFile.filePath.endsWith('.py');
@@ -395,8 +404,10 @@ Output JSON only. Do not wrap in markdown or add notes.`;
         findings.push({
           ruleId: 'SELENIUM_LOCATOR_001',
           category: 'BrittleLocator',
-          title: 'Brittle Selenium XPath Locator',
-          description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
+          title: locatorSignal.evidence?.includes('CSS_SELECTOR') ? 'Brittle Selenium CSS Selector Chain' : 'Brittle Selenium XPath Locator',
+          description: locatorSignal.evidence?.includes('CSS_SELECTOR')
+            ? 'The test uses a deep Selenium CSS selector chain that is tightly coupled to DOM structure.'
+            : 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
           severity: 'High',
           confidence: { level: 95, justification: ['Selenium XPath locator matched'] },
           evidence: locatorSignal.evidence || 'By.XPATH',
@@ -490,6 +501,17 @@ Output JSON only. Do not wrap in markdown or add notes.`;
           evidence: rawXPath,
           recommendation: 'Encapsulate the login button selector inside the LoginPage class',
         });
+      } else if (generatedIdLocator) {
+        findings.push({
+          ruleId: 'LOCATOR_003',
+          category: 'BrittleLocator',
+          title: 'Fragile Generated ID Locator',
+          description: 'The test uses an auto-generated-looking ID selector that can change across builds.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['Generated numeric ID selector matched'] },
+          evidence: generatedIdLocator,
+          recommendation: 'Replace generated ID selectors with getByRole, getByLabel, or stable test ids.',
+        });
       } else if (rawXPath) {
         findings.push({
           ruleId: 'LOCATOR_001',
@@ -529,6 +551,19 @@ Output JSON only. Do not wrap in markdown or add notes.`;
         });
       }
 
+      if (isSelenium && seleniumBrittleCss) {
+        findings.push({
+          ruleId: 'SELENIUM_LOCATOR_002',
+          category: 'BrittleLocator',
+          title: 'Brittle Selenium CSS Selector Chain',
+          description: 'The test uses a deep CSS selector chain that is tightly coupled to DOM structure.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Deep Selenium CSS selector matched'] },
+          evidence: seleniumBrittleCss,
+          recommendation: 'Replace brittle CSS chains with stable IDs, data attributes, or Page Object methods.',
+        });
+      }
+
       if (isSelenium && seleniumHardcodedSleep) {
         findings.push({
           ruleId: 'SELENIUM_WAITING_001',
@@ -539,6 +574,19 @@ Output JSON only. Do not wrap in markdown or add notes.`;
           confidence: { level: 95, justification: ['driver.sleep call matched'] },
           evidence: seleniumHardcodedSleep,
           recommendation: 'Replace driver.sleep with an explicit wait for the expected UI state.',
+        });
+      }
+
+      if (isSelenium && seleniumImplicitWait) {
+        findings.push({
+          ruleId: 'SELENIUM_WAITING_002',
+          category: 'HardcodedWait',
+          title: 'Implicit Wait Usage',
+          description: 'The test configures implicit waits, which can hide synchronization problems and slow failures.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['Selenium implicit timeout matched'] },
+          evidence: seleniumImplicitWait,
+          recommendation: 'Prefer explicit waits for observable UI state instead of global implicit waits.',
         });
       }
 
@@ -555,7 +603,20 @@ Output JSON only. Do not wrap in markdown or add notes.`;
         });
       }
 
-      if (sharedState) {
+      if (seleniumSharedDriver && !seleniumMissingQuit) {
+        findings.push({
+          ruleId: 'SELENIUM_ISOLATION_001',
+          category: 'SharedState',
+          title: 'Shared Selenium Driver Across Tests',
+          description: 'A single WebDriver instance is shared across tests, which can leak browser state between cases.',
+          severity: 'Critical',
+          confidence: { level: 90, justification: ['Shared driver variable matched', 'Driver initialized in suite hook'] },
+          evidence: this.findLine(content, /^\s*let\s+driver(?:\s*:\s*any)?\s*;/m) || 'let driver;',
+          recommendation: 'Create isolated WebDriver sessions per test or reset browser state in teardown.',
+        });
+      }
+
+      if (sharedState && !isSelenium) {
         findings.push({
           ruleId: 'FIXTURE_001',
           category: 'SharedState',
@@ -565,6 +626,71 @@ Output JSON only. Do not wrap in markdown or add notes.`;
           confidence: { level: 100, justification: ['Top-level mutable variable matched'] },
           evidence: sharedState,
           recommendation: 'Isolate test state by logging in via isolated custom fixtures',
+        });
+      }
+
+      if (!isSelenium && inlineSelectorNoPom) {
+        findings.push({
+          ruleId: 'POM_002',
+          category: 'SelectorLeak',
+          title: 'Inline Selectors Without Page Object',
+          description: 'The test repeats inline selectors directly in specs instead of centralizing interactions behind Page Object methods.',
+          severity: 'Medium',
+          confidence: { level: 85, justification: ['Repeated inline selector cluster matched'] },
+          evidence: inlineSelectorNoPom,
+          recommendation: 'Move repeated selectors into a Page Object and expose behavior-focused helper methods.',
+        });
+      }
+
+      if (isSelenium && weakAssertion) {
+        findings.push({
+          ruleId: 'ASSERTION_002',
+          category: 'WeakAssertion',
+          title: 'Weak Assertion',
+          description: 'The test uses a broad truthiness assertion instead of verifying a specific expected value or UI state.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['Weak assertion matcher matched'] },
+          evidence: weakAssertion,
+          recommendation: 'Replace weak truthiness checks with specific assertions such as equality, URL, text, or visible state checks.',
+        });
+      }
+
+      if (!isSelenium && weakAssertion) {
+        findings.push({
+          ruleId: 'ASSERTION_002',
+          category: 'WeakAssertion',
+          title: 'Weak Assertion',
+          description: 'The test uses a broad truthiness assertion instead of verifying a specific expected value or UI state.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['Weak assertion matcher matched'] },
+          evidence: weakAssertion,
+          recommendation: 'Replace weak truthiness checks with specific assertions such as toHaveText, toHaveURL, or toEqual.',
+        });
+      }
+
+      if (badTestName) {
+        findings.push({
+          ruleId: 'NAMING_001',
+          category: 'TestNaming',
+          title: 'Ambiguous Test Naming',
+          description: 'The test name does not describe behavior, condition, or expected outcome.',
+          severity: 'Low',
+          confidence: { level: 90, justification: ['Generic test title matched'] },
+          evidence: badTestName,
+          recommendation: 'Rename the test to describe the behavior and expected outcome under review.',
+        });
+      }
+
+      if (hardcodedTestData) {
+        findings.push({
+          ruleId: 'FIXTURE_002',
+          category: 'HardcodedTestData',
+          title: 'Hardcoded Test Data',
+          description: 'The test repeats realistic user data directly in specs instead of centralizing it in fixtures or factories.',
+          severity: 'Medium',
+          confidence: { level: 85, justification: ['Repeated credential-like test data matched'] },
+          evidence: hardcodedTestData,
+          recommendation: 'Move repeated test data into fixtures, factories, or named test data builders.',
         });
       }
 
@@ -618,7 +744,7 @@ Output JSON only. Do not wrap in markdown or add notes.`;
     let braceDepth = 0;
     for (const line of content.split(/\r?\n/)) {
       const trimmed = line.trim();
-      if (braceDepth === 0 && /^let\s+\w+\s*=/.test(trimmed)) {
+      if (braceDepth === 0 && /^let\s+\w+(?:\s*:\s*[^=;]+)?\s*(?:=|;)/.test(trimmed)) {
         return trimmed;
       }
       braceDepth += (line.match(/\{/g) || []).length;
@@ -630,6 +756,30 @@ Output JSON only. Do not wrap in markdown or add notes.`;
 
   private hasAssertionSignal(content: string): boolean {
     return hasAssertionSignal(content);
+  }
+
+  private findRepeatedHardcodedTestData(content: string): string | undefined {
+    const lines = content.split(/\r?\n/).map(line => line.trim());
+    const values = new Map<string, number>();
+    for (const line of lines) {
+      const matches = line.matchAll(/(?:fill|sendKeys|selectOption)\s*\(\s*['"][^'"]+['"]\s*,\s*['"]([^'"]+)['"]/gi);
+      for (const match of matches) {
+        if (/(?:@|P@ss|Secret|TestUser|\d{4,})/i.test(match[1])) {
+          values.set(match[1], (values.get(match[1]) || 0) + 1);
+        }
+      }
+    }
+    const repeated = Array.from(values.entries()).find(([, count]) => count >= 2);
+    if (!repeated) return undefined;
+    return lines.find(line => line.includes(repeated[0]));
+  }
+
+  private findInlineSelectorCluster(content: string): string | undefined {
+    const selectorLines = content
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter(line => /page\.(?:fill|click|selectOption|locator)\s*\(\s*['"][^'"]*(?:>|div\.|nth-child)/.test(line));
+    return selectorLines.length >= 5 ? selectorLines[0] : undefined;
   }
 
   private isFrameworkBehaviorContext(filePath: string, content: string): boolean {
@@ -724,13 +874,13 @@ Output JSON only. Do not wrap in markdown or add notes.`;
         id: 'TS_002',
         title: 'Unicode & Accent Character Credentials',
         category: 'Data Variation',
-        description: 'Verify login with usernames/emails containing accented or Turkish characters (e.g. ridvan@örnek.com).',
+        description: 'Verify login with usernames/emails containing accented or Turkish characters (e.g. ridvan@Ã¶rnek.com).',
         explanation: 'Testing with unicode values ensures the application encodes data variations correctly across its login forms. Test suites often verify ASCII strings but miss international characters, which is an equivalence class gap.',
         criticality: 'MEDIUM',
         evidence: 'Detected login test sequence but no unicode character test inputs found.',
         suggestedTemplate: {
-          playwright: `test('should handle unicode character email inputs', async ({ page }) => {\n  await page.goto('/login');\n  await page.fill('#username', 'rıdvan@örnek.com');\n  await page.fill('#password', 'Pass123!');\n  await page.click('#log-in');\n  // Add assertion for appropriate error or success behavior\n});`,
-          selenium: `it('should handle unicode character email inputs', async function() {\n  await driver.get('https://example.com/login');\n  await driver.findElement(By.id('username')).sendKeys('rıdvan@örnek.com');\n  await driver.findElement(By.id('password')).sendKeys('Pass123!');\n  await driver.findElement(By.id('log-in')).click();\n  // Add assertion\n});`
+          playwright: `test('should handle unicode character email inputs', async ({ page }) => {\n  await page.goto('/login');\n  await page.fill('#username', 'rÄ±dvan@Ã¶rnek.com');\n  await page.fill('#password', 'Pass123!');\n  await page.click('#log-in');\n  // Add assertion for appropriate error or success behavior\n});`,
+          selenium: `it('should handle unicode character email inputs', async function() {\n  await driver.get('https://example.com/login');\n  await driver.findElement(By.id('username')).sendKeys('rÄ±dvan@Ã¶rnek.com');\n  await driver.findElement(By.id('password')).sendKeys('Pass123!');\n  await driver.findElement(By.id('log-in')).click();\n  // Add assertion\n});`
         }
       });
     }
@@ -764,3 +914,6 @@ Output JSON only. Do not wrap in markdown or add notes.`;
     };
   }
 }
+
+
+

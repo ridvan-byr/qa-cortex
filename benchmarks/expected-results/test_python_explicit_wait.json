@@ -1,0 +1,9 @@
+{
+  "id": "PY_SELENIUM_WAITING_NEG_001",
+  "category": "Python Selenium Waiting",
+  "specFile": "benchmarks/python/selenium/waiting/test_python_explicit_wait.py",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

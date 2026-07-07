@@ -1,0 +1,9 @@
+{
+  "id": "LOCATOR_NEG_001",
+  "category": "Locator",
+  "specFile": "benchmarks/playwright/locator/text-content-locator.spec.ts",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

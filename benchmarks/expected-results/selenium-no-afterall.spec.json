@@ -1,0 +1,15 @@
+{
+  "id": "SELENIUM_CLEANUP_002",
+  "category": "Selenium Cleanup",
+  "specFile": "benchmarks/selenium/cleanup/selenium-no-afterall.spec.ts",
+  "expectedFindings": [
+    "resource_cleanup"
+  ],
+  "expectedSeverity": {
+    "resource_cleanup": "High"
+  },
+  "expectedRecommendation": {
+    "resource_cleanup": "Close the Selenium driver"
+  },
+  "targetQualityScore": 80
+}

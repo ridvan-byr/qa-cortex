@@ -12,7 +12,7 @@ This roadmap details completed sprints and outlines the path toward building the
 | :--- | :--- | :--- |
 | v0.1.0 | Core stability, Vitest migration, GitHub Actions CI, and generalization | Completed |
 | v0.2.0 | Python Adapter and calibration on Python repositories | Completed |
-| v1.0.0 | Stable release gates and production-ready quality gates | Planned |
+| v1.0.0 | Stable release gates and production-ready quality gates | Completed |
 
 Framework support labels are defined in `docs/framework-support-policy.md`.
 
@@ -72,6 +72,7 @@ Framework support labels are defined in `docs/framework-support-policy.md`.
 - [x] Coded `BenchmarkRunner.ts` to calculate Precision, Recall, and False Positives.
 - [x] Integrated rule-routing optimization stats and millisecond-based execution tracking.
 - [x] Calibrated findings deduplication and css/xpath resilient locator checks.
+
 
 ---
 
@@ -302,6 +303,17 @@ Architecture Freeze milestone before Sprint 13C:
 - [x] Calibrated Python Selenium rules on real-world repositories (e.g. `python-selenium-framework-example`), successfully flagging real test smells.
 
 ---
+
+### Sprint 24 - Benchmark Expansion & Publish Readiness
+- **Objective**: Expand deterministic calibration coverage before the next publish cycle.
+- **Status**: Completed.
+- [x] Expanded benchmark suite from 12 to 40 cases.
+- [x] Added Playwright coverage for generated IDs, nth-child chains, clean locators, multiple hard waits, proper waits, missing assertions, weak assertions, strong assertions, global state, beforeAll state leaks, inline selector clusters, hardcoded test data, and ambiguous test names.
+- [x] Added Selenium WebDriver for Node.js coverage for CSS chains, implicit waits, weak assertions, missing teardown, and shared driver state.
+- [x] Added Python Selenium benchmark coverage for locator, wait, assertion, cleanup, and mixed-smell scenarios.
+- [x] Added negative benchmark cases to verify clean examples do not produce false positives.
+- [x] Updated BenchmarkRunner to support explicit spec paths and Python benchmark files.
+- [x] Verified `npm run build`, `npm test`, and `node dist/src/cli.js benchmark` with 40/40 passing.
 
 ## Future Roadmap
 

@@ -1,0 +1,9 @@
+{
+  "id": "WAITING_NEG_001",
+  "category": "Waiting",
+  "specFile": "benchmarks/playwright/waiting/proper-waitfor.spec.ts",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

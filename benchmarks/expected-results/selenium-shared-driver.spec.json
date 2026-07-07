@@ -1,0 +1,15 @@
+{
+  "id": "SELENIUM_ISOLATION_001",
+  "category": "Selenium Isolation",
+  "specFile": "benchmarks/selenium/fixtures/selenium-shared-driver.spec.ts",
+  "expectedFindings": [
+    "shared_state"
+  ],
+  "expectedSeverity": {
+    "shared_state": "Critical"
+  },
+  "expectedRecommendation": {
+    "shared_state": "Create isolated WebDriver sessions"
+  },
+  "targetQualityScore": 80
+}

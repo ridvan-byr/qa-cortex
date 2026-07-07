@@ -1,0 +1,15 @@
+{
+  "id": "LOCATOR_004",
+  "category": "Locator",
+  "specFile": "benchmarks/playwright/locator/nth-child-chain.spec.ts",
+  "expectedFindings": [
+    "brittle_locator"
+  ],
+  "expectedSeverity": {
+    "brittle_locator": "High"
+  },
+  "expectedRecommendation": {
+    "brittle_locator": "Replace brittle CSS chain"
+  },
+  "targetQualityScore": 80
+}

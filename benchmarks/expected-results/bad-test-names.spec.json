@@ -1,0 +1,15 @@
+{
+  "id": "NAMING_001",
+  "category": "Naming",
+  "specFile": "benchmarks/playwright/fixtures/bad-test-names.spec.ts",
+  "expectedFindings": [
+    "bad_naming"
+  ],
+  "expectedSeverity": {
+    "bad_naming": "Low"
+  },
+  "expectedRecommendation": {
+    "bad_naming": "Rename the test"
+  },
+  "targetQualityScore": 95
+}

@@ -1,4 +1,4 @@
-import { ReviewPipeline } from '../core/ReviewPipeline';
+﻿import { ReviewPipeline } from '../core/ReviewPipeline';
 import { GeminiProvider } from '../reviewer/GeminiProvider';
 import { RepositoryLoader } from '../loader/RepositoryLoader';
 import { ContextBuilder } from '../loader/ContextBuilder';
@@ -9,6 +9,7 @@ import * as path from 'path';
 interface GroundTruth {
   id: string;
   category: string;
+  specFile?: string;
   expectedFindings: string[];
   expectedSeverity: Record<string, string>;
   expectedRecommendation: Record<string, string>;
@@ -67,8 +68,9 @@ export class BenchmarkRunner {
       categoryStats.get(gt.category)!.total++;
 
       // Resolve matching spec path
-      const baseName = gtFile.replace('.json', '.ts');
-      const specPath = this.findSpecFile(baseName);
+      const specPath = gt.specFile && fs.existsSync(path.resolve('.', gt.specFile))
+        ? gt.specFile
+        : this.findSpecFile(gtFile.replace('.json', '.ts'));
       if (!specPath) {
         console.error(`Spec file not found for ground truth: ${gtFile}`);
         continue;
@@ -139,15 +141,15 @@ export class BenchmarkRunner {
       if (isPassed) {
         passed++;
         categoryStats.get(gt.category)!.passed++;
-        console.log(`✓ [${gt.id}] ${specPath} - PASSED (Score: ${result.score.qualityScore}, Findings: ${tpList.length}/${gt.expectedFindings.length}, Severity: ✓, Recommendation: ✓, Time: ${durationStr})`);
+        console.log(`âœ“ [${gt.id}] ${specPath} - PASSED (Score: ${result.score.qualityScore}, Findings: ${tpList.length}/${gt.expectedFindings.length}, Severity: âœ“, Recommendation: âœ“, Time: ${durationStr})`);
         resultsLog.push(`| ${gt.id} | ${specPath} | PASS | ${gt.targetQualityScore} | ${result.score.qualityScore} | ${durationStr} |`);
       } else {
         failed++;
-        console.log(`✗ [${gt.id}] ${specPath} - FAILED (Time: ${durationStr})`);
-        console.log(`  - Score Match: ${isScoreMatch ? '✓' : `✗ (Expected ${gt.targetQualityScore}, Got ${result.score.qualityScore})`}`);
-        console.log(`  - Findings Match: ${isFindingsMatch ? '✓' : '✗'}`);
-        console.log(`  - Severity Match: ${severityMatched ? '✓' : '✗'}`);
-        console.log(`  - Recommendation Match: ${recommendationMatched ? '✓' : '✗'}`);
+        console.log(`âœ— [${gt.id}] ${specPath} - FAILED (Time: ${durationStr})`);
+        console.log(`  - Score Match: ${isScoreMatch ? 'âœ“' : `âœ— (Expected ${gt.targetQualityScore}, Got ${result.score.qualityScore})`}`);
+        console.log(`  - Findings Match: ${isFindingsMatch ? 'âœ“' : 'âœ—'}`);
+        console.log(`  - Severity Match: ${severityMatched ? 'âœ“' : 'âœ—'}`);
+        console.log(`  - Recommendation Match: ${recommendationMatched ? 'âœ“' : 'âœ—'}`);
         if (fnList.length > 0) console.log(`  - Missing expected findings: ${fnList.join(', ')}`);
         if (fpList.length > 0) console.log(`  - False positives flagged: ${fpList.join(', ')}`);
         resultsLog.push(`| ${gt.id} | ${specPath} | FAIL | ${gt.targetQualityScore} | ${result.score.qualityScore} | ${durationStr} |`);
@@ -224,13 +226,13 @@ ${resultsLog.join('\n')}
   private static matchFinding(expectedKey: string, actualText: string): boolean {
     const text = actualText.toLowerCase();
     if (expectedKey === 'brittle_locator') {
-      return text.includes('xpath') || text.includes('brittle selector') || text.includes('seçici') || text.includes('brittle css');
+      return text.includes('xpath') || text.includes('brittle selector') || text.includes('brittle selenium css') || text.includes('fragile generated id') || text.includes('brittle css');
     }
     if (expectedKey === 'selector_leak') {
-      return text.includes('selector leak') || text.includes('seçici sızıntısı') || text.includes('leak');
+      return text.includes('selector leak') || text.includes('seÃ§ici sÄ±zÄ±ntÄ±sÄ±') || text.includes('leak');
     }
     if (expectedKey === 'shared_state') {
-      return text.includes('isolation') || text.includes('shared state') || text.includes('izolasyon');
+      return text.includes('isolation') || text.includes('shared state') || text.includes('shared selenium driver') || text.includes('izolasyon');
     }
     if (expectedKey === 'hardcoded_wait') {
       return text.includes('hardcoded wait') || text.includes('hardcoded sleep') || text.includes('waitfortimeout') || text.includes('timeout');
@@ -240,6 +242,21 @@ ${resultsLog.join('\n')}
     }
     if (expectedKey === 'resource_cleanup') {
       return text.includes('resource cleanup') || text.includes('driver.quit') || text.includes('cleanup');
+    }
+    if (expectedKey === 'weak_assertion') {
+      return text.includes('weak assertion') || text.includes('truthy') || text.includes('tobetruthy');
+    }
+    if (expectedKey === 'bad_naming') {
+      return text.includes('test naming') || text.includes('bad test name') || text.includes('ambiguous test naming');
+    }
+    if (expectedKey === 'hardcoded_test_data') {
+      return text.includes('hardcoded test data') || text.includes('magic string') || text.includes('test data');
+    }
+    if (expectedKey === 'implicit_wait') {
+      return text.includes('implicit wait') || text.includes('implicitlywait') || text.includes('implicit timeout');
+    }
+    if (expectedKey === 'inline_selectors') {
+      return text.includes('inline selectors') || text.includes('page object');
     }
     return false;
   }
@@ -257,12 +274,27 @@ ${resultsLog.join('\n')}
       'benchmarks/selenium/cleanup',
       'benchmarks/selenium/locator',
       'benchmarks/selenium/pom',
-      'benchmarks/selenium/waiting'
+      'benchmarks/selenium/waiting',
+      'benchmarks/selenium/fixtures',
+      'benchmarks/python/selenium/assertions',
+      'benchmarks/python/selenium/cleanup',
+      'benchmarks/python/selenium/locator',
+      'benchmarks/python/selenium/mixed',
+      'benchmarks/python/selenium/waiting'
     ];
     for (const d of dirs) {
       const p = path.resolve('.', d, fileName);
       if (fs.existsSync(p)) {
         return path.relative('.', p);
+      }
+    }
+    if (fileName.endsWith('.ts')) {
+      const pythonFileName = fileName.slice(0, -3) + '.py';
+      for (const d of dirs) {
+        const p = path.resolve('.', d, pythonFileName);
+        if (fs.existsSync(p)) {
+          return path.relative('.', p);
+        }
       }
     }
     return null;
@@ -273,3 +305,4 @@ ${resultsLog.join('\n')}
 if (require.main === module) {
   BenchmarkRunner.runAll();
 }
+

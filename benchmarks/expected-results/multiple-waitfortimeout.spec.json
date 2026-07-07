@@ -1,0 +1,15 @@
+{
+  "id": "WAITING_002",
+  "category": "Waiting",
+  "specFile": "benchmarks/playwright/waiting/multiple-waitfortimeout.spec.ts",
+  "expectedFindings": [
+    "hardcoded_wait"
+  ],
+  "expectedSeverity": {
+    "hardcoded_wait": "High"
+  },
+  "expectedRecommendation": {
+    "hardcoded_wait": "Remove hardcoded wait"
+  },
+  "targetQualityScore": 85
+}

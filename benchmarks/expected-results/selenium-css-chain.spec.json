@@ -1,0 +1,15 @@
+{
+  "id": "SELENIUM_LOCATOR_002",
+  "category": "Selenium Locator",
+  "specFile": "benchmarks/selenium/locator/selenium-css-chain.spec.ts",
+  "expectedFindings": [
+    "brittle_locator"
+  ],
+  "expectedSeverity": {
+    "brittle_locator": "High"
+  },
+  "expectedRecommendation": {
+    "brittle_locator": "Replace brittle CSS chains"
+  },
+  "targetQualityScore": 80
+}

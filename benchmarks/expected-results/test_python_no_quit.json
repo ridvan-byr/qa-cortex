@@ -1,0 +1,15 @@
+{
+  "id": "PY_SELENIUM_CLEANUP_001",
+  "category": "Python Selenium Cleanup",
+  "specFile": "benchmarks/python/selenium/cleanup/test_python_no_quit.py",
+  "expectedFindings": [
+    "resource_cleanup"
+  ],
+  "expectedSeverity": {
+    "resource_cleanup": "High"
+  },
+  "expectedRecommendation": {
+    "resource_cleanup": "Close the Selenium driver"
+  },
+  "targetQualityScore": 80
+}

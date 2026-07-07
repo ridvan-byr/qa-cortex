@@ -1,0 +1,15 @@
+{
+  "id": "SELENIUM_WAITING_002",
+  "category": "Selenium Waiting",
+  "specFile": "benchmarks/selenium/waiting/selenium-implicit-wait.spec.ts",
+  "expectedFindings": [
+    "implicit_wait"
+  ],
+  "expectedSeverity": {
+    "implicit_wait": "Medium"
+  },
+  "expectedRecommendation": {
+    "implicit_wait": "Prefer explicit waits"
+  },
+  "targetQualityScore": 85
+}

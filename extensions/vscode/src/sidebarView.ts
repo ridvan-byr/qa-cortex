@@ -169,8 +169,7 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
             const workspaceFolders = vscode.workspace.workspaceFolders;
             if (workspaceFolders && workspaceFolders.length > 0) {
               const targetPath = workspaceFolders[0].uri.fsPath;
-              const exporter = new AIInstructionExporter(this.repoRoot);
-              exporter.export(targetPath);
+              AIInstructionExporter.exportRules(targetPath);
               
               vscode.window.showInformationMessage('QA Cortex: AI Rules successfully generated for Cursor, Windsurf, and Antigravity!');
               webviewView.webview.postMessage({ type: 'aiRulesStatus', status: 'Exported successfully!' });

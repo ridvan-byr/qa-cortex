@@ -1,0 +1,21 @@
+{
+  "id": "PY_SELENIUM_MIXED_001",
+  "category": "Python Selenium Mixed",
+  "specFile": "benchmarks/python/selenium/mixed/test_python_multiple_smells.py",
+  "expectedFindings": [
+    "resource_cleanup",
+    "brittle_locator",
+    "hardcoded_wait"
+  ],
+  "expectedSeverity": {
+    "resource_cleanup": "High",
+    "brittle_locator": "High",
+    "hardcoded_wait": "High"
+  },
+  "expectedRecommendation": {
+    "resource_cleanup": "Close the Selenium driver",
+    "brittle_locator": "Move locator",
+    "hardcoded_wait": "Replace sleep"
+  },
+  "targetQualityScore": 45
+}

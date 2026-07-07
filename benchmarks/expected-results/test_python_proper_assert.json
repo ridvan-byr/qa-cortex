@@ -1,0 +1,9 @@
+{
+  "id": "PY_SELENIUM_ASSERTION_NEG_001",
+  "category": "Python Selenium Assertion",
+  "specFile": "benchmarks/python/selenium/assertions/test_python_proper_assert.py",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

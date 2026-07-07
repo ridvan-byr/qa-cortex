@@ -1,0 +1,15 @@
+{
+  "id": "PY_SELENIUM_ASSERTION_001",
+  "category": "Python Selenium Assertion",
+  "specFile": "benchmarks/python/selenium/assertions/test_python_no_assert.py",
+  "expectedFindings": [
+    "missing_assertion"
+  ],
+  "expectedSeverity": {
+    "missing_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "missing_assertion": "Add an assertion"
+  },
+  "targetQualityScore": 80
+}

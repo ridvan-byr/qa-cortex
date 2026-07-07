@@ -1,0 +1,15 @@
+{
+  "id": "FIXTURE_004",
+  "category": "Fixture",
+  "specFile": "benchmarks/playwright/fixtures/test-data-hardcoded.spec.ts",
+  "expectedFindings": [
+    "hardcoded_test_data"
+  ],
+  "expectedSeverity": {
+    "hardcoded_test_data": "Medium"
+  },
+  "expectedRecommendation": {
+    "hardcoded_test_data": "Move repeated test data"
+  },
+  "targetQualityScore": 95
+}

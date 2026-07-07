@@ -1,34 +1,34 @@
 # QA Cortex Validation Report
 
-Generated: 2026-07-07T00:04:01.246Z
+Generated: 2026-07-07T13:21:46.719Z
 
 ## Summary
 
-- Repositories configured: 1
+- Repositories configured: 10
 - Framework: Playwright
-- Files reviewed: 3
-- Findings: 0
-- Average review time: 3ms
+- Files reviewed: 231
+- Findings: 2
+- Average review time: 1ms
 - LLM provider comparison: Enabled
 
 ## Repository Selection
 
-- Selection needs at least 10 repositories.
-- Selection needs at least 2 small repositories.
-- Selection needs at least 2 medium repositories.
-- Selection needs at least 2 large repositories.
-- Selection needs at least 1 enterprise-style repository.
-- Selection needs at least 1 API-heavy repository.
-- Selection needs at least 1 authentication-heavy repository.
-- Selection needs at least 1 multi-project repository.
-- Active validation coverage has 1 repositories with Playwright specs; replace no-spec repositories before final Sprint 11 sign-off.
-- Active validation coverage has 1 small repositories with Playwright specs; minimum target is 2.
+- Minimum selection criteria satisfied.
 
 ## Repository Results
 
 | Repository | Size | Files | Findings | Critical/High | Avg Time | Notes |
 | :--- | :--- | ---: | ---: | ---: | ---: | :--- |
 | microsoft/playwright-mcp | small | 3 | 0 | 0 | 3ms | - |
+| imbhargav5/nextbase-nextjs-supabase-starter | small | 4 | 0 | 0 | 1ms | - |
+| MarcusFelling/demo.playwright | medium | 19 | 0 | 0 | 2ms | - |
+| vitalets/playwright-bdd | medium | 17 | 0 | 0 | 1ms | - |
+| synpress-io/synpress | large | 50 | 1 | 0 | 1ms | - |
+| allure-framework/allure-js | large | 50 | 0 | 0 | 1ms | - |
+| serenity-js/serenity-js | enterprise | 50 | 0 | 0 | 1ms | - |
+| microsoft/playwright-vscode | medium | 21 | 0 | 0 | 2ms | - |
+| antiwork/shortest | medium | 5 | 0 | 0 | 1ms | - |
+| akshayp7/playwright-typescript-playwright-test | medium | 12 | 1 | 0 | 1ms | - |
 
 ## Accuracy Matrix
 
@@ -46,10 +46,19 @@ Generated: 2026-07-07T00:04:01.246Z
 
 | Rule | Trigger Count | Confidence |
 | :--- | ---: | :--- |
-| knowledge/google/maintainability.md | 3 | Medium |
-| knowledge/playwright/fundamentals/locators.md | 3 | Medium |
-| knowledge/playwright/README.md | 3 | Medium |
-| knowledge/playwright/review-rules/locator-review.md | 3 | Medium |
+| knowledge/google/maintainability.md | 87 | High |
+| knowledge/google/test-isolation.md | 1 | Low |
+| knowledge/istqb/boundary-value-analysis.md | 14 | High |
+| knowledge/owasp/authentication-testing.md | 14 | High |
+| knowledge/owasp/input-validation.md | 18 | High |
+| knowledge/playwright/fundamentals/assertions.md | 1 | Low |
+| knowledge/playwright/fundamentals/locators.md | 87 | High |
+| knowledge/playwright/README.md | 140 | High |
+| knowledge/playwright/review-rules/assertion-review.md | 1 | Low |
+| knowledge/playwright/review-rules/isolation-review.md | 1 | Low |
+| knowledge/playwright/review-rules/locator-review.md | 87 | High |
+| knowledge/playwright/review-rules/parallel-review.md | 1 | Low |
+| knowledge/unicode/unicode-testing.md | 18 | High |
 
 ## Calibration Actions
 
@@ -60,7 +69,25 @@ Generated: 2026-07-07T00:04:01.246Z
 
 ## Findings Requiring Triage
 
-No findings generated in this validation run.
+### F1: Missing Assertion
+
+- Repository: synpress-io/synpress
+- File: wallets/metamask/test/playwright/e2e/resetAccount.spec.ts
+- Severity: Medium
+- Evidence: `test('reset the account', async ({ context, metamaskPage }) => {`
+- Recommendation: Add an assertion for the expected UI state, navigation, response, or persisted data after the action.
+- Triage: TBD
+- Action: New benchmark / Rule improvement / Documented justification
+
+### F2: Missing Assertion
+
+- Repository: akshayp7/playwright-typescript-playwright-test
+- File: tests/db/DB.test.ts
+- Severity: Medium
+- Evidence: `test('Connect to Postgres DB', async () => {`
+- Recommendation: Add an assertion for the expected UI state, navigation, response, or persisted data after the action.
+- Triage: TBD
+- Action: New benchmark / Rule improvement / Documented justification
 
 ## False Positive / False Negative Learning
 

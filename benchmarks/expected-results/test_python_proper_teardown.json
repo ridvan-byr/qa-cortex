@@ -1,0 +1,9 @@
+{
+  "id": "PY_SELENIUM_CLEANUP_NEG_001",
+  "category": "Python Selenium Cleanup",
+  "specFile": "benchmarks/python/selenium/cleanup/test_python_proper_teardown.py",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

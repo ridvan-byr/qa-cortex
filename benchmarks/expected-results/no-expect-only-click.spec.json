@@ -1,0 +1,15 @@
+{
+  "id": "ASSERTION_003",
+  "category": "Assertion",
+  "specFile": "benchmarks/playwright/assertions/no-expect-only-click.spec.ts",
+  "expectedFindings": [
+    "missing_assertion"
+  ],
+  "expectedSeverity": {
+    "missing_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "missing_assertion": "Add an assertion"
+  },
+  "targetQualityScore": 80
+}

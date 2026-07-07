@@ -1,0 +1,15 @@
+{
+  "id": "ASSERTION_004",
+  "category": "Assertion",
+  "specFile": "benchmarks/playwright/assertions/weak-truthy-assertion.spec.ts",
+  "expectedFindings": [
+    "weak_assertion"
+  ],
+  "expectedSeverity": {
+    "weak_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "weak_assertion": "Replace weak truthiness"
+  },
+  "targetQualityScore": 80
+}

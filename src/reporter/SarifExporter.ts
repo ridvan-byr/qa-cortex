@@ -71,7 +71,7 @@ export class SarifExporter {
             driver: {
               name: 'QA Cortex',
               informationUri: 'https://github.com/ridvan-byr/qa-cortex',
-              version: '0.2.0',
+              version: '1.0.0',
               rules: Array.from(rulesMap.values())
             }
           },

@@ -1,0 +1,15 @@
+{
+  "id": "PY_SELENIUM_LOCATOR_002",
+  "category": "Python Selenium Locator",
+  "specFile": "benchmarks/python/selenium/locator/test_python_css_chain.py",
+  "expectedFindings": [
+    "brittle_locator"
+  ],
+  "expectedSeverity": {
+    "brittle_locator": "High"
+  },
+  "expectedRecommendation": {
+    "brittle_locator": "Move locator"
+  },
+  "targetQualityScore": 80
+}

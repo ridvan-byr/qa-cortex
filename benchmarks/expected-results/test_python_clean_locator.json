@@ -1,0 +1,9 @@
+{
+  "id": "PY_SELENIUM_LOCATOR_NEG_001",
+  "category": "Python Selenium Locator",
+  "specFile": "benchmarks/python/selenium/locator/test_python_clean_locator.py",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

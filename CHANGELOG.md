@@ -1,7 +1,16 @@
 # Changelog
 
-## 0.2.0
+## 1.0.0
 
+- Expanded the benchmark suite from 12 to 40 deterministic calibration cases across Playwright, Selenium WebDriver for Node.js, and Python Selenium.
+- Added negative benchmark cases for clean locators, proper waits, strong assertions, and proper Python Selenium teardown to guard against false positives.
+- Added Python Selenium benchmark coverage for XPath/CSS locators, time.sleep, missing assertions, missing driver quit, proper teardown, and mixed smell scenarios.
+- Calibrated deterministic rules for generated ID locators, inline selector clusters, weak assertions, ambiguous test names, hardcoded test data, Selenium implicit waits, Selenium shared drivers, and Python Selenium CSS selector chains.
+- Updated BenchmarkRunner to support explicit spec paths and Python benchmark files in ground-truth JSON entries.
+- Added **Quality Gates** CLI integration with `--fail-under <score>` flag, terminating the process with exit code 1 if the quality score drops below the threshold.
+- Added **SARIF Report Format Exporter** (`--format sarif` flag) to output standard Static Analysis Results Interchange Format (SARIF v2.1.0) for CI/CD integrations.
+- Modernized the **VS Code Sidebar Webview UI** with Outfit & Inter typography, progress bars with HSL gradients, and hover transitions.
+- Integrated **AI Editor Rules Integration** card under the settings panel in VS Code to export project guidelines to Cursor, Windsurf, Copilot, and Antigravity.
 - Added **Python Selenium Adapter** support for pytest framework, including 4 deterministic rule engines (XPath locators, hardcoded waits, missing driver teardowns, and missing assertion statements).
 - Implemented file extension-based framework filtering to prevent Node.js Playwright/Selenium adapters from claiming Python files.
 - Integrated Python support into `cli.ts` review execution, enabling direct CLI audits for `.py` test files.
@@ -11,7 +20,7 @@
 
 ## 0.1.0
 
-- First official release of **QA Cortex** (formerly QA Brain).
+- First official release of **QA Cortex** after the full product rename.
 - Completed the QA Cortex brand migration across product text, package metadata, command names, configuration keys, reports, docs, and release metadata.
 - Updated VS Code extension display name, dashboard text, commands, notifications, status bar, diagnostics, and output channel to use QA Cortex.
 - Migrated integration test suite to **Vitest**, reducing test execution times to < 20ms and adding `vitest.config.ts` isolation.

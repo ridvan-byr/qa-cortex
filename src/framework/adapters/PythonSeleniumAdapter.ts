@@ -56,8 +56,8 @@ export class PythonSeleniumAdapter implements FrameworkAdapter {
     const content = cleanLines.join('\n');
 
     // 1. Brittle Locator Check
-    if (content.includes('By.XPATH') || content.includes('find_element_by_xpath')) {
-      signals.push(this.signal('locator', file, this.findLine(rawContent, /By\.XPATH|find_element_by_xpath/), ['locator', 'maintainability']));
+    if (content.includes('By.XPATH') || content.includes('find_element_by_xpath') || /By\.CSS_SELECTOR\s*,\s*['"][^'"]*(?:>|nth-child)/.test(content)) {
+      signals.push(this.signal('locator', file, this.findLine(rawContent, /By\.XPATH|find_element_by_xpath|By\.CSS_SELECTOR/), ['locator', 'maintainability']));
     }
 
     // 2. Hardcoded Wait Check

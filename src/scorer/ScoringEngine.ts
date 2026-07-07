@@ -1,4 +1,4 @@
-import type { ReviewContext } from '../types/ReviewContext';
+﻿import type { ReviewContext } from '../types/ReviewContext';
 import type { Finding } from '../types/Finding';
 import type { Score } from '../types/Score';
 import type { ReviewResult } from '../types/ReviewResult';
@@ -19,7 +19,7 @@ export class ScoringEngine {
     const resilientLocators = !findings.some(f => f.category === 'BrittleLocator');
     const stateIsolation = !findings.some(f => f.category === 'SharedState' || f.category === 'ResourceCleanup');
     const autoWaiting = !findings.some(f => f.category === 'HardcodedWait');
-    const strongAssertions = !findings.some(f => f.category === 'MissingAssertion');
+    const strongAssertions = !findings.some(f => f.category === 'MissingAssertion' || f.category === 'WeakAssertion');
 
     const qualityChecklist: Score['qualityChecklist'] = {
       pomEncapsulation,
@@ -31,7 +31,7 @@ export class ScoringEngine {
 
     const maintainabilityChecklist: Score['maintainabilityChecklist'] = {
       meaninglessWaitAvoided: autoWaiting,
-      dryPrinciple: !findings.some(f => f.category === 'Duplicate'),
+      dryPrinciple: !findings.some(f => f.category === 'Duplicate' || f.category === 'HardcodedTestData'),
       modularLocators: pomEncapsulation && resilientLocators, // Must have encapsulation AND resilient locators
     };
 
@@ -42,6 +42,8 @@ export class ScoringEngine {
     if (!stateIsolation) qualityScore -= 20;
     if (!autoWaiting) qualityScore -= 15;
     if (!strongAssertions) qualityScore -= 20;
+    if (findings.some(f => f.category === 'TestNaming')) qualityScore -= 5;
+    if (findings.some(f => f.category === 'HardcodedTestData')) qualityScore -= 5;
     if (qualityScore < 0) qualityScore = 0;
 
     // Calculate Maintainability Score
@@ -179,3 +181,4 @@ export class ScoringEngine {
     return true; // encapsulated or POM not present (non-penalizing)
   }
 }
+

@@ -1,0 +1,15 @@
+{
+  "id": "PY_SELENIUM_WAITING_001",
+  "category": "Python Selenium Waiting",
+  "specFile": "benchmarks/python/selenium/waiting/test_python_time_sleep.py",
+  "expectedFindings": [
+    "hardcoded_wait"
+  ],
+  "expectedSeverity": {
+    "hardcoded_wait": "High"
+  },
+  "expectedRecommendation": {
+    "hardcoded_wait": "Replace sleep"
+  },
+  "targetQualityScore": 85
+}

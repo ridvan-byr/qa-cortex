@@ -1,0 +1,15 @@
+{
+  "id": "SELENIUM_ASSERTION_002",
+  "category": "Selenium Assertion",
+  "specFile": "benchmarks/selenium/assertions/selenium-weak-assertion.spec.ts",
+  "expectedFindings": [
+    "weak_assertion"
+  ],
+  "expectedSeverity": {
+    "weak_assertion": "Medium"
+  },
+  "expectedRecommendation": {
+    "weak_assertion": "Replace weak truthiness"
+  },
+  "targetQualityScore": 80
+}

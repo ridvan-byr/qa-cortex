@@ -14,7 +14,7 @@ import * as path from 'path';
 
 function printHelp(): void {
   console.log(`
-QA Cortex CLI - v0.2.0
+QA Cortex CLI - v1.0.0
 Usage: qa-cortex <command> [options]
 
 Commands:
@@ -53,7 +53,7 @@ async function run(): Promise<void> {
   }
 
   if (args.includes('--version') || args.includes('-v')) {
-    console.log('QA Cortex v0.2.0');
+    console.log('QA Cortex v1.0.0');
     process.exit(0);
   }
 

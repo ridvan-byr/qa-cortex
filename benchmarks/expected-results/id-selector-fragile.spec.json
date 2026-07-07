@@ -1,0 +1,15 @@
+{
+  "id": "LOCATOR_003",
+  "category": "Locator",
+  "specFile": "benchmarks/playwright/locator/id-selector-fragile.spec.ts",
+  "expectedFindings": [
+    "brittle_locator"
+  ],
+  "expectedSeverity": {
+    "brittle_locator": "Medium"
+  },
+  "expectedRecommendation": {
+    "brittle_locator": "Replace generated ID selectors"
+  },
+  "targetQualityScore": 80
+}

@@ -1,0 +1,9 @@
+{
+  "id": "ASSERTION_NEG_001",
+  "category": "Assertion",
+  "specFile": "benchmarks/playwright/assertions/strong-specific-assertion.spec.ts",
+  "expectedFindings": [],
+  "expectedSeverity": {},
+  "expectedRecommendation": {},
+  "targetQualityScore": 100
+}

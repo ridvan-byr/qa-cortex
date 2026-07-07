@@ -7,3 +7,14 @@ extensions/vscode/qa-cortex-core/
 extensions/vscode/*.vsix
 .venv/
 validation/repos/
+
+__pycache__/
+*.pyc
+AGENT_JOURNAL.md
+.agents/
+.cursorrules
+.github/copilot-instructions.md
+scratch/
+reviews/*.sarif
+reviews/*-review.md
+.pytest_cache/

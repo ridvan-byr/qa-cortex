@@ -1,0 +1,15 @@
+{
+  "id": "FIXTURE_002",
+  "category": "Fixture",
+  "specFile": "benchmarks/playwright/fixtures/global-variable-mutation.spec.ts",
+  "expectedFindings": [
+    "shared_state"
+  ],
+  "expectedSeverity": {
+    "shared_state": "Critical"
+  },
+  "expectedRecommendation": {
+    "shared_state": "Isolate test state"
+  },
+  "targetQualityScore": 80
+}
