@@ -171,7 +171,7 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
               const targetPath = workspaceFolders[0].uri.fsPath;
               AIInstructionExporter.exportRules(targetPath);
               
-              vscode.window.showInformationMessage('QA Cortex: AI Rules successfully generated for Cursor, Windsurf, and Antigravity!');
+              vscode.window.showInformationMessage('QA Cortex: AI Rules successfully generated for Codex, Cursor, Windsurf, and Antigravity!');
               webviewView.webview.postMessage({ type: 'aiRulesStatus', status: 'Exported successfully!' });
             } else {
               vscode.window.showWarningMessage('QA Cortex: No open workspace folder found to export rules.');
@@ -643,7 +643,7 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
     <!-- AI Integration Section -->
     <div style="font-weight: bold; margin-top: 14px; margin-bottom: 10px; font-size: 1em; border-top: 1px solid var(--vscode-panel-border); padding-top: 12px;">AI Editor Rules Integration</div>
     <div style="font-size: 0.85em; opacity: 0.85; margin-bottom: 10px; line-height: 1.35;">
-      Export QA Cortex guidelines into Cursor, Windsurf, Copilot, and Antigravity workspace rule-sets so that your AI assistant complies with them during coding.
+      Export QA Cortex guidelines into Codex, Cursor, Windsurf, Copilot, and Antigravity workspace rule-sets so that your AI assistant complies with them during coding.
     </div>
     <div style="display: flex; gap: 8px; margin-bottom: 8px;">
       <button class="btn" style="width: 100%;" onclick="initAiRules()">Export AI Rules</button>

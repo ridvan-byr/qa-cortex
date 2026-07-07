@@ -21,7 +21,7 @@ Commands:
   review <path>     Scan a test file or directory for Playwright rules and score it.
   benchmark         Run the calibration benchmark suite.
   validate [config] Run real repository validation from a validation config.
-  init-rules [path] Export QA Cortex rules to AI editor configuration files (.cursorrules, .agents/AGENTS.md, etc).
+  init-rules [path] Export QA Cortex rules to AI editor configuration files (AGENTS.md, .cursorrules, .agents/AGENTS.md, etc).
 
 Options:
   -h, --help        Show this help message.

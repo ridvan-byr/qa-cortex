@@ -34,9 +34,19 @@ You are an expert QA Automation Engineer. When writing or editing Playwright tes
 
 ${rulesContent}`;
     fs.writeFileSync(cursorRulesPath, cursorRulesContent, 'utf8');
-    console.log(`✓ Generated: ${cursorRulesPath}`);
+    console.log(`Generated: ${cursorRulesPath}`);
 
-    // 2. Write .agents/AGENTS.md
+    // 2. Write AGENTS.md for Codex and other tools that read project-root instructions.
+    const codexAgentsPath = path.join(resolvedTargetDir, 'AGENTS.md');
+    const codexAgentsContent = `# QA Cortex Project Standards
+
+You are working on a Playwright test automation codebase. You MUST strictly adhere to the following project-scoped standards for all code generation, reviews, and modifications:
+
+${rulesContent}`;
+    fs.writeFileSync(codexAgentsPath, codexAgentsContent, 'utf8');
+    console.log(`Generated: ${codexAgentsPath}`);
+
+    // 3. Write .agents/AGENTS.md for agent tools that use a nested guidance directory.
     const agentsDir = path.join(resolvedTargetDir, '.agents');
     if (!fs.existsSync(agentsDir)) {
       fs.mkdirSync(agentsDir, { recursive: true });
@@ -48,9 +58,9 @@ You are pair programming on a Playwright test automation codebase. You MUST stri
 
 ${rulesContent}`;
     fs.writeFileSync(agentsRulesPath, agentsRulesContent, 'utf8');
-    console.log(`✓ Generated: ${agentsRulesPath}`);
+    console.log(`Generated: ${agentsRulesPath}`);
 
-    // 3. Write .github/copilot-instructions.md
+    // 4. Write .github/copilot-instructions.md
     const githubDir = path.join(resolvedTargetDir, '.github');
     if (!fs.existsSync(githubDir)) {
       fs.mkdirSync(githubDir, { recursive: true });
@@ -62,7 +72,7 @@ When suggesting code completions, generating new tests, or refactoring existing 
 
 ${rulesContent}`;
     fs.writeFileSync(copilotRulesPath, copilotRulesContent, 'utf8');
-    console.log(`✓ Generated: ${copilotRulesPath}`);
+    console.log(`Generated: ${copilotRulesPath}`);
   }
 
   private static gatherRules(dir: string): string {

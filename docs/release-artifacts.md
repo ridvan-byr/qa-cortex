@@ -1,9 +1,9 @@
 # QA Cortex Release Artifacts
 
-## VS Code Client 0.1.0
+## VS Code Client 1.0.0
 
-Generated: 2026-07-06
-Published: Pending Marketplace update
+Generated: 2026-07-08
+Published: Pending Marketplace release
 
 Marketplace:
 
@@ -11,7 +11,7 @@ https://marketplace.visualstudio.com/items?itemName=qa-cortex.qa-cortex-vscode-c
 
 | Artifact | SHA256 |
 | :--- | :--- |
-| `extensions/vscode/qa-cortex-vscode-client-0.1.0.vsix` | `11AC633B9D4ADDAD9AD43723A523A4F11F00B98527B027B63B7F9280926BBF65` |
+| `extensions/vscode/qa-cortex-vscode-client-1.0.0.vsix` | `C9387887C6FB6C9E49FB7D8A6659F3CDBB12998FADE1490FDA29D19E2F46A71A` |
 
 The VSIX file is generated locally and intentionally ignored by git. Recreate it with:
 

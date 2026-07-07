@@ -10,7 +10,7 @@
 - Added **Quality Gates** CLI integration with `--fail-under <score>` flag, terminating the process with exit code 1 if the quality score drops below the threshold.
 - Added **SARIF Report Format Exporter** (`--format sarif` flag) to output standard Static Analysis Results Interchange Format (SARIF v2.1.0) for CI/CD integrations.
 - Modernized the **VS Code Sidebar Webview UI** with Outfit & Inter typography, progress bars with HSL gradients, and hover transitions.
-- Integrated **AI Editor Rules Integration** card under the settings panel in VS Code to export project guidelines to Cursor, Windsurf, Copilot, and Antigravity.
+- Integrated **AI Editor Rules Integration** card under the settings panel in VS Code to export project guidelines to Codex, Cursor, Windsurf, Copilot, and Antigravity.
 - Added **Python Selenium Adapter** support for pytest framework, including 4 deterministic rule engines (XPath locators, hardcoded waits, missing driver teardowns, and missing assertion statements).
 - Implemented file extension-based framework filtering to prevent Node.js Playwright/Selenium adapters from claiming Python files.
 - Integrated Python support into `cli.ts` review execution, enabling direct CLI audits for `.py` test files.

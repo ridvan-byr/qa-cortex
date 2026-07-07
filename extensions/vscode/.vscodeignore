@@ -32,3 +32,7 @@ assets/**
 *.vsix
 npm-debug.log
 yarn-error.log
+qa-cortex-core/dist/examples/**
+qa-cortex-core/dist/extensions/**
+qa-cortex-core/dist/scratch/**
+qa-cortex-core/dist/vitest.config.js

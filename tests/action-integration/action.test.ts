@@ -1,5 +1,8 @@
 import { describe, it } from 'vitest';
 import * as assert from 'assert';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
 import { DiffDetector, type ChangedFile } from '../../src/github/DiffDetector';
 import { PRCommentFormatter, type PRReviewSummary } from '../../src/reporter/PRCommentFormatter';
 import { ReviewPipeline } from '../../src/core/ReviewPipeline';
@@ -10,6 +13,31 @@ import { PLAYWRIGHT_ROUTING_RULES, SELENIUM_ROUTING_RULES } from '../../src/rout
 import { TestDesignEngine } from '../../src/design/TestDesignEngine';
 import { Scanner } from '../../src/core/Scanner';
 import { ContextBuilder } from '../../src/loader/ContextBuilder';
+import { AIInstructionExporter } from '../../src/core/AIInstructionExporter';
+
+
+describe('AIInstructionExporter', () => {
+  it('should export Codex-compatible AGENTS.md and other AI editor rule files', () => {
+    const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), 'qa-cortex-rules-'));
+
+    try {
+      AIInstructionExporter.exportRules(targetDir);
+
+      const rootAgentsPath = path.join(targetDir, 'AGENTS.md');
+      const nestedAgentsPath = path.join(targetDir, '.agents', 'AGENTS.md');
+      const cursorRulesPath = path.join(targetDir, '.cursorrules');
+      const copilotRulesPath = path.join(targetDir, '.github', 'copilot-instructions.md');
+
+      assert.strictEqual(fs.existsSync(rootAgentsPath), true);
+      assert.strictEqual(fs.existsSync(nestedAgentsPath), true);
+      assert.strictEqual(fs.existsSync(cursorRulesPath), true);
+      assert.strictEqual(fs.existsSync(copilotRulesPath), true);
+      assert.ok(fs.readFileSync(rootAgentsPath, 'utf8').includes('QA Cortex Project Standards'));
+    } finally {
+      fs.rmSync(targetDir, { recursive: true, force: true });
+    }
+  });
+});
 
 describe('DiffDetector', () => {
   it('should filter test files correctly', () => {
