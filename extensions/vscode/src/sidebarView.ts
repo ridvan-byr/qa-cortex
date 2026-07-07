@@ -162,6 +162,29 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
           }
           break;
 
+        case 'initAiRules': {
+          this.telemetry?.track('featureUsage', { feature: 'initAiRulesFromSidebar' });
+          try {
+            const { AIInstructionExporter } = require(path.join(this.repoRoot, 'dist/src/core/AIInstructionExporter'));
+            const workspaceFolders = vscode.workspace.workspaceFolders;
+            if (workspaceFolders && workspaceFolders.length > 0) {
+              const targetPath = workspaceFolders[0].uri.fsPath;
+              const exporter = new AIInstructionExporter(this.repoRoot);
+              exporter.export(targetPath);
+              
+              vscode.window.showInformationMessage('QA Cortex: AI Rules successfully generated for Cursor, Windsurf, and Antigravity!');
+              webviewView.webview.postMessage({ type: 'aiRulesStatus', status: 'Exported successfully!' });
+            } else {
+              vscode.window.showWarningMessage('QA Cortex: No open workspace folder found to export rules.');
+              webviewView.webview.postMessage({ type: 'aiRulesStatus', status: 'Failed: No open workspace' });
+            }
+          } catch (err: any) {
+            vscode.window.showErrorMessage(`QA Cortex: Failed to export AI rules: ${err.message}`);
+            webviewView.webview.postMessage({ type: 'aiRulesStatus', status: `Error: ${err.message}` });
+          }
+          break;
+        }
+
         case 'ready':
           this.pushState();
           break;
@@ -594,8 +617,20 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
     <div style="display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 8px;">
       <button class="btn" onclick="saveApiConfig()">Save Configuration</button>
     </div>
-    <div id="api-key-status" style="font-size: 0.85em; opacity: 0.8; font-style: italic;">
+    <div id="api-key-status" style="font-size: 0.85em; opacity: 0.8; font-style: italic; margin-bottom: 12px;">
       Status: Checking...
+    </div>
+
+    <!-- AI Integration Section -->
+    <div style="font-weight: bold; margin-top: 14px; margin-bottom: 10px; font-size: 1em; border-top: 1px solid var(--vscode-panel-border); padding-top: 12px;">AI Editor Rules Integration</div>
+    <div style="font-size: 0.85em; opacity: 0.85; margin-bottom: 10px; line-height: 1.35;">
+      Export QA Cortex guidelines into Cursor, Windsurf, Copilot, and Antigravity workspace rule-sets so that your AI assistant complies with them during coding.
+    </div>
+    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+      <button class="btn" style="width: 100%;" onclick="initAiRules()">Export AI Rules</button>
+    </div>
+    <div id="ai-rules-status" style="font-size: 0.85em; opacity: 0.8; font-style: italic;">
+      Status: Ready
     </div>
   </div>
 
@@ -664,8 +699,17 @@ export class QaCortexSidebarViewProvider implements vscode.WebviewViewProvider {
       const message = event.data;
       if (message.type === 'update') {
         renderState(message.state);
+      } else if (message.type === 'aiRulesStatus') {
+        const el = document.getElementById('ai-rules-status');
+        if (el) el.innerText = 'Status: ' + message.status;
       }
     });
+
+    function initAiRules() {
+      const el = document.getElementById('ai-rules-status');
+      if (el) el.innerText = 'Status: Exporting...';
+      vscode.postMessage({ command: 'initAiRules' });
+    }
 
     function switchTab(tabId) {
       vscode.postMessage({ command: 'tabChanged', tab: tabId });
