@@ -3,7 +3,7 @@
 ## VS Code Client 1.0.0
 
 Generated: 2026-07-08
-Published: Pending Marketplace release
+Published: 2026-07-08
 
 Marketplace:
 

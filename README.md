@@ -2,7 +2,7 @@
 
 > Repository-aware, rule-driven QA review engine for test automation projects.
 
-**Status**: v1.0.0 release candidate. CLI, GitHub Action, MCP server, and VS Code client are available. The deterministic engine is calibrated against 40 benchmark cases across Playwright, Selenium WebDriver for Node.js, and Python Selenium.
+**Status**: v1.0.0 published. CLI, GitHub Action, MCP server, and VS Code client are available. The deterministic engine is calibrated against 40 benchmark cases across Playwright, Selenium WebDriver for Node.js, and Python Selenium.
 
 ---
 
@@ -39,11 +39,11 @@ Without an API key, QA Cortex runs a local deterministic review for common issue
 
 ### VS Code Marketplace
 
-QA Cortex VS Code Client is prepared for Marketplace release:
+Install QA Cortex VS Code Client from the Visual Studio Marketplace:
 
 https://marketplace.visualstudio.com/items?itemName=qa-cortex.qa-cortex-vscode-client
 
-If Marketplace validation is still pending, install the generated VSIX manually:
+For local testing or offline installation, use the generated VSIX manually:
 
 ```powershell
 code --install-extension "C:\Users\ridva\Desktop\qa-cortex\extensions\vscode\qa-cortex-vscode-client-1.0.0.vsix"
