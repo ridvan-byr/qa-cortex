@@ -9,7 +9,7 @@ if (!fs.existsSync(configPath)) {
 }
 
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const targetDir = 'C:/tmp/qa-cortex-validation-repos';
+const targetDir = path.resolve(__dirname, 'repos');
 
 if (!fs.existsSync(targetDir)) {
   fs.mkdirSync(targetDir, { recursive: true });
@@ -23,11 +23,10 @@ for (const repo of config.repositories) {
     continue;
   }
 
-  // Resolve local directory path
-  // Since some local paths might be nested (e.g. C:/tmp/qa-cortex-validation-repos/playwright-mcp),
-  // we find the target directory for cloning
-  const repoName = repo.url.split('/').pop().replace('.git', '');
-  const clonePath = path.join(targetDir, repoName);
+  // Resolve local directory path relative to targetDir
+  const relativeToTarget = path.relative(targetDir, path.resolve(repo.localPath));
+  const repoFolder = relativeToTarget.split(path.sep)[0];
+  const clonePath = path.join(targetDir, repoFolder);
 
   if (fs.existsSync(clonePath)) {
     console.log(`[Exists] ${repo.name} already cloned at ${clonePath}`);

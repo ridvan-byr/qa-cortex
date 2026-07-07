@@ -35,9 +35,37 @@ inputs:
 outputs:
   files-reviewed:
     description: 'Number of test files reviewed.'
+    value: ${{ steps.run-action.outputs.files-reviewed }}
   critical-findings:
     description: 'Number of critical/high findings detected.'
+    value: ${{ steps.run-action.outputs.critical-findings }}
 
 runs:
-  using: 'node20'
-  main: 'dist/src/action.js'
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install Action Dependencies
+      run: npm ci
+      shell: bash
+      working-directory: ${{ github.action_path }}
+
+    - name: Build Action
+      run: npm run build
+      shell: bash
+      working-directory: ${{ github.action_path }}
+
+    - name: Run review action
+      id: run-action
+      run: node ${{ github.action_path }}/dist/src/action.js
+      shell: bash
+      env:
+        INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
+        INPUT_GEMINI-API-KEY: ${{ inputs.gemini-api-key }}
+        INPUT_REVIEW-PATH: ${{ inputs.review-path }}
+        INPUT_FAIL-ON-CRITICAL: ${{ inputs.fail-on-critical }}
+        INPUT_MAX-FILES: ${{ inputs.max-files }}
+        INPUT_IGNORE: ${{ inputs.ignore }}

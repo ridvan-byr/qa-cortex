@@ -29,5 +29,8 @@ jobs:
     - name: Run Integration Tests
       run: npm test
 
+    - name: Clone Validation Repositories
+      run: node validation/clone-repos.js
+
     - name: Run Validation Runner
       run: npm run validate

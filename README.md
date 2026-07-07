@@ -2,7 +2,7 @@
 
 > Repository-aware, rule-driven QA review engine for test automation projects.
 
-**Status**: v0.1.0 - CLI, GitHub Action, MCP, and VS Code client available.
+**Status**: v0.1.0 (Beta/Preview) - CLI, GitHub Action, MCP, and VS Code client available. The engine is currently calibrated against a 12-scenario Playwright benchmark set.
 
 ---
 

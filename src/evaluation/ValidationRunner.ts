@@ -81,6 +81,11 @@ export class ValidationRunner {
       results.push(await this.runRepository(repo, config, ruleUsage));
     }
 
+    const totalFiles = results.reduce((sum, r) => sum + r.filesReviewed, 0);
+    if (totalFiles === 0) {
+      throw new Error('No files were reviewed during validation. Ensure repositories are cloned and paths are correct.');
+    }
+
     const selectionWarnings = [
       ...this.validateRepositorySelection(config.repositories, config),
       ...this.validateActiveRepositoryCoverage(results, config),
