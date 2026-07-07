@@ -143,7 +143,7 @@ export class Scanner {
   }
 
   public static isReviewableTestFile(filename: string): boolean {
-    return this.isTestFile(filename) && !this.isPythonTestFile(filename);
+    return this.isTestFile(filename);
   }
 
   /**

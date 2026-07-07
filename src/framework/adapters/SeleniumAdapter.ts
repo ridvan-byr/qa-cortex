@@ -12,6 +12,10 @@ export class SeleniumAdapter implements FrameworkAdapter {
   public readonly name = 'selenium' as const;
 
   public detect(input: FrameworkDetectionInput): boolean {
+    const file = input.targetFile.filePath;
+    if (file && file.endsWith('.py')) {
+      return false;
+    }
     const content = input.targetFile.content;
     return Boolean(input.dependencies.dependencies['selenium-webdriver'])
       || Boolean(input.dependencies.devDependencies['selenium-webdriver'])

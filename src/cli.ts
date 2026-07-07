@@ -133,10 +133,6 @@ async function run(): Promise<void> {
 
     if (stats.isFile()) {
       if (!Scanner.isReviewableTestFile(path.basename(absPath))) {
-        if (Scanner.isPythonTestFile(path.basename(absPath))) {
-          console.log('Python test discovery is enabled, but Python review is not enabled yet. Skipping review.');
-          process.exit(0);
-        }
         console.error(`Error: File is not a supported reviewable test file: ${targetPath}`);
         process.exit(1);
       }

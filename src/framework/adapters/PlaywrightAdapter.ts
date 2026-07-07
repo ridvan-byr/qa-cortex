@@ -12,6 +12,10 @@ export class PlaywrightAdapter implements FrameworkAdapter {
   public readonly name = 'playwright';
 
   public detect(input: FrameworkDetectionInput): boolean {
+    const file = input.targetFile.filePath;
+    if (file && file.endsWith('.py')) {
+      return false;
+    }
     const content = input.targetFile.content;
     return Boolean(input.dependencies.playwrightVersion)
       || content.includes('@playwright/test')

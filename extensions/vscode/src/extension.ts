@@ -78,10 +78,6 @@ export function activate(context: vscode.ExtensionContext): void {
       await vscode.window.showWarningMessage('QA Cortex: Current file is not a supported test file.');
       return;
     }
-    if (document.fileName.endsWith('.py')) {
-      await vscode.window.showInformationMessage('QA Cortex: Python discovery is enabled, but Python test design is not enabled yet.');
-      return;
-    }
     const workspaceRoot = runner.getWorkspaceRoot(document);
     await runWithProgress(`Analyzing test design in ${path.basename(document.fileName)}...`, async token => {
       if (token.isCancellationRequested) return;

@@ -240,7 +240,7 @@ For each missing scenario, provide:
 - explanation: educational reason detailing why it is missing and why it's a critical QA practice (e.g. explain what boundary or partition is missed)
 - criticality: 'HIGH' | 'MEDIUM' | 'LOW'
 - evidence: line or context in existing code showing this gap
-- suggestedTemplate: boilerplate test code for both 'playwright' and 'selenium' frameworks.
+- suggestedTemplate: boilerplate test code. If targetFile ends with '.py', generate Python test code (using pytest, and selenium if the project is selenium). Otherwise, generate Node.js code (using playwright or selenium-webdriver depending on the framework).
 
 Output JSON only. Do not wrap in markdown or add notes.`;
 
@@ -385,139 +385,201 @@ Output JSON only. Do not wrap in markdown or add notes.`;
     const hasAssertions = this.hasAssertionSignal(content);
     const skipMissingAssertion = this.isFrameworkBehaviorContext(context.targetFile.filePath, content);
 
-    if (isSelenium && seleniumSelectorLeak) {
-      findings.push({
-        ruleId: 'SELENIUM_POM_001',
-        category: 'SelectorLeak',
-        title: 'Selector Leak',
-        description: 'A Page Object is referenced but a Selenium selector is still used directly in the spec.',
-        severity: 'Medium',
-        confidence: { level: 95, justification: ['Page Object signal matched', 'Inline Selenium selector matched'] },
-        evidence: seleniumSelectorLeak,
-        recommendation: 'Move the selector into the Page Object and expose a reusable action method.',
-      });
-    } else if (isSelenium && seleniumXPath) {
-      findings.push({
-        ruleId: 'SELENIUM_LOCATOR_001',
-        category: 'BrittleLocator',
-        title: 'Brittle Selenium XPath Locator',
-        description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
-        severity: 'High',
-        confidence: { level: 95, justification: ['Selenium By.xpath locator matched'] },
-        evidence: seleniumXPath,
-        recommendation: 'Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors.',
-      });
-    } else if (absoluteXPath) {
-      findings.push({
-        ruleId: 'LOCATOR_001',
-        category: 'BrittleLocator',
-        title: 'Brittle XPath Locator with Selector Leak',
-        description: 'The test uses an absolute XPath selector directly in the spec, which is brittle and bypasses page object encapsulation.',
-        severity: 'High',
-        confidence: { level: 98, justification: ['Absolute XPath locator matched', 'Raw selector used in test body'] },
-        evidence: absoluteXPath,
-        recommendation: 'Encapsulate locator inside LoginPage class and call a method (e.g. await loginPage.login()).',
-      });
-    } else if (importsPageObject && rawXPath) {
-      findings.push({
-        ruleId: 'POM_001',
-        category: 'SelectorLeak',
-        title: 'Selector Leak',
-        description: 'A Page Object is imported but a raw selector is still used directly in the spec.',
-        severity: 'Medium',
-        confidence: { level: 98, justification: ['Page Object import matched', 'Raw locator matched'] },
-        evidence: rawXPath,
-        recommendation: 'Encapsulate the login button selector inside the LoginPage class',
-      });
-    } else if (rawXPath) {
-      findings.push({
-        ruleId: 'LOCATOR_001',
-        category: 'BrittleLocator',
-        title: 'Brittle XPath Locator',
-        description: 'The test uses a raw XPath selector, which is harder to maintain than user-facing Playwright locators.',
-        severity: 'High',
-        confidence: { level: 95, justification: ['Raw XPath locator matched'] },
-        evidence: rawXPath,
-        recommendation: 'Replace raw XPath with getByRole, getByLabel, getByText, or a stable test id.',
-      });
-    }
+    const isPython = context.targetFile.filePath.endsWith('.py');
 
-    if (brittleCss) {
-      findings.push({
-        ruleId: 'LOCATOR_002',
-        category: 'BrittleLocator',
-        title: 'Brittle CSS Selector Chain',
-        description: 'The test uses a deep nested CSS selector chain that can break when markup structure changes.',
-        severity: 'High',
-        confidence: { level: 98, justification: ['Deep CSS nesting or nth-child matched'] },
-        evidence: brittleCss,
-        recommendation: 'Replace brittle CSS chain with getByRole',
-      });
-    }
+    if (isPython) {
+      const signals = context.framework?.signals || [];
+      
+      const locatorSignal = signals.find(s => s.type === 'locator');
+      if (locatorSignal) {
+        findings.push({
+          ruleId: 'SELENIUM_LOCATOR_001',
+          category: 'BrittleLocator',
+          title: 'Brittle Selenium XPath Locator',
+          description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Selenium XPath locator matched'] },
+          evidence: locatorSignal.evidence || 'By.XPATH',
+          recommendation: 'Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors.',
+        });
+      }
 
-    if (hardcodedWait) {
-      findings.push({
-        ruleId: 'WAITING_001',
-        category: 'HardcodedWait',
-        title: 'Redundant Hardcoded Timeout (waitForTimeout)',
-        description: 'The test uses a fixed sleep instead of waiting for observable UI or network state.',
-        severity: 'High',
-        confidence: { level: 95, justification: ['waitForTimeout call matched'] },
-        evidence: hardcodedWait,
-        recommendation: 'Remove hardcoded wait and rely on Playwright auto-waiting assertions.',
-      });
-    }
+      const waitSignal = signals.find(s => s.type === 'wait');
+      if (waitSignal) {
+        findings.push({
+          ruleId: 'SELENIUM_WAITING_001',
+          category: 'HardcodedWait',
+          title: 'Hardcoded Sleep',
+          description: 'The test uses a fixed sleep instead of waiting for observable browser state.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['time.sleep or driver.sleep call matched'] },
+          evidence: waitSignal.evidence || 'sleep',
+          recommendation: 'Replace sleep with an explicit wait for the expected UI state.',
+        });
+      }
 
-    if (isSelenium && seleniumHardcodedSleep) {
-      findings.push({
-        ruleId: 'SELENIUM_WAITING_001',
-        category: 'HardcodedWait',
-        title: 'Hardcoded Sleep',
-        description: 'The test uses a fixed Selenium sleep instead of waiting for observable browser state.',
-        severity: 'High',
-        confidence: { level: 95, justification: ['driver.sleep call matched'] },
-        evidence: seleniumHardcodedSleep,
-        recommendation: 'Replace driver.sleep with an explicit wait for the expected UI state.',
-      });
-    }
+      const lifecycleSignal = signals.find(s => s.type === 'lifecycle');
+      if (lifecycleSignal) {
+        findings.push({
+          ruleId: 'SELENIUM_CLEANUP_001',
+          category: 'ResourceCleanup',
+          title: 'Resource Cleanup Missing',
+          description: 'The test creates a WebDriver session but does not close it with driver.quit().',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Selenium driver build matched', 'No driver.quit() matched'] },
+          evidence: lifecycleSignal.evidence || 'webdriver.Chrome()',
+          recommendation: 'Close the Selenium driver in finally or test teardown with driver.quit().',
+        });
+      }
 
-    if (seleniumMissingQuit) {
-      findings.push({
-        ruleId: 'SELENIUM_CLEANUP_001',
-        category: 'ResourceCleanup',
-        title: 'Resource Cleanup Missing',
-        description: 'The test creates a WebDriver session but does not close it with driver.quit().',
-        severity: 'High',
-        confidence: { level: 95, justification: ['Selenium driver build matched', 'No driver.quit() matched'] },
-        evidence: this.findLine(content, /new\s+Builder\s*\(\s*\)/) || 'new Builder().build()',
-        recommendation: 'Close the Selenium driver in finally or test teardown with driver.quit().',
-      });
-    }
+      const assertionSignal = signals.find(s => s.type === 'assertion');
+      if (assertionSignal && findings.length === 0 && !skipMissingAssertion) {
+        findings.push({
+          ruleId: 'ASSERTION_001',
+          category: 'MissingAssertion',
+          title: 'Missing Assertion',
+          description: 'The test performs actions but does not assert the expected outcome.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['No assert statement matched'] },
+          evidence: assertionSignal.evidence || context.targetFile.filePath,
+          recommendation: 'Add an assertion for the expected UI state, navigation, response, or persisted data after the action.',
+        });
+      }
+    } else {
+      if (isSelenium && seleniumSelectorLeak) {
+        findings.push({
+          ruleId: 'SELENIUM_POM_001',
+          category: 'SelectorLeak',
+          title: 'Selector Leak',
+          description: 'A Page Object is referenced but a Selenium selector is still used directly in the spec.',
+          severity: 'Medium',
+          confidence: { level: 95, justification: ['Page Object signal matched', 'Inline Selenium selector matched'] },
+          evidence: seleniumSelectorLeak,
+          recommendation: 'Move the selector into the Page Object and expose a reusable action method.',
+        });
+      } else if (isSelenium && seleniumXPath) {
+        findings.push({
+          ruleId: 'SELENIUM_LOCATOR_001',
+          category: 'BrittleLocator',
+          title: 'Brittle Selenium XPath Locator',
+          description: 'The test uses a Selenium XPath selector directly in the spec, which is tightly coupled to DOM structure.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Selenium By.xpath locator matched'] },
+          evidence: seleniumXPath,
+          recommendation: 'Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors.',
+        });
+      } else if (absoluteXPath) {
+        findings.push({
+          ruleId: 'LOCATOR_001',
+          category: 'BrittleLocator',
+          title: 'Brittle XPath Locator with Selector Leak',
+          description: 'The test uses an absolute XPath selector directly in the spec, which is brittle and bypasses page object encapsulation.',
+          severity: 'High',
+          confidence: { level: 98, justification: ['Absolute XPath locator matched', 'Raw selector used in test body'] },
+          evidence: absoluteXPath,
+          recommendation: 'Encapsulate locator inside LoginPage class and call a method (e.g. await loginPage.login()).',
+        });
+      } else if (importsPageObject && rawXPath) {
+        findings.push({
+          ruleId: 'POM_001',
+          category: 'SelectorLeak',
+          title: 'Selector Leak',
+          description: 'A Page Object is imported but a raw selector is still used directly in the spec.',
+          severity: 'Medium',
+          confidence: { level: 98, justification: ['Page Object import matched', 'Raw locator matched'] },
+          evidence: rawXPath,
+          recommendation: 'Encapsulate the login button selector inside the LoginPage class',
+        });
+      } else if (rawXPath) {
+        findings.push({
+          ruleId: 'LOCATOR_001',
+          category: 'BrittleLocator',
+          title: 'Brittle XPath Locator',
+          description: 'The test uses a raw XPath selector, which is harder to maintain than user-facing Playwright locators.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Raw XPath locator matched'] },
+          evidence: rawXPath,
+          recommendation: 'Replace raw XPath with getByRole, getByLabel, getByText, or a stable test id.',
+        });
+      }
 
-    if (sharedState) {
-      findings.push({
-        ruleId: 'FIXTURE_001',
-        category: 'SharedState',
-        title: 'Test Isolation Violation (Shared State)',
-        description: 'A mutable variable is defined outside the test body and can leak state between tests.',
-        severity: 'Critical',
-        confidence: { level: 100, justification: ['Top-level mutable variable matched'] },
-        evidence: sharedState,
-        recommendation: 'Isolate test state by logging in via isolated custom fixtures',
-      });
-    }
+      if (brittleCss) {
+        findings.push({
+          ruleId: 'LOCATOR_002',
+          category: 'BrittleLocator',
+          title: 'Brittle CSS Selector Chain',
+          description: 'The test uses a deep nested CSS selector chain that can break when markup structure changes.',
+          severity: 'High',
+          confidence: { level: 98, justification: ['Deep CSS nesting or nth-child matched'] },
+          evidence: brittleCss,
+          recommendation: 'Replace brittle CSS chain with getByRole',
+        });
+      }
 
-    if (!hasAssertions && findings.length === 0 && !skipMissingAssertion) {
-      findings.push({
-        ruleId: 'ASSERTION_001',
-        category: 'MissingAssertion',
-        title: 'Missing Assertion',
-        description: 'The test performs actions but does not assert the expected outcome.',
-        severity: 'Medium',
-        confidence: { level: 90, justification: ['No expect(...) assertion matched'] },
-        evidence: this.findLine(content, /test\s*\(/) || context.targetFile.filePath,
-        recommendation: 'Add an assertion for the expected UI state, navigation, response, or persisted data after the action.',
-      });
+      if (hardcodedWait) {
+        findings.push({
+          ruleId: 'WAITING_001',
+          category: 'HardcodedWait',
+          title: 'Redundant Hardcoded Timeout (waitForTimeout)',
+          description: 'The test uses a fixed sleep instead of waiting for observable UI or network state.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['waitForTimeout call matched'] },
+          evidence: hardcodedWait,
+          recommendation: 'Remove hardcoded wait and rely on Playwright auto-waiting assertions.',
+        });
+      }
+
+      if (isSelenium && seleniumHardcodedSleep) {
+        findings.push({
+          ruleId: 'SELENIUM_WAITING_001',
+          category: 'HardcodedWait',
+          title: 'Hardcoded Sleep',
+          description: 'The test uses a fixed Selenium sleep instead of waiting for observable browser state.',
+          severity: 'High',
+          confidence: { level: 95, justification: ['driver.sleep call matched'] },
+          evidence: seleniumHardcodedSleep,
+          recommendation: 'Replace driver.sleep with an explicit wait for the expected UI state.',
+        });
+      }
+
+      if (seleniumMissingQuit) {
+        findings.push({
+          ruleId: 'SELENIUM_CLEANUP_001',
+          category: 'ResourceCleanup',
+          title: 'Resource Cleanup Missing',
+          description: 'The test creates a WebDriver session but does not close it with driver.quit().',
+          severity: 'High',
+          confidence: { level: 95, justification: ['Selenium driver build matched', 'No driver.quit() matched'] },
+          evidence: this.findLine(content, /new\s+Builder\s*\(\s*\)/) || 'new Builder().build()',
+          recommendation: 'Close the Selenium driver in finally or test teardown with driver.quit().',
+        });
+      }
+
+      if (sharedState) {
+        findings.push({
+          ruleId: 'FIXTURE_001',
+          category: 'SharedState',
+          title: 'Test Isolation Violation (Shared State)',
+          description: 'A mutable variable is defined outside the test body and can leak state between tests.',
+          severity: 'Critical',
+          confidence: { level: 100, justification: ['Top-level mutable variable matched'] },
+          evidence: sharedState,
+          recommendation: 'Isolate test state by logging in via isolated custom fixtures',
+        });
+      }
+
+      if (!hasAssertions && findings.length === 0 && !skipMissingAssertion) {
+        findings.push({
+          ruleId: 'ASSERTION_001',
+          category: 'MissingAssertion',
+          title: 'Missing Assertion',
+          description: 'The test performs actions but does not assert the expected outcome.',
+          severity: 'Medium',
+          confidence: { level: 90, justification: ['No expect(...) assertion matched'] },
+          evidence: this.findLine(content, /test\s*\(/) || context.targetFile.filePath,
+          recommendation: 'Add an assertion for the expected UI state, navigation, response, or persisted data after the action.',
+        });
+      }
     }
 
     if (findings.length > 0) {

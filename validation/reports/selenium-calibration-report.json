@@ -1,111 +1,32 @@
 {
-  "generatedAt": "2026-07-05T10:41:53.085Z",
+  "generatedAt": "2026-07-07T12:17:38.305Z",
   "framework": "selenium",
   "selectionWarnings": [
-    "selenium-javascript-examples has 1 active Selenium test files; preferred minimum is 3.",
-    "demo-js has 1 active Selenium test files; preferred minimum is 3.",
-    "selenium-webdriverjs-pom-example has 1 active Selenium test files; preferred minimum is 3.",
-    "example-selenium-javascript-jest has 1 active Selenium test files; preferred minimum is 3."
+    "selenium-javascript-test should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "selenium-mocha should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "mocha-selenium-sample should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "demo-js should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "python-selenium-framework-example should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "example-pytest-selenium should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "selenium-boilerplate should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "Active Selenium calibration coverage has 4 repositories with Selenium WebDriver for Node.js specs; clone or replace candidates before final Sprint 13D sign-off.",
+    "selenium-javascript-test has 2 active Selenium test files; preferred minimum is 3.",
+    "example-pytest-selenium has 1 active Selenium test files; preferred minimum is 3."
   ],
   "repositories": [
     {
       "id": "selenium-01",
-      "name": "selenium-javascript-examples",
-      "localPath": "C:/tmp/qa-cortex-validation-repos/selenium-javascript-examples/WebdriverJS-Mocha-Template",
+      "name": "selenium-javascript-test",
+      "localPath": "validation/repos/selenium-javascript-test",
       "size": "small",
       "tags": [
-        "selenium-webdriver",
-        "templates"
+        "selenium",
+        "javascript",
+        "mocha",
+        "chai"
       ],
       "exists": true,
-      "filesReviewed": 1,
-      "findings": 0,
-      "criticalFindings": 0,
-      "averageReviewTimeMs": 7,
-      "ruleOnlyPrecision": "Requires manual triage",
-      "ruleOnlyRecall": "Requires manual triage",
-      "geminiPrecision": "Skipped",
-      "geminiRecall": "Skipped",
-      "files": [
-        {
-          "file": "tests/tests.js",
-          "reviewTimeMs": 7,
-          "findings": []
-        }
-      ],
-      "notes": [
-        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
-      ]
-    },
-    {
-      "id": "selenium-02",
-      "name": "demo-js",
-      "localPath": "C:/tmp/qa-cortex-validation-repos/demo-js/selenium",
-      "size": "small",
-      "tags": [
-        "selenium-webdriver",
-        "saucelabs"
-      ],
-      "exists": true,
-      "filesReviewed": 1,
-      "findings": 0,
-      "criticalFindings": 0,
-      "averageReviewTimeMs": 3,
-      "ruleOnlyPrecision": "Requires manual triage",
-      "ruleOnlyRecall": "Requires manual triage",
-      "geminiPrecision": "Skipped",
-      "geminiRecall": "Skipped",
-      "files": [
-        {
-          "file": "test/simple.safari.spec.js",
-          "reviewTimeMs": 3,
-          "findings": []
-        }
-      ],
-      "notes": [
-        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
-      ]
-    },
-    {
-      "id": "selenium-03",
-      "name": "selenium-webdriverjs-pom-example",
-      "localPath": "C:/tmp/qa-cortex-validation-repos/selenium-webdriverjs-pom-example",
-      "size": "small",
-      "tags": [
-        "selenium-webdriver",
-        "pom"
-      ],
-      "exists": true,
-      "filesReviewed": 1,
-      "findings": 0,
-      "criticalFindings": 0,
-      "averageReviewTimeMs": 3,
-      "ruleOnlyPrecision": "Requires manual triage",
-      "ruleOnlyRecall": "Requires manual triage",
-      "geminiPrecision": "Skipped",
-      "geminiRecall": "Skipped",
-      "files": [
-        {
-          "file": "src/test-cases/test-google-search.ts",
-          "reviewTimeMs": 3,
-          "findings": []
-        }
-      ],
-      "notes": [
-        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
-      ]
-    },
-    {
-      "id": "selenium-04",
-      "name": "example-selenium-javascript-jest",
-      "localPath": "C:/tmp/qa-cortex-validation-repos/example-selenium-javascript-jest",
-      "size": "small",
-      "tags": [
-        "selenium-webdriver",
-        "jest"
-      ],
-      "exists": true,
-      "filesReviewed": 1,
+      "filesReviewed": 2,
       "findings": 0,
       "criticalFindings": 0,
       "averageReviewTimeMs": 4,
@@ -115,8 +36,13 @@
       "geminiRecall": "Skipped",
       "files": [
         {
-          "file": "test/acme-bank.test.js",
-          "reviewTimeMs": 4,
+          "file": "tests/specs/e2e.spec.ts",
+          "reviewTimeMs": 5,
+          "findings": []
+        },
+        {
+          "file": "tests/specs/login.spec.ts",
+          "reviewTimeMs": 2,
           "findings": []
         }
       ],
@@ -125,19 +51,20 @@
       ]
     },
     {
-      "id": "selenium-05",
+      "id": "selenium-02",
       "name": "selenium-mocha",
-      "localPath": "C:/tmp/qa-cortex-validation-repos/selenium-mocha",
+      "localPath": "validation/repos/selenium-mocha",
       "size": "small",
       "tags": [
-        "selenium-webdriver",
-        "mocha"
+        "selenium",
+        "mocha",
+        "pom"
       ],
       "exists": true,
       "filesReviewed": 5,
       "findings": 2,
       "criticalFindings": 2,
-      "averageReviewTimeMs": 3,
+      "averageReviewTimeMs": 2,
       "ruleOnlyPrecision": "Requires manual triage",
       "ruleOnlyRecall": "Requires manual triage",
       "geminiPrecision": "Skipped",
@@ -145,24 +72,24 @@
       "files": [
         {
           "file": "test/01.login.basic.spec.js",
-          "reviewTimeMs": 4,
+          "reviewTimeMs": 3,
           "findings": []
         },
         {
           "file": "test/02.login.basic.hooks.spec.js",
-          "reviewTimeMs": 4,
+          "reviewTimeMs": 3,
           "findings": [
-            {
-              "title": "Brittle Selenium XPath Locator",
-              "severity": "High",
-              "evidence": "const alertButton = await driver.findElement(By.xpath(\"//button[contains(text(), 'Click for JS Alert')]\"));",
-              "recommendation": "Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors."
-            },
             {
               "title": "Brittle CSS Selector Chain",
               "severity": "High",
               "evidence": "const checkbox1 = await driver.findElement(By.css(\"input:nth-child(1)\"));",
               "recommendation": "Replace brittle CSS chain with getByRole"
+            },
+            {
+              "title": "Brittle Selenium XPath Locator",
+              "severity": "High",
+              "evidence": "const alertButton = await driver.findElement(By.xpath(\"//button[contains(text(), 'Click for JS Alert')]\"));",
+              "recommendation": "Move locator into a Page Object method and prefer stable, user-facing, or test-owned selectors."
             }
           ]
         },
@@ -173,7 +100,7 @@
         },
         {
           "file": "test/04.login.driver.spec.js",
-          "reviewTimeMs": 1,
+          "reviewTimeMs": 2,
           "findings": []
         },
         {
@@ -185,17 +112,169 @@
       "notes": [
         "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
       ]
+    },
+    {
+      "id": "selenium-03",
+      "name": "mocha-selenium-sample",
+      "localPath": "validation/repos/mocha-selenium-sample",
+      "size": "small",
+      "tags": [
+        "selenium",
+        "lambdatest",
+        "mocha"
+      ],
+      "exists": true,
+      "filesReviewed": 0,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 0,
+      "ruleOnlyPrecision": "Not run",
+      "ruleOnlyRecall": "Not run",
+      "geminiPrecision": "Not run",
+      "geminiRecall": "Not run",
+      "files": [],
+      "notes": [
+        "No Selenium WebDriver for Node.js specs found; excluded from active validation coverage."
+      ]
+    },
+    {
+      "id": "selenium-04",
+      "name": "demo-js",
+      "localPath": "validation/repos/demo-js/selenium",
+      "size": "small",
+      "tags": [
+        "selenium",
+        "saucelabs",
+        "javascript"
+      ],
+      "exists": false,
+      "filesReviewed": 0,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 0,
+      "ruleOnlyPrecision": "Not run",
+      "ruleOnlyRecall": "Not run",
+      "geminiPrecision": "Not run",
+      "geminiRecall": "Not run",
+      "files": [],
+      "notes": [
+        "Local path not found: validation/repos/demo-js/selenium"
+      ]
+    },
+    {
+      "id": "selenium-python-01",
+      "name": "python-selenium-framework-example",
+      "localPath": "validation/repos/python-selenium-framework-example",
+      "size": "small",
+      "tags": [
+        "selenium",
+        "python",
+        "pytest",
+        "pom"
+      ],
+      "exists": true,
+      "filesReviewed": 3,
+      "findings": 1,
+      "criticalFindings": 1,
+      "averageReviewTimeMs": 3,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "tests/test_buy_a_product.py",
+          "reviewTimeMs": 5,
+          "findings": []
+        },
+        {
+          "file": "tests/test_filter_products.py",
+          "reviewTimeMs": 2,
+          "findings": [
+            {
+              "title": "Hardcoded Sleep",
+              "severity": "High",
+              "evidence": "time.sleep(1)",
+              "recommendation": "Replace sleep with an explicit wait for the expected UI state."
+            }
+          ]
+        },
+        {
+          "file": "tests/test_home_page.py",
+          "reviewTimeMs": 1,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-python-02",
+      "name": "example-pytest-selenium",
+      "localPath": "validation/repos/example-pytest-selenium",
+      "size": "small",
+      "tags": [
+        "selenium",
+        "python",
+        "pytest",
+        "minimal"
+      ],
+      "exists": true,
+      "filesReviewed": 1,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 1,
+      "ruleOnlyPrecision": "Requires manual triage",
+      "ruleOnlyRecall": "Requires manual triage",
+      "geminiPrecision": "Skipped",
+      "geminiRecall": "Skipped",
+      "files": [
+        {
+          "file": "test_selenium.py",
+          "reviewTimeMs": 1,
+          "findings": []
+        }
+      ],
+      "notes": [
+        "LLM provider comparison skipped. Set runGeminiComparison=true to enable it."
+      ]
+    },
+    {
+      "id": "selenium-python-03",
+      "name": "selenium-boilerplate",
+      "localPath": "validation/repos/selenium-boilerplate",
+      "size": "small",
+      "tags": [
+        "selenium",
+        "python",
+        "boilerplate",
+        "pom"
+      ],
+      "exists": true,
+      "filesReviewed": 0,
+      "findings": 0,
+      "criticalFindings": 0,
+      "averageReviewTimeMs": 0,
+      "ruleOnlyPrecision": "Not run",
+      "ruleOnlyRecall": "Not run",
+      "geminiPrecision": "Not run",
+      "geminiRecall": "Not run",
+      "files": [],
+      "notes": [
+        "No Selenium WebDriver for Node.js specs found; excluded from active validation coverage."
+      ]
     }
   ],
   "ruleCoverage": [
     {
       "rule": "knowledge/google/maintainability.md",
-      "triggerCount": 4,
+      "triggerCount": 3,
       "confidence": "Medium"
     },
     {
       "rule": "knowledge/google/test-isolation.md",
-      "triggerCount": 6,
+      "triggerCount": 3,
       "confidence": "Medium"
     },
     {
@@ -209,29 +288,19 @@
       "confidence": "Medium"
     },
     {
-      "rule": "knowledge/owasp/input-validation.md",
-      "triggerCount": 2,
-      "confidence": "Low"
-    },
-    {
       "rule": "knowledge/selenium/README.md",
-      "triggerCount": 9,
+      "triggerCount": 8,
       "confidence": "Medium"
     },
     {
       "rule": "knowledge/selenium/review-rules/locator-review.md",
-      "triggerCount": 4,
+      "triggerCount": 3,
       "confidence": "Medium"
     },
     {
       "rule": "knowledge/selenium/review-rules/resource-cleanup-review.md",
-      "triggerCount": 6,
+      "triggerCount": 3,
       "confidence": "Medium"
-    },
-    {
-      "rule": "knowledge/unicode/unicode-testing.md",
-      "triggerCount": 2,
-      "confidence": "Low"
     }
   ]
 }

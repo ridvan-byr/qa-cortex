@@ -1,11 +1,64 @@
 {
-  "repositoriesConfigured": 5,
-  "activeRepositories": 5,
-  "filesReviewed": 9,
-  "findings": 2,
-  "truePositives": 2,
-  "falsePositives": 0,
-  "falseNegativeCandidates": 0,
-  "precision": 1.0,
-  "goDecision": "GO"
+  "generatedAt": "2026-07-07T12:17:38.306Z",
+  "framework": "selenium",
+  "repositoriesConfigured": 7,
+  "activeRepositories": 4,
+  "filesReviewed": 11,
+  "findings": 3,
+  "truePositives": null,
+  "falsePositives": null,
+  "falseNegativeCandidates": null,
+  "precision": null,
+  "precisionTarget": "~80%+ calibration signal; final decision based on manual triage",
+  "recall": "Qualitative assessment only",
+  "ruleCoverage": [
+    {
+      "rule": "knowledge/google/maintainability.md",
+      "triggerCount": 3,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/google/test-isolation.md",
+      "triggerCount": 3,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/istqb/boundary-value-analysis.md",
+      "triggerCount": 7,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/owasp/authentication-testing.md",
+      "triggerCount": 7,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/selenium/README.md",
+      "triggerCount": 8,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/selenium/review-rules/locator-review.md",
+      "triggerCount": 3,
+      "confidence": "Medium"
+    },
+    {
+      "rule": "knowledge/selenium/review-rules/resource-cleanup-review.md",
+      "triggerCount": 3,
+      "confidence": "Medium"
+    }
+  ],
+  "selectionWarnings": [
+    "selenium-javascript-test should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "selenium-mocha should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "mocha-selenium-sample should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "demo-js should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "python-selenium-framework-example should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "example-pytest-selenium should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "selenium-boilerplate should be tagged selenium-webdriver or replaced with a clearer Selenium WebDriver candidate.",
+    "Active Selenium calibration coverage has 4 repositories with Selenium WebDriver for Node.js specs; clone or replace candidates before final Sprint 13D sign-off.",
+    "selenium-javascript-test has 2 active Selenium test files; preferred minimum is 3.",
+    "example-pytest-selenium has 1 active Selenium test files; preferred minimum is 3."
+  ],
+  "goDecision": "TBD"
 }

@@ -17,38 +17,59 @@
   "repositories": [
     {
       "id": "selenium-01",
-      "name": "selenium-javascript-examples",
-      "localPath": "validation/repos/selenium-javascript-examples/WebdriverJS-Mocha-Template",
+      "name": "selenium-javascript-test",
+      "url": "https://github.com/sadabnepal/selenium-javascript-test.git",
+      "localPath": "validation/repos/selenium-javascript-test",
       "size": "small",
-      "tags": ["selenium-webdriver", "templates"]
+      "tags": ["selenium", "javascript", "mocha", "chai"]
     },
     {
       "id": "selenium-02",
-      "name": "demo-js",
-      "localPath": "validation/repos/demo-js/selenium",
+      "name": "selenium-mocha",
+      "url": "https://github.com/kiseta/selenium-mocha.git",
+      "localPath": "validation/repos/selenium-mocha",
       "size": "small",
-      "tags": ["selenium-webdriver", "saucelabs"]
+      "tags": ["selenium", "mocha", "pom"]
     },
     {
       "id": "selenium-03",
-      "name": "selenium-webdriverjs-pom-example",
-      "localPath": "validation/repos/selenium-webdriverjs-pom-example",
+      "name": "mocha-selenium-sample",
+      "url": "https://github.com/LambdaTest/mocha-selenium-sample.git",
+      "localPath": "validation/repos/mocha-selenium-sample",
       "size": "small",
-      "tags": ["selenium-webdriver", "pom"]
+      "tags": ["selenium", "lambdatest", "mocha"]
     },
     {
       "id": "selenium-04",
-      "name": "example-selenium-javascript-jest",
-      "localPath": "validation/repos/example-selenium-javascript-jest",
+      "name": "demo-js",
+      "url": "https://github.com/saucelabs/demo-js.git",
+      "localPath": "validation/repos/demo-js/selenium",
       "size": "small",
-      "tags": ["selenium-webdriver", "jest"]
+      "tags": ["selenium", "saucelabs", "javascript"]
     },
     {
-      "id": "selenium-05",
-      "name": "selenium-mocha",
-      "localPath": "validation/repos/selenium-mocha",
+      "id": "selenium-python-01",
+      "name": "python-selenium-framework-example",
+      "url": "https://github.com/adrianmaciuc/python-selenium-framework-example.git",
+      "localPath": "validation/repos/python-selenium-framework-example",
       "size": "small",
-      "tags": ["selenium-webdriver", "mocha"]
+      "tags": ["selenium", "python", "pytest", "pom"]
+    },
+    {
+      "id": "selenium-python-02",
+      "name": "example-pytest-selenium",
+      "url": "https://github.com/testery/example-pytest-selenium.git",
+      "localPath": "validation/repos/example-pytest-selenium",
+      "size": "small",
+      "tags": ["selenium", "python", "pytest", "minimal"]
+    },
+    {
+      "id": "selenium-python-03",
+      "name": "selenium-boilerplate",
+      "url": "https://github.com/emZubair/selenium-boilerplate.git",
+      "localPath": "validation/repos/selenium-boilerplate",
+      "size": "small",
+      "tags": ["selenium", "python", "boilerplate", "pom"]
     }
   ]
 }

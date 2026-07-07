@@ -6,11 +6,12 @@ import type {
 } from './types';
 import { PlaywrightAdapter } from './adapters/PlaywrightAdapter';
 import { SeleniumAdapter } from './adapters/SeleniumAdapter';
+import { PythonSeleniumAdapter } from './adapters/PythonSeleniumAdapter';
 
 export class AdapterRegistry {
   private readonly adapters: FrameworkAdapter[];
 
-  constructor(adapters: FrameworkAdapter[] = [new SeleniumAdapter(), new PlaywrightAdapter()]) {
+  constructor(adapters: FrameworkAdapter[] = [new SeleniumAdapter(), new PlaywrightAdapter(), new PythonSeleniumAdapter()]) {
     this.adapters = adapters;
   }
 

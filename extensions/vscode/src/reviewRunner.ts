@@ -39,10 +39,6 @@ export class ReviewRunner {
       throw new Error("QA Cortex reviews are disabled by configuration.");
     }
 
-    if (filePath.endsWith('.py')) {
-      throw new Error("Python support planned in v4.0");
-    }
-
     const root = workspaceRoot || this.findNearestPackageRoot(path.dirname(filePath));
     const { ReviewPipeline, GeminiProvider } = this.loadCore();
     const apiProvider = config.get<string>('apiProvider', 'Gemini');

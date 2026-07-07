@@ -114,7 +114,7 @@ describe('Python support', () => {
     assert.strictEqual(Scanner.isTestFile('login_test.py'), true);
     assert.strictEqual(Scanner.isTestFile('test.py'), true);
     assert.strictEqual(Scanner.isTestFile('login.spec.py'), true);
-    assert.strictEqual(Scanner.isReviewableTestFile('test_login.py'), false);
+    assert.strictEqual(Scanner.isReviewableTestFile('test_login.py'), true);
     assert.strictEqual(Scanner.isReviewableTestFile('login.spec.ts'), true);
     assert.strictEqual(Scanner.isTestFile('login.py'), false);
     assert.strictEqual(Scanner.isTestFile('utils.py'), false);
@@ -287,6 +287,70 @@ describe('FrameworkAdapter registry', () => {
     assert.ok(seleniumResult.signals.some(signal => signal.type === 'lifecycle'));
     assert.ok(seleniumResult.signals.some(signal => signal.type === 'assertion'));
     assert.ok(seleniumResult.knowledgeProfile.ruleFiles.includes('knowledge/selenium/review-rules/locator-review.md'));
+
+    // Python Selenium Adapter Resolution Test
+    const pythonSeleniumResult = registry.resolve({
+      dependencies: {
+        playwrightVersion: undefined,
+        devDependencies: {},
+        dependencies: {},
+        hasESLint: false,
+        hasPrettier: false,
+        hasHusky: false,
+        hasLintStaged: false,
+      },
+      targetFile: {
+        filePath: 'tests/login_test.py',
+        detectedFramework: 'Selenium',
+        detectedFeature: 'Authentication',
+        content: [
+          'import time',
+          'from selenium import webdriver',
+          'from selenium.webdriver.common.by import By',
+          'def test_login():',
+          '    driver = webdriver.Chrome()',
+          '    driver.find_element(By.XPATH, "//div").click()',
+          '    time.sleep(5)',
+        ].join('\n'),
+      },
+    });
+
+    assert.strictEqual(pythonSeleniumResult.adapterName, 'selenium');
+    assert.strictEqual(pythonSeleniumResult.context.framework, 'selenium');
+    assert.ok(pythonSeleniumResult.signals.some(signal => signal.type === 'locator'));
+    assert.ok(pythonSeleniumResult.signals.some(signal => signal.type === 'wait'));
+    assert.ok(pythonSeleniumResult.signals.some(signal => signal.type === 'lifecycle'));
+    assert.ok(pythonSeleniumResult.signals.some(signal => signal.type === 'assertion'));
+    assert.ok(pythonSeleniumResult.knowledgeProfile.ruleFiles.includes('knowledge/selenium/review-rules/locator-review.md'));
+
+    // Assert that if the test has assertions, it does NOT trigger the assertion signal
+    const pythonSeleniumWithAssertResult = registry.resolve({
+      dependencies: {
+        playwrightVersion: undefined,
+        devDependencies: {},
+        dependencies: {},
+        hasESLint: false,
+        hasPrettier: false,
+        hasHusky: false,
+        hasLintStaged: false,
+      },
+      targetFile: {
+        filePath: 'tests/login_test.py',
+        detectedFramework: 'Selenium',
+        detectedFeature: 'Authentication',
+        content: [
+          'import time',
+          'from selenium import webdriver',
+          'from selenium.webdriver.common.by import By',
+          'def test_login():',
+          '    driver = webdriver.Chrome()',
+          '    assert driver.title == "Dashboard"',
+          '    driver.quit()',
+        ].join('\n'),
+      },
+    });
+    assert.strictEqual(pythonSeleniumWithAssertResult.signals.some(signal => signal.type === 'assertion'), false);
+    assert.strictEqual(pythonSeleniumWithAssertResult.signals.some(signal => signal.type === 'lifecycle'), false);
   });
 });
 

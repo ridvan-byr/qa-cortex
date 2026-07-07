@@ -1,6 +1,7 @@
 export function hasAssertionSignal(content: string): boolean {
   const assertionPatterns = [
     /\bexpect\s*\(/,
+    /\bassert\s+/,
     /\bassert\w*\s*\./,
     /\bassert\w*\s*\(/,
     /\bshould\s*\./,
